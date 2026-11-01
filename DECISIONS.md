@@ -66,6 +66,7 @@ Fora do escopo atual:
 
 - Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
+- Registrado na revisão do Bloco D, sem correção: nada compara as cores dos ícones e da prévia com o `index.html`, e o teste do passo a passo não trata âncoras duplicadas nem blocos de código; a URL de produção está repetida no `index.html` e no teste.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
 - Jurídico: avaliar a aferição de idade da ECA Digital antes de uso comercial.
 - Cobertura: conferir o Safari do iOS, que o Playwright em Chromium não cobre.

@@ -52,13 +52,22 @@ async function render(width, height, html) {
   return png;
 }
 
-const iconHtml = (size) =>
-  `<body style="margin:0;width:${size}px;height:${size}px">${svg.replace('<svg ', `<svg width="${size}" height="${size}" `)}</body>`;
+function iconHtml(size, { square = false } = {}) {
+  const markup = square ? svg.replace('rx="12"', 'rx="0"') : svg;
+  return `<body style="margin:0;width:${size}px;height:${size}px">${markup.replace('<svg ', `<svg width="${size}" height="${size}" `)}</body>`;
+}
 
-const images = [];
-for (const size of ICO_SIZES) images.push({ size, png: await render(size, size, iconHtml(size)) });
-writeFileSync(root('public/favicon.ico'), icoFrom(images));
-writeFileSync(root('public/apple-touch-icon.png'), await render(180, 180, iconHtml(180)));
-writeFileSync(root('public/og-image.png'), await render(1200, 630, card(1200, 630)));
-writeFileSync(root('docs/assets/github-social.png'), await render(1280, 640, card(1280, 640)));
-await browser.close();
+try {
+  const images = [];
+  for (const size of ICO_SIZES)
+    images.push({ size, png: await render(size, size, iconHtml(size)) });
+  const outputs = [
+    ['public/favicon.ico', icoFrom(images)],
+    ['public/apple-touch-icon.png', await render(180, 180, iconHtml(180, { square: true }))],
+    ['public/og-image.png', await render(1200, 630, card(1200, 630))],
+    ['docs/assets/github-social.png', await render(1280, 640, card(1280, 640))],
+  ];
+  for (const [path, content] of outputs) writeFileSync(root(path), content);
+} finally {
+  await browser.close();
+}

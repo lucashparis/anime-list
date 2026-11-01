@@ -67,4 +67,4 @@ Cada linha corresponde a uma branch integrada à `main`.
 | 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
 | 10 | `docs/technical-walkthrough` | Passo a passo técnico para quem avalia o código, com teste dos links | [Passo a passo](docs/walkthrough.md) |
 
-As próximas etapas estão na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+As 10 branches previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches) estão integradas. O que ficou de fora está em [Evoluções](DECISIONS.md#evoluções).
