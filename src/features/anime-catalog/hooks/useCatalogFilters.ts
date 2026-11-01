@@ -22,5 +22,9 @@ export function useCatalogFilters() {
     [update],
   );
 
-  return { format, setFormat, search, setSearch };
+  const clearFilters = useCallback(() => {
+    update({ format: null, q: null });
+  }, [update]);
+
+  return { format, setFormat, search, setSearch, clearFilters };
 }

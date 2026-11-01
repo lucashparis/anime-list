@@ -22,7 +22,7 @@ export function LoadMore() {
       {isFetchNextPageError && <p role="alert">Não foi possível carregar mais animes.</p>}
       {hasNextPage && (
         <Button variant="accent" size="lg" aria-disabled={isFetchingNextPage} onClick={handleClick}>
-          Ver mais
+          {isFetchNextPageError ? 'Tentar novamente' : 'Ver mais'}
         </Button>
       )}
     </div>

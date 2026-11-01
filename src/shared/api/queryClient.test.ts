@@ -12,6 +12,7 @@ it.each([
 });
 
 it.each([
+  ['a timeout', new ApiError('timeout')],
   ['the rate limit', new ApiError('http', 429)],
   ['a bad request', new ApiError('http', 400)],
   ['a GraphQL error', new ApiError('graphql', 200)],

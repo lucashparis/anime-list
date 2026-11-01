@@ -1,4 +1,5 @@
 import { AppProviders } from '@/app/AppProviders';
+import { ErrorBoundary } from '@/app/ErrorBoundary';
 import { Footer } from '@/app/layout/Footer';
 import { Header } from '@/app/layout/Header';
 import { AnimeCatalog } from '@/features/anime-catalog/components/AnimeCatalog';
@@ -15,7 +16,9 @@ export function App() {
         </a>
         <Header />
         <main id="main-content" tabIndex={-1} className="flex-1 p-lg focus:outline-none">
-          <AnimeCatalog />
+          <ErrorBoundary>
+            <AnimeCatalog />
+          </ErrorBoundary>
         </main>
         <Footer />
       </div>

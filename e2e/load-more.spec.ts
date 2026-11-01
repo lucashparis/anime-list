@@ -101,7 +101,7 @@ test('keeps the cards when loading more fails and retries', async ({ page }) => 
   await expect(cards(page)).toHaveCount(12);
   await expectNoViolations(page);
   fail = false;
-  await loadMore(page).click();
+  await page.getByRole('button', { name: 'Tentar novamente' }).click();
   await expect(cards(page)).toHaveCount(24);
   await expect(page.getByRole('alert')).toHaveCount(0);
 });
