@@ -34,7 +34,7 @@ Teste o que o usuário percebe: busque por papel e texto acessível, nunca por c
 ## Vitest e MSW
 
 - O ambiente está em `src/test/setup.ts`; o servidor MSW, em `src/test/server.ts`.
-- No MSW 3, a opção de requisição sem handler é `onUnhandledFrame`, e não `onUnhandledRequest`. O setup usa `onUnhandledFrame: 'error'`, então uma chamada de rede não prevista reprova o teste.
+- No MSW 3, a opção de requisição sem handler é `onUnhandledFrame`, e não `onUnhandledRequest`. O setup usa `onUnhandledFrame: 'error'`: uma requisição sem handler faz o `fetch` rejeitar e registra um erro, o que reprova o teste, a menos que o código testado trate a rejeição.
 - Os handlers são zerados a cada teste.
 
 ## Playwright

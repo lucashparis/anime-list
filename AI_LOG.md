@@ -1,6 +1,6 @@
 # Uso de IA
 
-Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigido e rejeitado. Só há fatos já ocorridos.
+Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigido e rejeitado.
 
 ## Ferramentas
 
@@ -43,6 +43,6 @@ Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue q
 
 ## Rejeitado
 
-- **Hook de `pre-push`:** não serve de nada enquanto não há push.
+- **Hook de `pre-push`:** as verificações pesadas já rodam no merge, e nada é enviado sem autorização do responsável pelo projeto.
 - **Reproduzir o design pixel a pixel:** os espaçamentos irregulares gerariam código duplicado.
 - **Manter o texto de baixo contraste do design:** os valores medidos reprovam no WCAG AA.

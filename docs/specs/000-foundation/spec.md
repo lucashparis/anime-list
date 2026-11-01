@@ -110,7 +110,7 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 | `commit-msg` | commitlint |
 | `pre-merge-commit` | `npm run verify`: lint, TypeScript, Vitest, build, size-limit e Playwright |
 
-As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches locais até a publicação. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
+As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches de funcionalidade, integradas à `main` só depois da avaliação do responsável pelo projeto. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
 
 Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os hooks do projeto e não há aviso na instalação. Por isso, `npm run hooks:install` define o caminho apenas no repositório e instala os hooks, sem alterar a configuração global.
 

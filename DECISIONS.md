@@ -29,7 +29,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | `override` de `minimatch` | Afeta as ferramentas de desenvolvimento | Validado executando o ESLint |
 | TypeScript 6.0.3 em vez de 7 | Versão mais antiga | `typescript-eslint` exige versão menor que 6.1 |
 | Playwright só em Chromium | O Safari do iOS não tem cobertura automática | Conferência manual antes de publicar |
-| Sem hook de `pre-push` | Nenhuma barreira no envio | Não há envio enquanto o repositório for local; as verificações pesadas rodam no merge |
+| Sem hook de `pre-push` | Nenhuma barreira no envio | Nada é enviado sem autorização do responsável pelo projeto; as verificações pesadas rodam no merge |
 | Busca ao enviar, não a cada tecla | Resultado menos imediato | Respeita o limite de 30 requisições por minuto |
 
 ## O que foi além do mínimo

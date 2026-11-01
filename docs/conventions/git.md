@@ -46,7 +46,7 @@ O comando define `core.hooksPath` só neste repositório e instala os hooks do L
 | `commit-msg` | commitlint |
 | `pre-merge-commit` | `npm run verify` |
 
-Nunca use `--no-verify`. Não há `pre-push`: o repositório continua local até a publicação.
+Nunca use `--no-verify`. Não há `pre-push`: as verificações pesadas rodam no `pre-merge-commit`, e nada é enviado sem autorização do responsável pelo projeto.
 
 ## Merge
 

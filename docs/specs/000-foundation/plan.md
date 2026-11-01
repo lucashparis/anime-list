@@ -18,8 +18,7 @@
 - Nunca usar `--force` ou `--legacy-peer-deps` no npm.
 - Nunca alterar a configuração global do Git. O `core.hooksPath` é definido apenas no repositório.
 - Commits em Conventional Commits, terminando com `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
-- Sem push: o repositório continua local até a publicação.
-- Nada nos arquivos pode tratar o projeto como outra coisa que não um produto real.
+- Sem push sem autorização do responsável pelo projeto.
 - Playwright roda em Chromium, para manter o hook de merge rápido.
 
 ## Fora deste plano
@@ -533,8 +532,7 @@ Estado atual: fundação concluída, sem catálogo ainda. Comandos reais em "Com
 Run: `test $(wc -l < CLAUDE.md) -le 100 && echo ok; grep -c "@import" CLAUDE.md`
 Expected: `ok` e `0`.
 
-Depois, buscar com `git grep -i` os termos da lista de neutralidade, mantida fora do repositório.
-Expected: nenhuma ocorrência.
+Depois, conferir que o `CLAUDE.md` tem no máximo 100 linhas e nenhum `@import`.
 
 - [ ] **Passo 4: Validar em um clone limpo**
 
