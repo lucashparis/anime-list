@@ -1,0 +1,41 @@
+# Uso de IA
+
+Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigido e rejeitado. Só há fatos já ocorridos.
+
+## Ferramentas
+
+- **Claude Code**, em todo o desenvolvimento.
+- **Claude Opus 5.5** coordenou o trabalho e faz a revisão final.
+- **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa, cada um com contexto novo.
+- **Playwright** foi usado para validar o resultado no navegador.
+
+Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
+
+## Organização
+
+- `CLAUDE.md` curto, apontando para documentos detalhados carregados só quando necessários.
+- Spec e plano aprovados antes do código.
+- Revisão independente depois de cada tarefa.
+- O responsável pelo projeto aprovou as decisões e avalia cada merge.
+
+## Verificado por medição
+
+- **Vite contra Next 16, com rede lenta simulada.** A primeira suposição era que o Next enviaria menos JS. A medição mostrou o contrário neste caso e trocou a decisão para o Vite. Os números estão em [000-pre-development](docs/decisions/000-pre-development.md#vite-e-next-16).
+
+## Corrigido
+
+- `eslint-plugin-jsx-a11y` não aceita ESLint 10. Foi trocado por `eslint-plugin-jsx-a11y-x`.
+- `@size-limit/preset-app` trazia o Puppeteer com vulnerabilidades. Foi trocado por `@size-limit/file`.
+- O `override` de `minimatch` quebrou o `eslint-plugin-import-x`. O problema apareceu ao rodar o ESLint, e o plugin foi trocado pela regra nativa `no-restricted-imports`.
+- Sem `noInlineConfig`, um `eslint-disable` desligaria a própria regra de comentários. A opção ficou ativa.
+- Um `core.hooksPath` global fazia o Lefthook não instalar os hooks do projeto, sem aviso. O `npm run hooks:install` define o caminho só no repositório.
+- O plano usava `onUnhandledRequest`, que não existe mais no MSW 3. O typecheck acusou, e a opção virou `onUnhandledFrame`.
+- O teste das regras de lint falhava em um único processo, porque o serviço de projeto do `typescript-eslint` guarda em cache os arquivos que não existiam. Cada caso passou a rodar em um processo filho.
+- A revisão visual das capturas reduziu o cabeçalho de 108px para 68px e devolveu a seta do `<details>`, que um `inline-flex` planejado havia removido.
+- Um passo de limpeza do plano (`git reset --hard`) apagou uma edição ainda não commitada durante a execução, e ela foi refeita.
+
+## Rejeitado
+
+- **Hook de `pre-push`:** não serve de nada enquanto não há push.
+- **Reproduzir o design pixel a pixel:** os espaçamentos irregulares gerariam código duplicado.
+- **Manter o texto de baixo contraste do design:** os valores medidos reprovam no WCAG AA.
