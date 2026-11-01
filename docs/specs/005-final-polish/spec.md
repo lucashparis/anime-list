@@ -18,6 +18,19 @@ Branch: `feat/final-polish`. Nasce do levantamento de código e do Lighthouse fe
 | Licença | Legal | `LICENSE` MIT em nome de Lucas Paris, com `license`, `description` e `repository` no `package.json`. A escolha é sua e pode ser trocada |
 | Imagens | Desempenho | Medir antes e depois de cada ajuste com o Lighthouse e manter só o que melhora a nota ou a nitidez |
 
+## Fidelidade ao design
+
+Medida no Figma (frame de 1366px) e no site, lado a lado. Onde não há conflito com acessibilidade ou uso, o site segue o design.
+
+| Item | Decisão |
+| --- | --- |
+| Ordem e alinhamento | Filtros acima da busca, ambos centralizados; a ordem do código é a mesma da tela |
+| Filtros | 32px de altura, raio 4px, borda e texto `primary`, padding de 24px e 16px entre eles; 44px em telas de toque |
+| Busca | Linha de até 1012px com o botão "Buscar", raio 4px e placeholder "Digite algo aqui…"; largura total em telas estreitas |
+| Espaço vertical | 24px entre cabeçalho, filtros, busca, grade, "Ver mais" e rodapé |
+| "Ver mais" | Largura da grade, texto de 20px e "+" decorativo; o texto continua `ink`, porque branco sobre amarelo dá 1,73:1 |
+| Rodapé | Atribuição à AniList e aviso de privacidade na mesma linha, de 162px para cerca de 112px; o conteúdo se mantém por transparência e questão legal |
+
 ## Critérios de aceite
 
 - Depois de enviar a busca, o foco continua no campo; o mesmo vale depois de limpar os filtros e de tentar de novo.

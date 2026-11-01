@@ -217,12 +217,16 @@ Rótulos dos filtros:
 | Texto em fundo amarelo ou verde | Claro | `#1A1A1A` | Contraste |
 | Placeholder e borda do campo | `#A7B0BE` e `#C4CAD4` | `#6B7280` e `#8A94A6` | Contraste |
 | Espaçamentos | 10, 11, 15, 19, 25 e 28px | 4, 8, 12, 16 e 24px | Consistência |
-| Padding dos filtros | 17 a 23px | 16px | Consistência |
-| Altura dos controles | 32, 38 e 48px | 32, 40 e 48px; 44px em telas de toque | Consistência e área de toque |
+| Padding dos filtros | 17 a 23px | 24px | Consistência |
+| Espaço entre os filtros | 19px | 16px | Consistência |
+| Altura dos controles | 32, 38 e 48px | 32 (filtros), 40 (busca e "Buscar") e 48px ("Ver mais"); 44px em telas de toque | Consistência e área de toque |
+| Largura da linha da busca | 1.012px, centralizada | `max-w-search` de 1012px, e largura total em telas estreitas | Telas menores que o frame |
+| Posição dos controles | Filtros acima da busca, centralizados | Igual; em telas estreitas os filtros quebram em linhas centralizadas e a busca ocupa a largura toda | Design só tem o frame desktop |
 | Altura do card | 270px fixos | 270px mínimos | Títulos longos em telas estreitas |
 | Legenda do rodapé | 10px | 12px | Legibilidade |
 | Rodapé | Fora do centro | Centralizado | Correção |
-| Rodapé | Só marca e direitos | Atribuição à AniList e aviso de privacidade | Transparência |
+| Rodapé | Só marca e direitos | Atribuição à AniList e aviso de privacidade, na mesma linha, com cerca de 112px no lugar de 54px | Transparência |
+| "Ver mais" | Largura da grade, texto de 20px e "+" | Igual, com o "+" decorativo (`aria-hidden`) | Fidelidade |
 
 ## Mudanças de rumo
 

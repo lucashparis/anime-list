@@ -30,6 +30,7 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Tipografia | `tight` | Altura de linha de 1,25 | `leading-tight` |
 | Breakpoints | `sm`, `md`, `lg` | 600, 900 e 1200px | `sm:`, `md:`, `lg:` |
 | Largura máxima | `content` | 1316px | `max-w-content` |
+| Largura máxima | `search` | 1012px, a linha da busca com o botão no design | `max-w-search` |
 | Animação | `animate-pulse` | `pulse` de 2s, com opacidade em 50% no meio | `motion-safe:animate-pulse` |
 | Animação | `animate-reveal-late` | `reveal-late` de 8s, em um passo, de oculto para visível | `invisible animate-reveal-late` |
 
