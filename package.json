@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src e2e --no-error-on-unmatched-pattern",
+    "test": "vitest run",
     "test:guards": "node --test tools/eslint/guards.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
