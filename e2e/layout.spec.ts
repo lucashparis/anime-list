@@ -145,7 +145,7 @@ test.describe('tall screens', () => {
       }),
     );
     await page.goto('/');
-    await expect(page.getByRole('list', { name: 'Animes' })).toBeAttached();
+    await expect(page.getByText('Nenhum anime encontrado.')).toBeVisible();
     const box = await page.locator('footer').boundingBox();
     const innerHeight = await page.evaluate(() => window.innerHeight);
     expect((box?.y ?? 0) + (box?.height ?? 0)).toBe(innerHeight);

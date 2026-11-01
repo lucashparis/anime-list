@@ -6,12 +6,18 @@ import { requestGraphql } from '@/shared/api/graphqlClient';
 const PAGE_SIZE = 12;
 
 const ANIME_CATALOG_QUERY = `
-  query AnimeCatalog($page: Int!, $perPage: Int!, $format: MediaFormat) {
+  query AnimeCatalog(
+    $page: Int!
+    $perPage: Int!
+    $format: MediaFormat
+    $search: String
+    $sort: [MediaSort]
+  ) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         hasNextPage
       }
-      media(type: ANIME, isAdult: false, format: $format, sort: [POPULARITY_DESC]) {
+      media(type: ANIME, isAdult: false, format: $format, search: $search, sort: $sort) {
         id
         title {
           romaji
@@ -66,13 +72,21 @@ function toAnime(media: Media): Anime {
 
 export interface CatalogFilters {
   format: AnimeFormat | null;
+  search: string;
 }
 
 export async function fetchAnimeCatalog(
-  { format }: CatalogFilters,
+  { format, search }: CatalogFilters,
   signal: AbortSignal,
 ): Promise<AnimePage> {
-  const variables = { page: 1, perPage: PAGE_SIZE, ...(format && { format }) };
+  const sort = [search ? 'SEARCH_MATCH' : 'POPULARITY_DESC'];
+  const variables = {
+    page: 1,
+    perPage: PAGE_SIZE,
+    sort,
+    ...(format && { format }),
+    ...(search && { search }),
+  };
   const { Page } = await requestGraphql(
     { query: ANIME_CATALOG_QUERY, variables, signal },
     animeCatalogSchema,

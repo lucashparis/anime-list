@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it } from 'vitest';
 import { AnimeCatalog } from '@/features/anime-catalog/components/AnimeCatalog';
@@ -19,8 +19,9 @@ describe('FormatFilter', () => {
     renderWithQueryClient(<AnimeCatalog />);
     await screen.findByRole('list', { name: 'Animes' });
     expect(pressedState('Todos os formatos')).toBe('true');
-    expect(screen.getAllByRole('button')).toHaveLength(8);
-    expect(variables).toEqual([{ page: 1, perPage: 12 }]);
+    const group = screen.getByRole('group', { name: 'Formato' });
+    expect(within(group).getAllByRole('button')).toHaveLength(8);
+    expect(variables).toEqual([{ page: 1, perPage: 12, sort: ['POPULARITY_DESC'] }]);
   });
 
   it('queries the chosen format and updates the URL', async () => {
@@ -29,7 +30,12 @@ describe('FormatFilter', () => {
     await screen.findByRole('list', { name: 'Animes' });
     await userEvent.click(screen.getByRole('button', { name: 'Filme' }));
     await screen.findByRole('list', { name: 'Animes' });
-    expect(variables[1]).toEqual({ page: 1, perPage: 12, format: 'MOVIE' });
+    expect(variables[1]).toEqual({
+      page: 1,
+      perPage: 12,
+      sort: ['POPULARITY_DESC'],
+      format: 'MOVIE',
+    });
     expect(window.location.search).toBe('?format=MOVIE');
     expect(pressedState('Filme')).toBe('true');
     expect(pressedState('Todos os formatos')).toBe('false');
@@ -41,7 +47,7 @@ describe('FormatFilter', () => {
     renderWithQueryClient(<AnimeCatalog />);
     await screen.findByRole('list', { name: 'Animes' });
     expect(pressedState('OVA')).toBe('true');
-    expect(variables).toEqual([{ page: 1, perPage: 12, format: 'OVA' }]);
+    expect(variables).toEqual([{ page: 1, perPage: 12, sort: ['POPULARITY_DESC'], format: 'OVA' }]);
   });
 
   it('ignores an invalid format in the URL', async () => {
@@ -50,6 +56,6 @@ describe('FormatFilter', () => {
     renderWithQueryClient(<AnimeCatalog />);
     await screen.findByRole('list', { name: 'Animes' });
     expect(pressedState('Todos os formatos')).toBe('true');
-    expect(variables).toEqual([{ page: 1, perPage: 12 }]);
+    expect(variables).toEqual([{ page: 1, perPage: 12, sort: ['POPULARITY_DESC'] }]);
   });
 });
