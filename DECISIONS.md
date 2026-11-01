@@ -49,6 +49,7 @@ Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#
 
 - Próximas funcionalidades: catálogo, filtro por formato, busca por texto, "Ver mais" e estados de erro e vazio.
 - Segurança: CSP e headers em `chore/security-headers`.
+- Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
 - Documentação: passo a passo técnico em `docs/walkthrough.md`.
 - Jurídico: avaliar a aferição de idade da ECA Digital antes de uso comercial.

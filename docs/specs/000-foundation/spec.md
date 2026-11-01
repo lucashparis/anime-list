@@ -150,7 +150,8 @@ Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os h
 6. `feat/load-more`
 7. `feat/feedback-states`
 8. `chore/security-headers`
-9. `docs/technical-walkthrough`
+9. `feat/product-polish`
+10. `docs/technical-walkthrough`
 
 ## Critérios de aceite
 
