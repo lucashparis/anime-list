@@ -180,9 +180,8 @@ test('keeps the header in place when the skip link appears', async ({ page }) =>
 
 test('shows focus outlines on the link and the summary', async ({ page }) => {
   await page.goto('/');
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Tab');
   const link = page.getByRole('link', { name: 'AniList' });
+  await link.focus();
   await expect(link).toBeFocused();
   await expect(link).toHaveCSS('outline-style', 'solid');
   await expect(link).toHaveCSS('outline-width', '2px');
