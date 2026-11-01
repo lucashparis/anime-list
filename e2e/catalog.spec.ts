@@ -103,7 +103,7 @@ for (const { name, response } of ERROR_RESPONSES) {
   test(`shows the error message on ${name}`, async ({ page }) => {
     await page.route(ANILIST_ENDPOINT, (route) => fulfillAnilist(route, response));
     await page.goto('/');
-    await expect(page.getByRole('alert')).toHaveText('Não foi possível carregar o catálogo.');
+    await expect(page.getByRole('alert')).toContainText('Não foi possível carregar o catálogo.');
     await expectNoViolations(page);
   });
 }

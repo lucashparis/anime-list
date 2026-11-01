@@ -2,7 +2,9 @@ import * as z from 'zod/mini';
 
 const ANILIST_ENDPOINT = 'https://graphql.anilist.co';
 
-export type ApiErrorKind = 'network' | 'http' | 'graphql' | 'schema';
+const DEFAULT_TIMEOUT_MS = 10_000;
+
+export type ApiErrorKind = 'network' | 'timeout' | 'http' | 'graphql' | 'schema';
 
 export class ApiError extends Error {
   readonly kind: ApiErrorKind;
@@ -20,6 +22,7 @@ export interface GraphqlRequest {
   query: string;
   variables: Record<string, unknown>;
   signal: AbortSignal;
+  timeoutMs?: number;
 }
 
 const envelopeSchema = z.object({
@@ -27,17 +30,18 @@ const envelopeSchema = z.object({
   errors: z.nullish(z.array(z.unknown())),
 });
 
-async function send({ query, variables, signal }: GraphqlRequest) {
+async function send({ query, variables, signal, timeoutMs = DEFAULT_TIMEOUT_MS }: GraphqlRequest) {
+  const timeout = AbortSignal.timeout(timeoutMs);
   try {
     return await fetch(ANILIST_ENDPOINT, {
       method: 'POST',
       credentials: 'omit',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ query, variables }),
-      signal,
+      signal: AbortSignal.any([signal, timeout]),
     });
   } catch {
-    throw new ApiError('network');
+    throw new ApiError(timeout.aborted ? 'timeout' : 'network');
   }
 }
 

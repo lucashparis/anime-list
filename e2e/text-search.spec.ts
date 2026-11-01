@@ -71,7 +71,7 @@ test('opens already searching from the URL and restores the text on back', async
 test('shows a message without an error when nothing is found', async ({ page }) => {
   await page.route(ANILIST_ENDPOINT, (route) => fulfillAnilist(route, { json: EMPTY_PAGE }));
   await page.goto('/?q=zzz');
-  await expect(page.getByRole('status')).toHaveText('Nenhum anime encontrado.');
+  await expect(page.getByText('Nenhum anime encontrado para “zzz”.')).toBeVisible();
   await expect(page.getByRole('alert')).toHaveCount(0);
   await expectNoViolations(page);
 });

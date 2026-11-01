@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import * as z from 'zod/mini';
 import { describe, expect, it } from 'vitest';
 import { ApiError, requestGraphql } from '@/shared/api/graphqlClient';
@@ -14,7 +14,7 @@ function request() {
   );
 }
 
-function respondWith(response: () => Response) {
+function respondWith(response: () => Response | Promise<Response>) {
   server.use(http.post(ANILIST_ENDPOINT, response));
 }
 
@@ -33,6 +33,37 @@ describe('requestGraphql', () => {
     const error = await requestError();
     expect(error).toBeInstanceOf(ApiError);
     expect(error).toMatchObject({ kind: 'network', status: null });
+  });
+
+  it('reports a timeout when the API does not answer in time', async () => {
+    respondWith(async () => {
+      await delay('infinite');
+      return HttpResponse.json({ data: { value: 1 } });
+    });
+    const error = await requestGraphql(
+      {
+        query: 'query Test { value }',
+        variables: {},
+        signal: new AbortController().signal,
+        timeoutMs: 20,
+      },
+      dataSchema,
+    ).catch((failure: unknown) => failure);
+    expect(error).toMatchObject({ kind: 'timeout', status: null });
+  });
+
+  it('reports a cancellation as a network failure, not a timeout', async () => {
+    respondWith(async () => {
+      await delay('infinite');
+      return HttpResponse.json({ data: { value: 1 } });
+    });
+    const controller = new AbortController();
+    const pending = requestGraphql(
+      { query: 'query Test { value }', variables: {}, signal: controller.signal },
+      dataSchema,
+    ).catch((failure: unknown) => failure);
+    controller.abort();
+    await expect(pending).resolves.toMatchObject({ kind: 'network' });
   });
 
   it('reports an HTTP failure with its status', async () => {

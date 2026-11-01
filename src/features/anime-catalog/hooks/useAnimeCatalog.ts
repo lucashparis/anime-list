@@ -13,5 +13,6 @@ export function useAnimeCatalog() {
     getNextPageParam: (lastPage, _pages, lastPageParam) =>
       lastPage.hasNextPage ? lastPageParam + 1 : undefined,
     select: mergePages,
+    retryOnMount: false,
   });
 }

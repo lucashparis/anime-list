@@ -1,31 +1,21 @@
 import { AnimeCard } from '@/features/anime-catalog/components/AnimeCard';
 import { CATALOG_GRID_CLASS_NAME } from '@/features/anime-catalog/components/catalogGrid';
+import { CatalogError } from '@/features/anime-catalog/components/CatalogError';
 import { CatalogSkeleton } from '@/features/anime-catalog/components/CatalogSkeleton';
+import { EmptyCatalog } from '@/features/anime-catalog/components/EmptyCatalog';
 import { LoadMore } from '@/features/anime-catalog/components/LoadMore';
 import { useAnimeCatalog } from '@/features/anime-catalog/hooks/useAnimeCatalog';
 
 const EAGER_COVERS = 4;
 
 export function CatalogResults() {
-  const { data, isPending, isFetchingNextPage } = useAnimeCatalog();
+  const { data, isPending, isFetchingNextPage, errorUpdateCount } = useAnimeCatalog();
 
-  if (isPending) return <CatalogSkeleton />;
+  if (isPending && errorUpdateCount === 0) return <CatalogSkeleton />;
 
-  if (data === undefined) {
-    return (
-      <p role="alert" className="text-center">
-        Não foi possível carregar o catálogo.
-      </p>
-    );
-  }
+  if (data === undefined) return <CatalogError />;
 
-  if (data.animes.length === 0) {
-    return (
-      <p role="status" className="text-center">
-        Nenhum anime encontrado.
-      </p>
-    );
-  }
+  if (data.animes.length === 0) return <EmptyCatalog />;
 
   return (
     <>

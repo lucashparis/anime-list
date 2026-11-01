@@ -94,7 +94,7 @@ describe('LoadMore', () => {
     );
     expect(await cardCount()).toBe(12);
     succeed = true;
-    await userEvent.click(loadMoreButton());
+    await userEvent.click(screen.getByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('12 animes carregados')).toBeInTheDocument();
     expect(await cardCount()).toBe(24);
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
