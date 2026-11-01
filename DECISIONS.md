@@ -62,12 +62,11 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 ## Evoluções
 
-Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
+Fora do escopo atual:
 
 - Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
-- Documentação: passo a passo técnico em `docs/walkthrough.md`.
 - Jurídico: avaliar a aferição de idade da ECA Digital antes de uso comercial.
 - Cobertura: conferir o Safari do iOS, que o Playwright em Chromium não cobre.
 - Ferramentas: voltar ao TypeScript 7 quando o `typescript-eslint` aceitar.
