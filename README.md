@@ -28,7 +28,7 @@ npm run dev
 npm run verify
 ```
 
-Roda, na ordem do merge: lint, typecheck, testes, testes das regras de lint, build, limite de tamanho e testes de interface. Cada etapa também roda separada:
+Roda, na ordem do merge: lint, typecheck, testes, build, limite de tamanho e testes de interface. Os testes das regras de lint rodam pelo hook de commit quando a configuração do ESLint muda. Cada etapa também roda separada:
 
 | Comando | O que faz |
 | --- | --- |

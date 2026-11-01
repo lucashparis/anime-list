@@ -42,7 +42,7 @@ O comando define `core.hooksPath` só neste repositório e instala os hooks do L
 
 | Momento | Verificação |
 | --- | --- |
-| `pre-commit` | Prettier e ESLint nos arquivos alterados |
+| `pre-commit` | Prettier e ESLint nos arquivos alterados; `npm run test:guards` quando `eslint.config.js` ou `tools/eslint/**` mudam |
 | `commit-msg` | commitlint |
 | `pre-merge-commit` | `npm run verify` |
 

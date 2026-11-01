@@ -17,7 +17,7 @@
     "format:check": "prettier --check .",
     "test:e2e": "playwright test",
     "size": "size-limit",
-    "verify": "npm run lint && npm run typecheck && npm test && npm run test:guards && npm run build && npm run size && npm run test:e2e",
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build && npm run size && npm run test:e2e",
     "hooks:install": "git config --local core.hooksPath .git/hooks && lefthook install --force"
   },
   "dependencies": {

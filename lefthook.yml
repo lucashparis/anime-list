@@ -5,6 +5,8 @@ pre-commit:
       stage_fixed: true
     - glob: '{src,e2e}/**/*.{ts,tsx}'
       run: npx eslint {staged_files}
+    - glob: '{eslint.config.js,tools/eslint/**}'
+      run: npm run test:guards
 commit-msg:
   jobs:
     - run: npx commitlint --edit {1}
