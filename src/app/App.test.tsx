@@ -11,10 +11,11 @@ it('exposes the page landmarks and heading', () => {
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('BuscAnime');
 });
 
-it('credits AniList without leaking the referrer', () => {
+it('credits AniList in a new tab without leaking the referrer', () => {
   render(<App />);
-  const link = screen.getByRole('link', { name: 'AniList' });
+  const link = screen.getByRole('link', { name: 'AniList (abre em nova aba)' });
   expect(link).toHaveAttribute('href', 'https://anilist.co');
+  expect(link).toHaveAttribute('target', '_blank');
   expect(link).toHaveAttribute('rel', 'noreferrer');
 });
 

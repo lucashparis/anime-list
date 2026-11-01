@@ -101,6 +101,20 @@ test('replaces the skeleton after mounting', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 });
 
+test('opens AniList in a new tab and keeps our page', async ({ page, context }) => {
+  await context.route('https://anilist.co/**', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<title>AniList</title>' }),
+  );
+  await page.goto('/');
+  const ourUrl = page.url();
+  const newPage = context.waitForEvent('page');
+  await page.getByRole('link', { name: 'AniList (abre em nova aba)' }).click();
+  const opened = await newPage;
+  await opened.waitForLoadState();
+  expect(opened.url().startsWith('https://anilist.co')).toBe(true);
+  expect(page.url()).toBe(ourUrl);
+});
+
 test.describe('tall screens', () => {
   test.use({ viewport: { width: 1920, height: 1080 } });
 

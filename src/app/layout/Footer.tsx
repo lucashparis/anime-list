@@ -14,10 +14,11 @@ export function Footer() {
         Dados fornecidos pela{' '}
         <a
           href="https://anilist.co"
+          target="_blank"
           rel="noreferrer"
           className={`${linkLayout} ${touchTarget} underline ${focusRing}`}
         >
-          AniList
+          AniList <span className="sr-only">(abre em nova aba)</span>
         </a>
       </p>
       <details className="max-w-content text-xs">
