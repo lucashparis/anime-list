@@ -37,6 +37,38 @@ describe('SearchForm', () => {
     expect(window.location.search).toBe('?q=naruto');
   });
 
+  it('keeps the focus on the field after the search is sent', async () => {
+    recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), 'naruto{Enter}');
+    await screen.findByRole('list', { name: 'Animes' });
+    expect(searchBox()).toHaveFocus();
+    expect(searchBox()).toHaveValue('naruto');
+  });
+
+  it('limits the text to 100 characters in the field and in the URL', async () => {
+    window.history.replaceState(null, '', `/?q=${'a'.repeat(10_000)}`);
+    const variables = recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    expect(searchBox()).toHaveAttribute('maxlength', '100');
+    expect(searchBox()).toHaveValue('a'.repeat(100));
+    expect(variables[0]).toMatchObject({ search: 'a'.repeat(100) });
+  });
+
+  it('follows the browser back button without losing what was typed', async () => {
+    recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), 'naruto{Enter}');
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), ' shippuden');
+    await userEvent.click(screen.getByRole('button', { name: 'OVA' }));
+    await screen.findByRole('list', { name: 'Animes' });
+    expect(searchBox()).toHaveValue('naruto shippuden');
+  });
+
   it('queries when the button is clicked and combines with the format', async () => {
     const variables = recordVariables();
     renderWithQueryClient(<AnimeCatalog />);

@@ -26,6 +26,7 @@ describe('fetchAnimeCatalog', () => {
       },
       score: 49,
       genres: ['Action', 'Drama'],
+      url: 'https://anilist.co/anime/1',
     });
   });
 
@@ -38,7 +39,7 @@ describe('fetchAnimeCatalog', () => {
   });
 
   it('reuses the available cover when one size is missing', async () => {
-    const onlyLarge = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [] };
+    const onlyLarge = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
     server.use(
       http.post(ANILIST_ENDPOINT, () =>
         HttpResponse.json({
@@ -107,7 +108,7 @@ describe('fetchAnimeCatalog', () => {
     'http://s4.anilist.co/cover.jpg',
     'javascript:alert(1)',
   ])('drops a cover outside the AniList image host: %s', async (url) => {
-    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [] };
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
     server.use(
       http.post(ANILIST_ENDPOINT, () =>
         HttpResponse.json({
@@ -123,5 +124,28 @@ describe('fetchAnimeCatalog', () => {
     const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
     expect(animes).toHaveLength(1);
     expect(animes[0]?.cover).toBeNull();
+  });
+
+  it.each([
+    'https://evil.example/anime/1',
+    'https://anilist.co.evil.example/anime/1',
+    'http://anilist.co/anime/1',
+    'javascript:alert(1)',
+  ])('drops a page link outside AniList: %s', async (url) => {
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: url };
+    server.use(
+      http.post(ANILIST_ENDPOINT, () =>
+        HttpResponse.json({
+          data: {
+            Page: {
+              pageInfo: { hasNextPage: false },
+              media: [{ ...media, coverImage: { large: null, extraLarge: null } }],
+            },
+          },
+        }),
+      ),
+    );
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    expect(animes[0]?.url).toBeNull();
   });
 });

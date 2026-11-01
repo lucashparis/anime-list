@@ -20,7 +20,7 @@ export function Button({ variant, size = 'md', type = 'button', ...props }: Butt
   return (
     <button
       type={type}
-      className={`inline-flex items-center justify-center rounded-md border px-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary aria-disabled:cursor-not-allowed aria-disabled:opacity-60 ${SIZE_CLASS_NAMES[size]} ${VARIANT_CLASS_NAMES[variant]}`}
+      className={`inline-flex cursor-pointer items-center justify-center rounded-md border px-lg text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-safe:transition motion-safe:duration-150 motion-safe:active:scale-95 aria-disabled:cursor-not-allowed aria-disabled:opacity-60 aria-disabled:active:scale-100 ${SIZE_CLASS_NAMES[size]} ${VARIANT_CLASS_NAMES[variant]}`}
       {...props}
     />
   );

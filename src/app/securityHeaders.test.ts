@@ -42,6 +42,16 @@ describe('vercel.json', () => {
     ]);
   });
 
+  it('caches the hashed assets for a year without touching the other routes', () => {
+    const raw: unknown = JSON.parse(readFileSync('vercel.json', 'utf8'));
+    const rules = configSchema.parse(raw).headers;
+    const assets = rules.find((rule) => rule.source === '/assets/(.*)');
+    expect(assets?.headers).toEqual([
+      { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+    ]);
+    expect(rules.filter((rule) => rule.source === '/(.*)')).toHaveLength(1);
+  });
+
   it('keeps the policy strict', () => {
     const sources = [...policy().values()].flat();
     expect(sources).not.toContain("'unsafe-inline'");

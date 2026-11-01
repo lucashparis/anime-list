@@ -13,6 +13,7 @@ function fixtureMedia(id: number, overrides: object = {}) {
     },
     averageScore: 70,
     genres: ['Action', 'Drama'],
+    siteUrl: `https://anilist.co/anime/${String(id)}`,
     ...overrides,
   };
 }

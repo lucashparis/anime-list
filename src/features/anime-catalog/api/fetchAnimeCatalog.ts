@@ -5,6 +5,7 @@ import { requestGraphql } from '@/shared/api/graphqlClient';
 
 const PAGE_SIZE = 12;
 const COVER_ORIGIN = 'https://s4.anilist.co/';
+const PAGE_ORIGIN = 'https://anilist.co/';
 
 const ANIME_CATALOG_QUERY = `
   query AnimeCatalog(
@@ -29,15 +30,20 @@ const ANIME_CATALOG_QUERY = `
         }
         averageScore
         genres
+        siteUrl
       }
     }
   }
 `;
 
-const coverUrlSchema = z.pipe(
-  z.nullable(z.string()),
-  z.transform((url) => (url?.startsWith(COVER_ORIGIN) ? url : null)),
-);
+function urlFrom(origin: string) {
+  return z.pipe(
+    z.nullable(z.string()),
+    z.transform((url) => (url?.startsWith(origin) ? url : null)),
+  );
+}
+
+const coverUrlSchema = urlFrom(COVER_ORIGIN);
 
 const mediaSchema = z.object({
   id: z.number(),
@@ -48,6 +54,7 @@ const mediaSchema = z.object({
   }),
   averageScore: z.nullable(z.number()),
   genres: z.nullable(z.array(z.string())),
+  siteUrl: urlFrom(PAGE_ORIGIN),
 });
 
 const animeCatalogSchema = z.object({
@@ -73,6 +80,7 @@ function toAnime(media: Media): Anime {
     cover: toCover(media.coverImage),
     score: media.averageScore,
     genres: media.genres ?? [],
+    url: media.siteUrl,
   };
 }
 

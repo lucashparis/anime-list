@@ -59,7 +59,7 @@ test.describe('long title on a phone', () => {
 
   test('clamps the title to 3 lines and keeps the text', async ({ page }) => {
     await page.goto('/');
-    const heading = page.getByRole('heading', { level: 2, name: LONG_TITLE });
+    const heading = page.getByRole('heading', { level: 3, name: LONG_TITLE });
     await expect(heading).toBeVisible();
     const box = await heading.boundingBox();
     expect(box?.height).toBeLessThanOrEqual(TITLE_LINE_HEIGHT * MAX_TITLE_LINES);

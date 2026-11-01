@@ -9,6 +9,7 @@ function page(...ids: number[]): AnimePage {
     cover: null,
     score: null,
     genres: [],
+    url: null,
   }));
   return { animes, hasNextPage: true };
 }

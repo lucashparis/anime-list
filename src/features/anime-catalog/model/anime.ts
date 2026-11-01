@@ -9,6 +9,7 @@ export interface Anime {
   cover: AnimeCover | null;
   score: number | null;
   genres: string[];
+  url: string | null;
 }
 
 export interface AnimePage {

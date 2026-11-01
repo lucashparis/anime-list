@@ -1,16 +1,21 @@
-import type { SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 import { useCatalogFilters } from '@/features/anime-catalog/hooks/useCatalogFilters';
+import { MAX_SEARCH_LENGTH } from '@/features/anime-catalog/model/search';
 import { Button } from '@/shared/ui/Button';
-
-const SEARCH_FIELD = 'q';
 
 export function SearchForm() {
   const { search, setSearch } = useCatalogFilters();
+  const [draft, setDraft] = useState(search);
+  const [syncedSearch, setSyncedSearch] = useState(search);
+
+  if (search !== syncedSearch) {
+    setSyncedSearch(search);
+    setDraft(search);
+  }
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-    const value = new FormData(event.currentTarget).get(SEARCH_FIELD);
-    setSearch(typeof value === 'string' ? value : '');
+    setSearch(draft);
   }
 
   return (
@@ -19,11 +24,14 @@ export function SearchForm() {
         Buscar anime
       </label>
       <input
-        key={search}
         id="catalog-search"
-        name={SEARCH_FIELD}
+        name="q"
         type="search"
-        defaultValue={search}
+        value={draft}
+        maxLength={MAX_SEARCH_LENGTH}
+        onChange={(event) => {
+          setDraft(event.target.value);
+        }}
         placeholder="Buscar anime"
         autoComplete="off"
         className="min-h-control-md min-w-0 flex-1 rounded-md border border-neutral-400 bg-white px-lg text-sm text-ink placeholder:text-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pointer-coarse:min-h-control-touch"

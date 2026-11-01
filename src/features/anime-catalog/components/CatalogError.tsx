@@ -1,3 +1,4 @@
+import { focusCatalogHeading } from '@/features/anime-catalog/components/catalogHeading';
 import { CatalogSkeleton } from '@/features/anime-catalog/components/CatalogSkeleton';
 import { useAnimeCatalog } from '@/features/anime-catalog/hooks/useAnimeCatalog';
 import { catalogErrorMessage } from '@/features/anime-catalog/model/catalogErrorMessage';
@@ -8,6 +9,7 @@ export function CatalogError() {
 
   function handleRetry() {
     if (isFetching) return;
+    focusCatalogHeading();
     void refetch();
   }
 
