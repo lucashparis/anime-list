@@ -2,7 +2,7 @@
 
 Catálogo web de animes com dados da API AniList, com filtro por formato, busca por texto e nota destacada por cor.
 
-Em produção: <https://anime-list-silk.vercel.app/>.
+Em produção: <https://anime-list-silk.vercel.app/>. Para entender o código em 10 minutos, comece pelo [passo a passo técnico](docs/walkthrough.md).
 
 ## Estado atual
 
@@ -65,5 +65,6 @@ Cada linha corresponde a uma branch integrada à `main`.
 | 7 | `feat/feedback-states` | Timeout de 10s, nova tentativa, mensagem para o limite de requisições, lista vazia com limpeza de filtros e error boundary | [Spec](docs/specs/003-feedback-and-security/spec.md#featfeedback-states) |
 | 8 | `chore/security-headers` | CSP sem `unsafe-inline`, cabeçalhos no `vercel.json`, capas só de `s4.anilist.co` e teste da CSP no navegador | [Spec](docs/specs/003-feedback-and-security/spec.md#choresecurity-headers) |
 | 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
+| 10 | `docs/technical-walkthrough` | Passo a passo técnico para quem avalia o código, com teste dos links | [Passo a passo](docs/walkthrough.md) |
 
-As próximas etapas estão na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+As 10 branches previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches) estão integradas. O que ficou de fora está em [Evoluções](DECISIONS.md#evoluções).

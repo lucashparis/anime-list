@@ -2,7 +2,7 @@
 
 Catálogo web de animes com dados da API AniList: filtro por formato, busca por texto e nota destacada por cor. React 19, Vite 8, TypeScript estrito, Tailwind 4, TanStack Query e Zod.
 
-Estado atual: catálogo em cards com dados reais da AniList, filtro por formato, busca por texto e "Ver mais". Também há estados de erro, vazio e timeout, e cabeçalhos de segurança no `vercel.json`. O acabamento vem nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+Estado atual: catálogo em cards com dados reais da AniList, filtro por formato, busca por texto e "Ver mais". Também há estados de erro, vazio e timeout, cabeçalhos de segurança no `vercel.json`, ícones e prévia do link. As 10 branches da [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches) estão feitas; o GitHub Actions é a única pendência prevista.
 
 ## Comandos
 
@@ -68,6 +68,7 @@ docs/           documentação
 
 Carregue só o que a tarefa precisar.
 
+- [Passo a passo técnico](docs/walkthrough.md)
 - [Arquitetura](docs/architecture.md)
 - [Código](docs/conventions/code.md)
 - [Git](docs/conventions/git.md)
