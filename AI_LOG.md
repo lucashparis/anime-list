@@ -43,6 +43,8 @@ Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue q
 - Um passo de limpeza do plano (`git reset --hard`) apagou uma edição ainda não commitada durante a execução, e ela foi refeita.
 - O teste de `credentials: 'omit'` falhou porque o MSW não preserva a opção no Node, embora o código estivesse certo. O teste passou a observar o `fetch`.
 - Com 12 cards, a página passou da altura da tela e reprovou o teste do rodapé em tela alta. O teste passou a usar lista vazia, que é o caso que ele protege.
+- A revisão apontou que perder a conexão deixaria a tela no skeleton indefinidamente. Um teste reproduziu o problema, e as consultas passaram a usar `networkMode: 'always'`.
+- A revisão também apontou um teste e2e de cookies que não provava nada. Trocar para `credentials: 'include'` não o reprovou, mesmo com um cookie no navegador, e a verificação foi removida; quem prova a opção é o teste unitário.
 - A spec propunha título inteiro e lista em alta. O responsável pelo projeto escolheu corte em 3 linhas e lista por popularidade.
 
 ## Rejeitado

@@ -26,7 +26,7 @@ Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O
 | Campo `errors` com status 200 | `graphql` | Nenhuma |
 | Corpo fora do schema | `schema` | Nenhuma |
 
-Os dados ficam válidos por 5 minutos, e focar a janela não dispara nova consulta.
+Os dados ficam válidos por 5 minutos, e focar a janela não dispara nova consulta. As consultas usam `networkMode: 'always'`: no padrão do TanStack Query, perder a conexão pausa a consulta sem erro, e a tela ficaria no skeleton indefinidamente.
 
 ## Comportamentos verificados
 

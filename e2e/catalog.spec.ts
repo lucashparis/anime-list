@@ -86,13 +86,11 @@ test('shows the skeleton until the API answers', async ({ page }) => {
   await expect(page.getByTestId('catalog-skeleton')).toHaveCount(0);
 });
 
-test('sends no description field and no cookies', async ({ page }) => {
+test('does not request the description field', async ({ page }) => {
   const requestPromise = page.waitForRequest(ANILIST_ENDPOINT);
   await page.goto('/');
   const request = await requestPromise;
   expect(request.postData()).not.toContain('description');
-  const headers = await request.allHeaders();
-  expect(headers.cookie).toBeUndefined();
 });
 
 const ERROR_RESPONSES = [
@@ -109,6 +107,25 @@ for (const { name, response } of ERROR_RESPONSES) {
     await expectNoViolations(page);
   });
 }
+
+test('shows the error message when the connection drops during the request', async ({
+  page,
+  context,
+}) => {
+  let failRequest = () => {};
+  const requestFailed = new Promise<void>((resolve) => {
+    failRequest = resolve;
+  });
+  await page.route(ANILIST_ENDPOINT, async (route) => {
+    await requestFailed;
+    await route.abort();
+  });
+  await page.goto('/');
+  await expect(page.getByTestId('catalog-skeleton')).toBeVisible();
+  await context.setOffline(true);
+  failRequest();
+  await expect(page.getByRole('alert')).toBeVisible({ timeout: NETWORK_RETRIES_TIMEOUT });
+});
 
 test('shows the error message after the network retries fail', async ({ page }) => {
   await page.route(ANILIST_ENDPOINT, (route) => route.abort());

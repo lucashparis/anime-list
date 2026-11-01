@@ -20,6 +20,7 @@ export function createQueryClient() {
     defaultOptions: {
       queries: {
         staleTime: STALE_TIME_MS,
+        networkMode: 'always',
         refetchOnWindowFocus: false,
         retry: shouldRetry,
       },

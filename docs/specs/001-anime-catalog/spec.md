@@ -37,7 +37,7 @@ Filtro, busca, "Ver mais", repetir a consulta com erro e estado de lista vazia. 
 | Hook | `features/anime-catalog/hooks/useAnimeCatalog.ts` | TanStack Query, com cache só em memória |
 | Provider | `app/` | `QueryClientProvider` |
 
-Política do TanStack Query: dados válidos por 5 minutos; sem nova consulta ao focar a janela; até 2 novas tentativas só em erro de rede e 5xx, nunca em 4xx, para respeitar o limite de 30 requisições por minuto.
+Política do TanStack Query: dados válidos por 5 minutos; consulta não pausa sem conexão, para o erro aparecer; sem nova consulta ao focar a janela; até 2 novas tentativas só em erro de rede e 5xx, nunca em 4xx, para respeitar o limite de 30 requisições por minuto.
 
 Dados nulos: `romaji` nulo exibe "Título indisponível"; capa nula deixa o fundo em `ink`. Uma resposta fora do schema é tratada como erro.
 
