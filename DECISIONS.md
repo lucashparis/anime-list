@@ -13,7 +13,7 @@ Resumo das decisões do BuscAnime. Evidências, medições e alternativas descar
 | Interface | Tailwind com tokens do design, componentes próprios e Mulish pelo Fontsource |
 | Carregamento | Skeleton em todo carregamento, sem spinner; skeleton estático no `index.html` |
 | Qualidade | ESLint estrito, Vitest, Playwright com axe e limite de 100 KB gzip de JS inicial |
-| Processo | Spec e plano antes do código, uma branch por funcionalidade e merge com `--no-ff` |
+| Processo | Spec aprovada antes do código, uma branch por funcionalidade e merge com `--no-ff` |
 | Idioma | Código e Git em inglês; documentação e interface em português |
 
 Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do produto; por último o design, usado como base visual e sem reprodução literal.

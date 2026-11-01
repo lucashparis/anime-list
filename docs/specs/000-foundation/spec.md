@@ -49,13 +49,14 @@ docs/                        documentação
 | Regra | Valor |
 | --- | --- |
 | `@typescript-eslint/no-explicit-any` | Erro |
-| Asserções inseguras e `@ts-ignore` | Erro, com `typescript-eslint` em modo `strictTypeChecked` |
+| `@typescript-eslint/no-unsafe-type-assertion` | Erro; a regra não faz parte do `strictTypeChecked`, então é ligada explicitamente, e `as const` continua permitido |
+| `@ts-ignore` | Erro, com `typescript-eslint` em modo `strictTypeChecked` |
 | `max-lines-per-function` | 40, sem contar linhas em branco |
 | `max-lines` | 200 por arquivo, sem contar linhas em branco |
 | `complexity` | 10 |
 | `max-params` | 3 |
-| `no-restricted-imports` | `shared` não importa de `features` ou `app`; `features` não importa de `app` |
-| `no-restricted-syntax` | `className` não aceita valores arbitrários (`[...]`); `if` não aceita `else` nem `else if` (seletor `IfStatement[alternate]`) |
+| `no-restricted-imports` | `shared` não importa de `features` ou `app`; `features` não importa de `app`; vale também para `@/app`, `@/features` e caminhos relativos sem subpasta |
+| `no-restricted-syntax` | `className` não aceita valores arbitrários (`w-[10px]`, `[&>div]:p-sm`, `w-(--largura)`); `if` não aceita `else` nem `else if` (seletor `IfStatement[alternate]`); `import()` dinâmico segue as mesmas fronteiras de camada |
 | `no-nested-ternary` | Erro |
 | `local/no-comments` | Regra local que reprova qualquer comentário em `src` e `e2e` |
 
@@ -105,9 +106,9 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 
 | Momento | Verificação |
 | --- | --- |
-| `pre-commit` | Prettier e ESLint nos arquivos alterados |
+| `pre-commit` | Prettier e ESLint nos arquivos alterados; `npm run test:guards` quando `eslint.config.js` ou `tools/eslint/**` mudam |
 | `commit-msg` | commitlint |
-| `pre-merge-commit` | TypeScript, Vitest, Playwright, build e size-limit |
+| `pre-merge-commit` | `npm run verify`: lint, TypeScript, Vitest, build, size-limit e Playwright |
 
 As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches locais até a publicação. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
 
@@ -133,7 +134,7 @@ Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os h
 
 ## Definição de pronto de cada funcionalidade
 
-1. Spec e plano aprovados antes do código.
+1. Spec aprovada antes do código.
 2. Lint, TypeScript, Vitest e size-limit sem erros.
 3. Playwright validando o layout nas larguras acordadas e os cenários da API, com capturas revisadas.
 4. `axe-core` sem violações.
@@ -158,7 +159,7 @@ Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os h
 ## Critérios de aceite
 
 - Em um clone limpo, `npm ci` termina com 0 alertas e `npm audit` com 0 vulnerabilidades.
-- `npm run lint`, `typecheck`, `test`, `test:e2e`, `build` e `size` passam.
+- `npm run lint`, `typecheck`, `test`, `test:guards`, `test:e2e`, `build` e `size` passam.
 - Um arquivo com `any`, comentário, `else`, ternário aninhado, import proibido ou `className` arbitrário faz o lint falhar.
 - Um commit fora do padrão é rejeitado.
 - O layout base não tem rolagem horizontal em nenhuma largura testada.

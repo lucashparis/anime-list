@@ -14,9 +14,16 @@ Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue q
 ## Organização
 
 - `CLAUDE.md` curto, apontando para documentos detalhados carregados só quando necessários.
-- Spec e plano aprovados antes do código.
-- Revisão independente depois de cada tarefa.
+- Spec aprovada antes do código, com plano só quando o risco justificar.
+- A fundação teve uma revisão por tarefa e uma revisão final. A partir da próxima branch, é uma revisão por branch.
 - O responsável pelo projeto aprovou as decisões e avalia cada merge.
+
+## Custo da revisão
+
+- A fundação consumiu cerca de 1 milhão de tokens em subagentes.
+- As revisões por tarefa ficaram com 37% desse total e não acharam nenhum problema importante real.
+- A revisão final achou 4, entre eles a regra `no-unsafe-type-assertion`, que faltava no `strictTypeChecked`, lacunas nos valores arbitrários e um teste do skip link que podia passar sem provar nada.
+- A revisão visual do responsável pelo projeto achou o que nenhum revisor achou.
 
 ## Verificado por medição
 

@@ -17,10 +17,19 @@ Teste o que o usuário percebe: busque por papel e texto acessível, nunca por c
 | Comando | O que roda |
 | --- | --- |
 | `npm test` | Vitest, em `src/**/*.test.{ts,tsx}` |
-| `npm run test:guards` | Testes das regras de lint em `tools/eslint/guards.test.mjs` |
+| `npm run test:guards` | Testes das regras de lint em `tools/eslint/guards.test.mjs`; roda pelo hook de `pre-commit` quando `eslint.config.js` ou `tools/eslint/**` mudam |
 | `npm run test:e2e` | Playwright; compila o projeto e sobe o `preview` na porta 4173 |
 | `npm run size` | size-limit sobre `dist/assets/*.js` (rode `npm run build` antes) |
-| `npm run verify` | Tudo, na ordem usada pelo `pre-merge-commit` |
+| `npm run verify` | Lint, typecheck, testes, build, size e e2e, na ordem usada pelo `pre-merge-commit` |
+
+## Quando rodar o quê
+
+- Durante o desenvolvimento, rode só os testes do que mudou.
+- O `npm run verify` completo roda uma vez, antes do merge.
+- `npm run test:guards` roda pelo hook de `pre-commit` quando a configuração do ESLint muda.
+- A validação em clone limpo só é necessária quando as dependências mudam.
+- Uma revisão por branch e, no máximo, um ciclo de correção.
+- O responsável pelo projeto avalia as capturas de `test-results/layout/` antes de cada merge.
 
 ## Vitest e MSW
 
@@ -43,7 +52,7 @@ O teste de `tools/eslint/guards.test.mjs` executa o ESLint em um processo filho 
 
 ## Definição de pronto
 
-1. Spec e plano aprovados antes do código.
+1. Spec aprovada antes do código.
 2. Lint, TypeScript, Vitest e size-limit sem erros.
 3. Playwright validando o layout nas larguras acordadas e os cenários da API, com capturas revisadas.
 4. `axe-core` sem violações.

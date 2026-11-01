@@ -17,16 +17,16 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 | `npm run build` / `npm run preview` | Build de produção e servidor do build |
 | `npm run lint` / `npm run typecheck` | ESLint e TypeScript |
 | `npm test` | Vitest |
-| `npm run test:guards` | Prova de que cada regra de lint reprova o que deve |
+| `npm run test:guards` | Prova de que cada regra de lint reprova o que deve; roda pelo hook quando a configuração do ESLint muda |
 | `npm run test:e2e` | Playwright em Chromium, com axe |
 | `npm run size` | Limite de 100 KB gzip de JS inicial |
 | `npm run format` / `npm run format:check` | Prettier |
-| `npm run verify` | Lint, typecheck, testes, guards, build, size e e2e, como no merge |
+| `npm run verify` | Lint, typecheck, testes, build, size e e2e, como no merge |
 
 ## Regras
 
 1. Idioma: código, commits e branches em inglês; documentação e interface em português; dados da API sem tradução.
-2. Spec e plano aprovados antes do código.
+2. Spec aprovada antes do código; plano só quando o risco justificar.
 3. Sem `else` nem `else if`: use cláusula de guarda com retorno antecipado.
 4. Sem comentários em `src` e `e2e`: o nome do código explica.
 5. Sem `any`, `@ts-ignore` nem `eslint-disable`.
@@ -42,6 +42,13 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 15. Nunca alterar a configuração global do Git nem usar `--no-verify`.
 16. Merge na `main` só com `--no-ff` e depois da avaliação do responsável pelo projeto.
 17. Atualizar o `README.md` na própria branch.
+
+## Fluxo de trabalho
+
+- Durante o desenvolvimento, rode só os testes do que mudou; o `npm run verify` completo roda uma vez, antes do merge.
+- Validação em clone limpo só quando as dependências mudam.
+- Uma revisão por branch e, no máximo, um ciclo de correção.
+- O responsável pelo projeto avalia as capturas antes de cada merge.
 
 ## Estrutura
 
