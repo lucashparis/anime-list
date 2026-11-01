@@ -9,9 +9,9 @@ export function AnimeCatalog() {
 
   return (
     <>
-      <div className="mx-auto mb-xl flex max-w-content flex-col gap-lg">
-        <SearchForm />
+      <div className="mx-auto mb-xl flex max-w-content flex-col gap-xl">
         <FormatFilter />
+        <SearchForm />
       </div>
       <h2 {...CATALOG_HEADING_PROPS} className="sr-only focus:outline-none">
         Catálogo de animes

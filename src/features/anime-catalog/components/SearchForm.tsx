@@ -20,7 +20,7 @@ export function SearchForm() {
   }
 
   return (
-    <form role="search" onSubmit={handleSubmit} className="flex gap-sm">
+    <form role="search" onSubmit={handleSubmit} className="mx-auto flex w-full max-w-search gap-sm">
       <label htmlFor="catalog-search" className="sr-only">
         Buscar anime
       </label>
@@ -33,9 +33,9 @@ export function SearchForm() {
         onChange={(event) => {
           setDraft(event.target.value);
         }}
-        placeholder="Buscar anime"
+        placeholder="Digite algo aqui…"
         autoComplete="off"
-        className="min-h-control-md min-w-0 flex-1 rounded-md border border-neutral-400 bg-white px-lg text-sm text-ink placeholder:text-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pointer-coarse:min-h-control-touch"
+        className="min-h-control-md min-w-0 flex-1 rounded-sm border border-neutral-400 bg-white px-md text-sm text-ink placeholder:text-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pointer-coarse:min-h-control-touch"
       />
       <Button type="submit" variant="solid">
         Buscar

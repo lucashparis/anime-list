@@ -1,6 +1,7 @@
 import { useAnimeCatalog } from '@/features/anime-catalog/hooks/useAnimeCatalog';
 import { loadedMessage } from '@/features/anime-catalog/model/loadedMessage';
 import { Button } from '@/shared/ui/Button';
+import { PlusIcon } from '@/shared/ui/PlusIcon';
 
 export function LoadMore() {
   const { data, hasNextPage, isFetchingNextPage, isFetchNextPageError, fetchNextPage } =
@@ -15,13 +16,14 @@ export function LoadMore() {
   }
 
   return (
-    <div className="mt-xl flex flex-col items-center gap-lg">
+    <div className="mx-auto mt-xl flex max-w-content flex-col items-center gap-lg">
       <p role="status" className="sr-only">
         {announcement}
       </p>
       {isFetchNextPageError && <p role="alert">Não foi possível carregar mais animes.</p>}
       {hasNextPage && (
         <Button variant="accent" size="lg" aria-disabled={isFetchingNextPage} onClick={handleClick}>
+          <PlusIcon />
           {isFetchNextPageError ? 'Tentar novamente' : 'Ver mais'}
         </Button>
       )}

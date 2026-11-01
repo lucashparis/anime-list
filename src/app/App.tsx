@@ -15,7 +15,7 @@ export function App() {
           Pular para o conteúdo
         </a>
         <Header />
-        <main id="main-content" tabIndex={-1} className="flex-1 p-lg focus:outline-none">
+        <main id="main-content" tabIndex={-1} className="flex-1 px-lg py-xl focus:outline-none">
           <ErrorBoundary>
             <AnimeCatalog />
           </ErrorBoundary>
