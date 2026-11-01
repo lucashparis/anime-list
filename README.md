@@ -66,5 +66,6 @@ Cada linha corresponde a uma branch integrada à `main`.
 | 8 | `chore/security-headers` | CSP sem `unsafe-inline`, cabeçalhos no `vercel.json`, capas só de `s4.anilist.co` e teste da CSP no navegador | [Spec](docs/specs/003-feedback-and-security/spec.md#choresecurity-headers) |
 | 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
 | 10 | `docs/technical-walkthrough` | Passo a passo técnico para quem avalia o código, com teste dos links | [Passo a passo](docs/walkthrough.md) |
+| 11 | `feat/final-polish` | Cards que abrem a AniList, movimento ao passar o mouse, foco mantido na busca, título da aba, limite de busca, cache dos assets, cor da capa como fundo e licença MIT | [Spec](docs/specs/005-final-polish/spec.md) |
 
 As 10 branches previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches) estão integradas. O que ficou de fora está em [Evoluções](DECISIONS.md#evoluções).

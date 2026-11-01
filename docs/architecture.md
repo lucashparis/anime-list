@@ -48,8 +48,8 @@ src/
     layout/                  Header e Footer
   features/anime-catalog/
     api/                     query, schema e conversão para Anime
-    hooks/                   useAnimeCatalog (consulta paginada) e useCatalogFilters (URL)
-    model/                   tipo Anime, formatos, junção de páginas e regra de cor da nota
+    hooks/                   useAnimeCatalog (consulta paginada), useCatalogFilters (URL) e useDocumentTitle
+    model/                   tipo Anime, formatos, busca, título da página, junção de páginas e regra de cor da nota
     components/              lista, card, selo da nota, skeleton, busca, filtro, "Ver mais", erro e lista vazia
   shared/
     api/                     cliente GraphQL, erros tipados e padrões do TanStack Query
@@ -66,6 +66,7 @@ e2e/
   feedback-states.spec.ts    timeout, 429, erro, lista vazia e limpeza de filtros
   security-headers.spec.ts   build servido com a CSP do vercel.json
   product-polish.spec.ts     ícones, imagem de prévia e robots.txt
+  final-polish.spec.ts       link do card, hover, cursor, movimento reduzido, foco e limite da busca
   support/                   API interceptada e lista de telas
 tools/eslint/                regra no-comments e testes das regras
 index.html                   metadados, preconnect e skeleton estático

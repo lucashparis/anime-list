@@ -8,7 +8,7 @@ Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigid
 - **Claude Opus 5.5** coordenou o trabalho e faz a revisão final.
 - **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa da fundação, cada um com contexto novo.
 - No catálogo, o **Opus 5.5** implementou direto na janela principal, sem subagente por tarefa, e o **Sonnet 5.5** fez a revisão da branch.
-- Na descoberta (filtro, busca e "Ver mais") nos estados de tela, nos cabeçalhos de segurança e no acabamento, o **Sonnet 5.5** implementou direto na janela principal, uma sessão por bloco, e fez a revisão de cada bloco.
+- Na descoberta (filtro, busca e "Ver mais") nos estados de tela, nos cabeçalhos de segurança, no acabamento e na lapidação final, o **Sonnet 5.5** implementou direto na janela principal, uma sessão por bloco, e fez a revisão de cada bloco.
 - **Playwright** foi usado para validar o resultado no navegador.
 
 Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o catálogo, Sonnet 5.5 depois). Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
@@ -32,6 +32,10 @@ Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o 
 - **Vite contra Next 16, com rede lenta simulada.** A primeira suposição era que o Next enviaria menos JS. A medição mostrou o contrário neste caso e trocou a decisão para o Vite. Os números estão em [000-pre-development](docs/decisions/000-pre-development.md#vite-e-next-16).
 
 ## Corrigido
+
+- O levantamento de código depois do Bloco D achou que o campo de busca perdia o foco ao enviar (o `key` o recriava). Um teste reproduziu, e o campo passou a ser controlado.
+- O teste e2e do clique no card mostrou que o link esticado não cobria o card: o `--*: initial` do tema anulava o `inset-0`. O token `--spacing` base foi declarado.
+- O Lighthouse (produção e local) deu Performance 89 a 93 e os outros três pilares em 100. A pré-busca da primeira página foi tentada em um ramo descartado: o Vite juntava os scripts em um só pacote. O `fetchpriority` na primeira capa não mudou a nota e também foi descartado.
 
 - `eslint-plugin-jsx-a11y` não aceita ESLint 10. Foi trocado por `eslint-plugin-jsx-a11y-x`.
 - `@size-limit/preset-app` trazia o Puppeteer com vulnerabilidades. Foi trocado por `@size-limit/file`.

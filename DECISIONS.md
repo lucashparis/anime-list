@@ -39,6 +39,10 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Timeout de 10s sem nova tentativa automática | Uma API lenta vira erro, mesmo que respondesse em 12s | O skeleton nunca passa de 10s, em vez de até 30s com 2 tentativas |
 | CSP sem relatório de violações | Uma violação em produção só aparece no console do navegador | Não há coletor, e a CSP é testada no Playwright com o `vercel.json` real |
 | HSTS de 2 anos sem `preload` | O domínio fica fora das listas de pré-carga | Não controlo o domínio final, e o `preload` é irreversível na prática |
+| Cards abrem a AniList em nova aba | Quem clica sai do catálogo | Não há página de detalhe própria, e a AniList tem os dados completos |
+| Capas na resolução da AniList | Em telas de alta densidade (2x e 3x) as capas ficam mais suaves | A `extraLarge` de 460px é a maior que a API oferece e já é a servida em todas as telas |
+| Sem pré-busca da primeira página | O LCP do mobile segue em cerca de 3,5s no Lighthouse | O Vite junta os scripts do HTML em um só pacote, então antecipar a consulta exigiria entradas separadas e um cliente de consulta compartilhado; o ganho não compensa |
+| Licença MIT em nome de Lucas Paris | Qualquer pessoa pode reutilizar o código | É o padrão para projetos de portfólio; pode ser trocada pelo responsável |
 | Imagem de prévia só com a marca | Não mostra os animes do catálogo | As capas são da AniList, e a prévia não depende da API |
 | Ícones gerados por script | Um passo manual se a marca mudar | Sem dependência nova e sem arquivo de design fora do repositório |
 | Capa fora de `s4.anilist.co` descartada em vez de erro | O card aparece sem capa | A lista inteira não cai por causa de uma URL, e a CSP bloquearia o carregamento de qualquer jeito |
@@ -66,6 +70,7 @@ Fora do escopo atual:
 
 - Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
+- Lighthouse depois da lapidação (local, 3 rodadas): mobile 90 e desktop 91 a 93 em Performance, com acessibilidade, boas práticas e SEO em 100 nos dois. Nada que mudamos no código move a nota de Performance, porque o LCP depende da cadeia HTML → JS → API → capa de terceiros.
 - Registrado na revisão do Bloco D, sem correção: nada compara as cores dos ícones e da prévia com o `index.html`, e o teste do passo a passo não trata âncoras duplicadas nem blocos de código; a URL de produção está repetida no `index.html` e no teste.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
 - Jurídico: avaliar a aferição de idade da ECA Digital antes de uso comercial.

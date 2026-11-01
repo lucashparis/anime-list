@@ -28,6 +28,18 @@ Branch: `feat/final-polish`. Nasce do levantamento de código e do Lighthouse fe
 - `axe-core` sem violações, sem rolagem horizontal de 320 a 1920px e JS inicial até 100 KB gzip.
 - O Lighthouse (mobile e desktop) é medido de novo e registrado, com o que mudou e o que não mudou.
 
+## Resultado da medição
+
+Lighthouse 12.8, três rodadas locais, antes e depois da lapidação:
+
+| | Antes | Depois |
+| --- | --- | --- |
+| Performance mobile | 90 | 90 |
+| Performance desktop | 91 a 93 | 91 a 93 |
+| Acessibilidade, boas práticas e SEO | 100 | 100 |
+
+O que não funcionou e foi descartado: `fetchpriority="high"` na primeira capa (sem efeito) e uma pré-busca da primeira página (o Vite junta os scripts do HTML em um só pacote). O que a lapidação melhora é o que o Lighthouse não mede: foco, interação e a cor de fundo enquanto a capa carrega. As capas da AniList têm no máximo 460px de largura, então telas de alta densidade as veem mais suaves.
+
 ## Fora do escopo
 
 GitHub Actions, relatório de cobertura e capturas no `README`, que continuam como pendências opcionais.
