@@ -2,13 +2,14 @@ import { http, HttpResponse } from 'msw';
 import { describe, expect, it, vi } from 'vitest';
 import { fetchAnimeCatalog } from '@/features/anime-catalog/api/fetchAnimeCatalog';
 import { ANILIST_ENDPOINT, anilistCatalogHandler } from '@/test/anilistHandlers';
+import { recordVariables } from '@/test/recordVariables';
 import { server } from '@/test/server';
 
 const signal = new AbortController().signal;
 
 async function fetchCatalogPage() {
   server.use(anilistCatalogHandler);
-  return fetchAnimeCatalog(signal);
+  return fetchAnimeCatalog({ format: null }, signal);
 }
 
 describe('fetchAnimeCatalog', () => {
@@ -50,7 +51,7 @@ describe('fetchAnimeCatalog', () => {
         }),
       ),
     );
-    const { animes } = await fetchAnimeCatalog(signal);
+    const { animes } = await fetchAnimeCatalog({ format: null }, signal);
     expect(animes[0]?.cover).toEqual({ small: 'small.jpg', large: 'small.jpg' });
   });
 
@@ -64,5 +65,15 @@ describe('fetchAnimeCatalog', () => {
     expect(init?.body).toContain('isAdult: false');
     expect(init?.body).toContain('POPULARITY_DESC');
     expect(init?.body).not.toContain('description');
+  });
+
+  it('omits the format variable for all formats and sends it otherwise', async () => {
+    const variables = recordVariables();
+    await fetchAnimeCatalog({ format: null }, signal);
+    await fetchAnimeCatalog({ format: 'MOVIE' }, signal);
+    expect(variables).toEqual([
+      { page: 1, perPage: 12 },
+      { page: 1, perPage: 12, format: 'MOVIE' },
+    ]);
   });
 });

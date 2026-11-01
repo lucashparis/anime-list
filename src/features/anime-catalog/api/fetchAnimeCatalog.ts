@@ -1,16 +1,17 @@
 import * as z from 'zod/mini';
 import type { Anime, AnimeCover, AnimePage } from '@/features/anime-catalog/model/anime';
+import type { AnimeFormat } from '@/features/anime-catalog/model/formats';
 import { requestGraphql } from '@/shared/api/graphqlClient';
 
 const PAGE_SIZE = 12;
 
 const ANIME_CATALOG_QUERY = `
-  query AnimeCatalog($page: Int!, $perPage: Int!) {
+  query AnimeCatalog($page: Int!, $perPage: Int!, $format: MediaFormat) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         hasNextPage
       }
-      media(type: ANIME, isAdult: false, sort: [POPULARITY_DESC]) {
+      media(type: ANIME, isAdult: false, format: $format, sort: [POPULARITY_DESC]) {
         id
         title {
           romaji
@@ -63,9 +64,17 @@ function toAnime(media: Media): Anime {
   };
 }
 
-export async function fetchAnimeCatalog(signal: AbortSignal): Promise<AnimePage> {
+export interface CatalogFilters {
+  format: AnimeFormat | null;
+}
+
+export async function fetchAnimeCatalog(
+  { format }: CatalogFilters,
+  signal: AbortSignal,
+): Promise<AnimePage> {
+  const variables = { page: 1, perPage: PAGE_SIZE, ...(format && { format }) };
   const { Page } = await requestGraphql(
-    { query: ANIME_CATALOG_QUERY, variables: { page: 1, perPage: PAGE_SIZE }, signal },
+    { query: ANIME_CATALOG_QUERY, variables, signal },
     animeCatalogSchema,
   );
   return { animes: Page.media.map(toAnime), hasNextPage: Page.pageInfo.hasNextPage };
