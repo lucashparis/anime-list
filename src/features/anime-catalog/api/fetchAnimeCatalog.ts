@@ -4,6 +4,7 @@ import type { AnimeFormat } from '@/features/anime-catalog/model/formats';
 import { requestGraphql } from '@/shared/api/graphqlClient';
 
 const PAGE_SIZE = 12;
+const COVER_ORIGIN = 'https://s4.anilist.co/';
 
 const ANIME_CATALOG_QUERY = `
   query AnimeCatalog(
@@ -33,12 +34,17 @@ const ANIME_CATALOG_QUERY = `
   }
 `;
 
+const coverUrlSchema = z.pipe(
+  z.nullable(z.string()),
+  z.transform((url) => (url?.startsWith(COVER_ORIGIN) ? url : null)),
+);
+
 const mediaSchema = z.object({
   id: z.number(),
   title: z.object({ romaji: z.nullable(z.string()) }),
   coverImage: z.object({
-    large: z.nullable(z.string()),
-    extraLarge: z.nullable(z.string()),
+    large: coverUrlSchema,
+    extraLarge: coverUrlSchema,
   }),
   averageScore: z.nullable(z.number()),
   genres: z.nullable(z.array(z.string())),
