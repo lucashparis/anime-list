@@ -13,5 +13,14 @@ export function useCatalogFilters() {
     [update],
   );
 
-  return { format, setFormat };
+  const search = params.get('q')?.trim() ?? '';
+
+  const setSearch = useCallback(
+    (next: string) => {
+      update({ q: next.trim() || null });
+    },
+    [update],
+  );
+
+  return { format, setFormat, search, setSearch };
 }

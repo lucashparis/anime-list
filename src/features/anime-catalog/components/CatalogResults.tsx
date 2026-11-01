@@ -18,6 +18,14 @@ export function CatalogResults() {
     );
   }
 
+  if (data.animes.length === 0) {
+    return (
+      <p role="status" className="text-center">
+        Nenhum anime encontrado.
+      </p>
+    );
+  }
+
   return (
     <ul aria-label="Animes" className={CATALOG_GRID_CLASS_NAME}>
       {data.animes.map((anime, index) => (

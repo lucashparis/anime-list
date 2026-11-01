@@ -9,7 +9,7 @@ const signal = new AbortController().signal;
 
 async function fetchCatalogPage() {
   server.use(anilistCatalogHandler);
-  return fetchAnimeCatalog({ format: null }, signal);
+  return fetchAnimeCatalog({ format: null, search: '' }, signal);
 }
 
 describe('fetchAnimeCatalog', () => {
@@ -51,7 +51,7 @@ describe('fetchAnimeCatalog', () => {
         }),
       ),
     );
-    const { animes } = await fetchAnimeCatalog({ format: null }, signal);
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '' }, signal);
     expect(animes[0]?.cover).toEqual({ small: 'small.jpg', large: 'small.jpg' });
   });
 
@@ -63,17 +63,27 @@ describe('fetchAnimeCatalog', () => {
     expect(init?.credentials).toBe('omit');
     expect(init?.body).toContain('query AnimeCatalog');
     expect(init?.body).toContain('isAdult: false');
-    expect(init?.body).toContain('POPULARITY_DESC');
+    expect(init?.body).toContain('search: $search');
     expect(init?.body).not.toContain('description');
   });
 
   it('omits the format variable for all formats and sends it otherwise', async () => {
     const variables = recordVariables();
-    await fetchAnimeCatalog({ format: null }, signal);
-    await fetchAnimeCatalog({ format: 'MOVIE' }, signal);
+    await fetchAnimeCatalog({ format: null, search: '' }, signal);
+    await fetchAnimeCatalog({ format: 'MOVIE', search: '' }, signal);
     expect(variables).toEqual([
-      { page: 1, perPage: 12 },
-      { page: 1, perPage: 12, format: 'MOVIE' },
+      { page: 1, perPage: 12, sort: ['POPULARITY_DESC'] },
+      { page: 1, perPage: 12, sort: ['POPULARITY_DESC'], format: 'MOVIE' },
+    ]);
+  });
+
+  it('searches by relevance and goes back to popularity without text', async () => {
+    const variables = recordVariables();
+    await fetchAnimeCatalog({ format: 'OVA', search: 'naruto' }, signal);
+    await fetchAnimeCatalog({ format: 'OVA', search: '' }, signal);
+    expect(variables).toEqual([
+      { page: 1, perPage: 12, sort: ['SEARCH_MATCH'], format: 'OVA', search: 'naruto' },
+      { page: 1, perPage: 12, sort: ['POPULARITY_DESC'], format: 'OVA' },
     ]);
   });
 });

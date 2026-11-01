@@ -1,0 +1,36 @@
+import type { SyntheticEvent } from 'react';
+import { useCatalogFilters } from '@/features/anime-catalog/hooks/useCatalogFilters';
+import { Button } from '@/shared/ui/Button';
+
+const SEARCH_FIELD = 'q';
+
+export function SearchForm() {
+  const { search, setSearch } = useCatalogFilters();
+
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const value = new FormData(event.currentTarget).get(SEARCH_FIELD);
+    setSearch(typeof value === 'string' ? value : '');
+  }
+
+  return (
+    <form role="search" onSubmit={handleSubmit} className="flex gap-sm">
+      <label htmlFor="catalog-search" className="sr-only">
+        Buscar anime
+      </label>
+      <input
+        key={search}
+        id="catalog-search"
+        name={SEARCH_FIELD}
+        type="search"
+        defaultValue={search}
+        placeholder="Buscar anime"
+        autoComplete="off"
+        className="min-h-control-md min-w-0 flex-1 rounded-md border border-neutral-400 bg-white px-lg text-sm text-ink placeholder:text-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary pointer-coarse:min-h-control-touch"
+      />
+      <Button type="submit" variant="solid">
+        Buscar
+      </Button>
+    </form>
+  );
+}

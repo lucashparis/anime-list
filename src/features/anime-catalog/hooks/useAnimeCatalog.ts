@@ -3,9 +3,9 @@ import { fetchAnimeCatalog } from '@/features/anime-catalog/api/fetchAnimeCatalo
 import { useCatalogFilters } from '@/features/anime-catalog/hooks/useCatalogFilters';
 
 export function useAnimeCatalog() {
-  const { format } = useCatalogFilters();
+  const { format, search } = useCatalogFilters();
   return useQuery({
-    queryKey: ['anime-catalog', { format }],
-    queryFn: ({ signal }) => fetchAnimeCatalog({ format }, signal),
+    queryKey: ['anime-catalog', { format, search }],
+    queryFn: ({ signal }) => fetchAnimeCatalog({ format, search }, signal),
   });
 }
