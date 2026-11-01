@@ -91,6 +91,8 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 - Rodapé no fim da página em telas altas, com direitos, atribuição à AniList e aviso de privacidade em `<details>` nativo.
 - `main` vazio nesta etapa, com skip link e landmarks.
 - Skeleton estático no `index.html`, exibido antes do JS.
+- Mensagem de carregamento lento no `index.html`: se o JS não carregar em 8 segundos, o texto "O carregamento está demorando. Verifique sua conexão e recarregue a página." aparece só com CSS, também com movimento reduzido, e some quando o React monta.
+- Link da AniList no rodapé abre em nova aba, com `(abre em nova aba)` para leitores de tela.
 - `preconnect` para `graphql.anilist.co` e `s4.anilist.co`.
 
 ## Testes

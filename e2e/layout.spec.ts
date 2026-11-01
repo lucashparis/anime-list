@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 const SCREENS = [
   { name: 'phone-320', width: 320, height: 568 },
@@ -16,6 +16,7 @@ const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const NOTICE = 'Aviso de privacidade';
 const HEADER_HEIGHT = 68;
 const SKELETON_BLOCKS = '[data-testid="page-skeleton"] .min-h-card';
+const SLOW_LOAD_TIMEOUT = 10_000;
 
 for (const screen of SCREENS) {
   const { name, width, height } = screen;
@@ -113,6 +114,34 @@ test('opens AniList in a new tab and keeps our page', async ({ page, context }) 
   await opened.waitForLoadState();
   expect(opened.url().startsWith('https://anilist.co')).toBe(true);
   expect(page.url()).toBe(ourUrl);
+});
+
+async function expectSlowLoadWarning(page: Page) {
+  await page.route('**/*.js', (route) => route.abort());
+  await page.goto('/');
+  const message = page.getByTestId('slow-load-message');
+  await expect(message).toBeHidden();
+  await expect(message).toBeVisible({ timeout: SLOW_LOAD_TIMEOUT });
+}
+
+test('warns when the app does not load in 8 seconds', async ({ page }) => {
+  await expectSlowLoadWarning(page);
+  const { violations } = await new AxeBuilder({ page }).withTags(WCAG_TAGS).analyze();
+  expect(violations).toEqual([]);
+});
+
+test.describe('slow load with reduced motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+
+  test('warns when the app does not load in 8 seconds with reduced motion', async ({ page }) => {
+    await expectSlowLoadWarning(page);
+  });
+});
+
+test('removes the slow load message after mounting', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByTestId('slow-load-message')).toHaveCount(0);
 });
 
 test.describe('tall screens', () => {

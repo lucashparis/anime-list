@@ -27,6 +27,7 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Breakpoints | `sm`, `md`, `lg` | 600, 900 e 1200px | `sm:`, `md:`, `lg:` |
 | Largura máxima | `content` | 1316px | `max-w-content` |
 | Animação | `animate-pulse` | `pulse` de 2s, com opacidade em 50% no meio | `motion-safe:animate-pulse` |
+| Animação | `animate-reveal-late` | `reveal-late` de 8s, em um passo, de oculto para visível | `invisible animate-reveal-late` |
 
 A `Logo` usa `text-xl` (40px) no cabeçalho e `text-lg` (24px) no rodapé.
 
@@ -39,6 +40,8 @@ Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela d
 | Aviso de privacidade | Não existe | `<details>` nativo, com a seta de expansão mantida | Elemento nativo; a seta indica que o aviso abre |
 | Skip link | Não existe | Sobrepõe o cabeçalho ao receber foco, com fundo branco e texto primário | Um contorno branco em página branca seria invisível |
 | Aviso e link no rodapé | Não existe | Alvo de toque de 44px em telas `pointer: coarse` | Área de toque |
+| Link da AniList | Não existe | Abre em nova aba, com `(abre em nova aba)` visível só para leitores de tela | Quem lê o catálogo não perde a página |
+| Mensagem de carregamento lento | Não existe | Parágrafo no `index.html` que aparece após 8 segundos se o JS não carregar, inclusive com movimento reduzido, e some quando o React monta | Avisa quem está sem conexão; não é movimento, por isso não usa `motion-safe` |
 
 ## Como adicionar um token
 

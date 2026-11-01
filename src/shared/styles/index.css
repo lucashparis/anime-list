@@ -49,10 +49,20 @@
   --container-content: 1316px;
 
   --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-reveal-late: reveal-late 8s steps(1, end) forwards;
 
   @keyframes pulse {
     50% {
       opacity: 0.5;
+    }
+  }
+
+  @keyframes reveal-late {
+    from {
+      visibility: hidden;
+    }
+    to {
+      visibility: visible;
     }
   }
 }
