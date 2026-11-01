@@ -10,7 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src e2e --no-error-on-unmatched-pattern",
+    "lint": "eslint src e2e",
     "test": "vitest run",
     "test:guards": "node --test tools/eslint/guards.test.mjs",
     "format": "prettier --write .",

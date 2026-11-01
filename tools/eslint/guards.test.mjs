@@ -34,6 +34,7 @@ const validCode = [
   '  if (value === undefined) return 0;',
   '  return value > 1 ? value : 1;',
   '}',
+  "export const kinds = ['TV', 'MOVIE'] as const;",
 ].join('\n');
 
 const cases = [
@@ -42,6 +43,12 @@ const cases = [
     path: 'src/guard-sample.ts',
     code: 'export const a = 1 as any;',
     expected: ['@typescript-eslint/no-explicit-any'],
+  },
+  {
+    name: 'unsafe type assertion',
+    path: 'src/guard-sample.ts',
+    code: "export const a = (JSON.parse('1') as unknown) as string;",
+    expected: ['@typescript-eslint/no-unsafe-type-assertion'],
   },
   {
     name: 'comment',
@@ -98,6 +105,60 @@ const cases = [
     expected: ['no-restricted-imports'],
   },
   {
+    name: 'shared importing bare app',
+    path: 'src/shared/guard-sample.ts',
+    code: "import '@/app';",
+    expected: ['no-restricted-imports'],
+  },
+  {
+    name: 'shared importing bare features',
+    path: 'src/shared/guard-sample.ts',
+    code: "import '@/features';",
+    expected: ['no-restricted-imports'],
+  },
+  {
+    name: 'shared importing features by relative path',
+    path: 'src/shared/guard-sample.ts',
+    code: "import '../../features';",
+    expected: ['no-restricted-imports'],
+  },
+  {
+    name: 'shared importing app dynamically',
+    path: 'src/shared/guard-sample.ts',
+    code: "export const load = () => import('@/app/App');",
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'shared importing features dynamically by relative path',
+    path: 'src/shared/guard-sample.ts',
+    code: "export const load = () => import('../../features');",
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'features importing bare app',
+    path: 'src/features/guard-sample.ts',
+    code: "import '@/app';",
+    expected: ['no-restricted-imports'],
+  },
+  {
+    name: 'features importing app dynamically',
+    path: 'src/features/guard-sample.ts',
+    code: "export const load = () => import('@/app/App');",
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'else in shared',
+    path: 'src/shared/guard-sample.ts',
+    code: 'export function f(a: boolean) {\n  if (a) {\n    return 1;\n  } else {\n    return 2;\n  }\n}',
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'arbitrary class in features',
+    path: 'src/features/guard-sample.ts',
+    code: "export const a = 'w-[10px]';",
+    expected: ['no-restricted-syntax'],
+  },
+  {
     name: 'arbitrary class in string',
     path: 'src/guard-sample.ts',
     code: "export const a = 'w-[10px]';",
@@ -107,6 +168,30 @@ const cases = [
     name: 'arbitrary class in template',
     path: 'src/guard-sample.ts',
     code: 'export const a = `bg-[#fff]`;',
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'arbitrary variant',
+    path: 'src/guard-sample.ts',
+    code: "export const a = '[&>div]:p-sm';",
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'arbitrary custom property width',
+    path: 'src/guard-sample.ts',
+    code: "export const a = 'w-(--my-width)';",
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'arbitrary custom property color',
+    path: 'src/guard-sample.ts',
+    code: 'export const a = `bg-(--brand)`;',
+    expected: ['no-restricted-syntax'],
+  },
+  {
+    name: 'arbitrary variant in JSX className',
+    path: 'src/guard-sample.tsx',
+    code: 'export const a = <div className="flex [&>div]:p-sm" />;',
     expected: ['no-restricted-syntax'],
   },
   {
@@ -133,6 +218,12 @@ const cases = [
     path: 'src/guard-sample.tsx',
     code: 'export const a = <img src="a.png" />;',
     expected: ['jsx-a11y-x/alt-text'],
+  },
+  {
+    name: 'shared importing an npm package named like a layer',
+    path: 'src/shared/guard-sample.ts',
+    code: "import 'firebase/app';",
+    expected: [],
   },
   { name: 'valid code', path: 'src/guard-sample.ts', code: validCode, expected: [] },
 ];
