@@ -184,10 +184,35 @@ Sem Codegen, uma mudança no schema não é detectada na compilação. O Zod e u
 - **IA:** `CLAUDE.md` curto, apontando para documentos carregados só quando necessários.
 - **README:** criado antes do código e atualizado em cada branch, com o estado atual e uma linha do tempo das entregas.
 
+### Idioma
+
+Desenvolvimento em inglês; documentação e interface em português; dados da API sem tradução. A regra completa está na [spec da fundação](../specs/000-foundation/spec.md#idioma).
+
+| Decisão | Por quê | Alternativa descartada |
+| --- | --- | --- |
+| Interface em português, mesmo quando o design estiver em inglês | O público usa português, e misturar idiomas prejudica a compreensão e os leitores de tela | Manter os rótulos em inglês do design |
+| Títulos e gêneros como a API retorna | São dados de terceiros, e a API não oferece tradução | Tabela própria de gêneros traduzidos: exigiria manutenção e divergiria da fonte |
+| Gênero declarado com `lang="en"` | Leitores de tela pronunciam a palavra no idioma correto (WCAG 3.1.2) | Herdar `pt-BR` da página |
+| Textos da interface direto no código | Só existe um idioma | Biblioteca de internacionalização: JS sem uso |
+
+Rótulos dos filtros:
+
+| Design | Interface | Valor na API |
+| --- | --- | --- |
+| All Formats | Todos os formatos | Omitido |
+| TV Show | Série de TV | `TV` |
+| Movie | Filme | `MOVIE` |
+| TV Short | Curta de TV | `TV_SHORT` |
+| Special | Especial | `SPECIAL` |
+| OVA | OVA | `OVA` |
+| ONA | ONA | `ONA` |
+| Music | Música | `MUSIC` |
+
 ## Desvios do design
 
 | Item | Design | Implementação | Motivo |
 | --- | --- | --- | --- |
+| Rótulos dos filtros | Inglês | Português | Idioma da interface |
 | Nota 80 | Verde | Amarelo | Requisito do produto |
 | Texto em fundo amarelo ou verde | Claro | `#1A1A1A` | Contraste |
 | Placeholder e borda do campo | `#A7B0BE` e `#C4CAD4` | `#6B7280` e `#8A94A6` | Contraste |

@@ -16,6 +16,18 @@ Consumo da API, cards, filtros, busca e paginação. Cada um tem spec própria.
 - Dependências com versão exata (`save-exact=true`), e `engine-strict=true` no `.npmrc`.
 - `overrides.minimatch` igual a `^11.0.1`; `allowScripts` apenas para `lefthook`.
 
+## Idioma
+
+| Conteúdo | Idioma |
+| --- | --- |
+| Branches, commits, nomes de arquivos, funções, variáveis, descrições de teste e mensagens técnicas | Inglês |
+| Documentação e artefatos do projeto | Português |
+| Todo texto da interface, inclusive `aria-label`, `alt`, placeholder e título da página | Português, mesmo quando o design estiver em inglês |
+| Dados da API, como títulos e gêneros | Como a API retorna, sem tradução |
+| Siglas sem equivalente em português, como OVA e ONA, e a marca BuscAnime | Mantidas |
+
+O `<html>` declara `lang="pt-BR"`. Um trecho de dados em outro idioma, como um gênero, declara o próprio `lang`; nomes próprios, como títulos, são dispensados pela WCAG 3.1.2.
+
 ## Estrutura
 
 ```
@@ -102,11 +114,11 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 | Arquivo | Conteúdo |
 | --- | --- |
 | `README.md` | O que é, estado atual, como executar, como testar e linha do tempo. Já existe desde `docs/pre-development-decisions` e é atualizado em cada branch |
-| `CLAUDE.md` | Até 100 linhas: visão geral, comandos, regras e links, sem `@import` |
+| `CLAUDE.md` | Até 100 linhas: visão geral, comandos, regras, incluindo o resumo de idioma, e links, sem `@import` |
 | `DECISIONS.md` | Resumo, trade-offs, o que foi além do mínimo e evoluções futuras |
 | `AI_LOG.md` | Ferramentas, organização e o que foi verificado, corrigido ou rejeitado |
 | `docs/architecture.md` | Camadas, fluxo de dados e mapa de pastas |
-| `docs/conventions/code.md` | Padrões de componentes e exemplos curtos |
+| `docs/conventions/code.md` | Padrões de componentes, tabela completa de idioma e exemplos curtos |
 | `docs/conventions/git.md` | Branches, commits e merge |
 | `docs/conventions/testing.md` | O que testar em cada camada e definição de pronto |
 | `docs/conventions/accessibility.md` | Checklist de acessibilidade e responsividade |
@@ -122,8 +134,9 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 3. Playwright validando o layout nas larguras acordadas e os cenários da API, com capturas revisadas.
 4. `axe-core` sem violações.
 5. Nenhum spinner, comentário, `else` ou `any` no código.
-6. `README.md` atualizado na própria branch: estado atual, comandos novos e uma linha na linha do tempo.
-7. Merge com `--no-ff` na `main`, citando a spec.
+6. Interface em português, conferida nas capturas do Playwright; código e Git em inglês.
+7. `README.md` atualizado na própria branch: estado atual, comandos novos e uma linha na linha do tempo.
+8. Merge com `--no-ff` na `main`, citando a spec.
 
 ## Ordem das branches
 
@@ -145,3 +158,4 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 - Um commit fora do padrão é rejeitado.
 - O layout base não tem rolagem horizontal em nenhuma largura testada.
 - O skeleton aparece antes do JS, verificado com JavaScript desativado.
+- A página declara `lang="pt-BR"`, verificado no Playwright.
