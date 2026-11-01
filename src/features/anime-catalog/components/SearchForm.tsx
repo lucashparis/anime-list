@@ -1,6 +1,6 @@
 import { useState, type SyntheticEvent } from 'react';
 import { useCatalogFilters } from '@/features/anime-catalog/hooks/useCatalogFilters';
-import { MAX_SEARCH_LENGTH } from '@/features/anime-catalog/model/search';
+import { MAX_SEARCH_LENGTH, normalizeSearch } from '@/features/anime-catalog/model/search';
 import { Button } from '@/shared/ui/Button';
 
 export function SearchForm() {
@@ -16,6 +16,7 @@ export function SearchForm() {
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setSearch(draft);
+    setDraft(normalizeSearch(draft));
   }
 
   return (

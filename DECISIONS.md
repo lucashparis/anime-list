@@ -70,6 +70,7 @@ Fora do escopo atual:
 
 - Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
+- Registrado na revisão da lapidação, sem correção: o link esticado impede selecionar o texto dos gêneros e da nota dentro do card; o foco vai ao título da seção antes de a nova tentativa terminar, e um novo erro igual não é anunciado de novo; o `--spacing` base de 4px vale para qualquer utilitário numérico futuro; a cor da capa depende de o React aplicar o estilo pelo CSSOM, que a CSP permite.
 - Lighthouse depois da lapidação (local, 3 rodadas): mobile 90 e desktop 91 a 93 em Performance, com acessibilidade, boas práticas e SEO em 100 nos dois. Nada que mudamos no código move a nota de Performance, porque o LCP depende da cadeia HTML → JS → API → capa de terceiros.
 - Registrado na revisão do Bloco D, sem correção: nada compara as cores dos ícones e da prévia com o `index.html`, e o teste do passo a passo não trata âncoras duplicadas nem blocos de código; a URL de produção está repetida no `index.html` e no teste.
 - Publicação: GitHub Actions com as mesmas verificações do merge.

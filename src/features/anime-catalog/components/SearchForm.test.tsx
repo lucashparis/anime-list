@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { http, HttpResponse } from 'msw';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -57,7 +57,30 @@ describe('SearchForm', () => {
     expect(variables[0]).toMatchObject({ search: 'a'.repeat(100) });
   });
 
-  it('follows the browser back button without losing what was typed', async () => {
+  it('shows the text without extra spaces after sending it', async () => {
+    window.history.replaceState(null, '', '/?q=naruto');
+    recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), '   {Enter}');
+    expect(searchBox()).toHaveValue('naruto');
+  });
+
+  it('shows the previous search when the browser goes back', async () => {
+    recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), 'naruto{Enter}');
+    await screen.findByRole('list', { name: 'Animes' });
+    act(() => {
+      window.history.back();
+    });
+    await waitFor(() => {
+      expect(searchBox()).toHaveValue('');
+    });
+  });
+
+  it('keeps what was typed when another filter changes', async () => {
     recordVariables();
     renderWithQueryClient(<AnimeCatalog />);
     await screen.findByRole('list', { name: 'Animes' });

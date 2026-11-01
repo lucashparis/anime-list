@@ -108,6 +108,9 @@ describe('fetchAnimeCatalog', () => {
     'https://s4.anilist.co.evil.example/cover.jpg',
     'http://s4.anilist.co/cover.jpg',
     'javascript:alert(1)',
+    'https://s4.anilist.co@evil.example/cover.jpg',
+    'https://s4.anilist.co.evil.example/cover.jpg',
+    'not a url',
   ])('drops a cover outside the AniList image host: %s', async (url) => {
     const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
     server.use(
@@ -132,6 +135,8 @@ describe('fetchAnimeCatalog', () => {
     'https://anilist.co.evil.example/anime/1',
     'http://anilist.co/anime/1',
     'javascript:alert(1)',
+    'https://anilist.co@evil.example/anime/1',
+    'not a url',
   ])('drops a page link outside AniList: %s', async (url) => {
     const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: url };
     server.use(

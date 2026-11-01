@@ -16,6 +16,11 @@ describe('normalizeSearch', () => {
     expect(normalizeSearch(long)).toHaveLength(MAX_SEARCH_LENGTH);
   });
 
+  it('cuts by character, never in the middle of an emoji', () => {
+    const value = `${'a'.repeat(MAX_SEARCH_LENGTH - 1)}😀😀`;
+    expect(normalizeSearch(value)).toBe(`${'a'.repeat(MAX_SEARCH_LENGTH - 1)}😀`);
+  });
+
   it('does not end with a space after cutting', () => {
     const value = `${'a'.repeat(MAX_SEARCH_LENGTH - 1)} b`;
     expect(normalizeSearch(value)).toBe('a'.repeat(MAX_SEARCH_LENGTH - 1));

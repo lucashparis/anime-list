@@ -4,8 +4,8 @@ import type { AnimeFormat } from '@/features/anime-catalog/model/formats';
 import { requestGraphql } from '@/shared/api/graphqlClient';
 
 const PAGE_SIZE = 12;
-const COVER_ORIGIN = 'https://s4.anilist.co/';
-const PAGE_ORIGIN = 'https://anilist.co/';
+const COVER_ORIGIN = 'https://s4.anilist.co';
+const PAGE_ORIGIN = 'https://anilist.co';
 const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
 const ANIME_CATALOG_QUERY = `
@@ -41,7 +41,10 @@ const ANIME_CATALOG_QUERY = `
 function urlFrom(origin: string) {
   return z.pipe(
     z.nullable(z.string()),
-    z.transform((url) => (url?.startsWith(origin) ? url : null)),
+    z.transform((value) => {
+      const url = URL.parse(value ?? '');
+      return url?.origin === origin ? url.href : null;
+    }),
   );
 }
 

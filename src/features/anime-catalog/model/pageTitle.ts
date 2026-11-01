@@ -8,7 +8,6 @@ interface TitleFilters {
 }
 
 export function pageTitle({ format, search }: TitleFilters) {
-  const formatLabel = FORMAT_OPTIONS.find((option) => option.value === format)?.label;
-  const parts = [format ? formatLabel : null, search ? `“${search}”` : null];
-  return [BASE_TITLE, ...parts.filter((part) => part)].join(' · ');
+  const label = FORMAT_OPTIONS.find((option) => format && option.value === format)?.label;
+  return [BASE_TITLE, label, search && `“${search}”`].filter(Boolean).join(' · ');
 }
