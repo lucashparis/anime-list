@@ -14,6 +14,7 @@ const SCREENS = [
 
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const NOTICE = 'Aviso de privacidade';
+const HEADER_HEIGHT = 68;
 const SKELETON_BLOCKS = '[data-testid="page-skeleton"] .min-h-card';
 
 for (const screen of SCREENS) {
@@ -31,6 +32,12 @@ for (const screen of SCREENS) {
       );
       expect(overflow).toBe(0);
       await page.screenshot({ path: `test-results/layout/${name}.png`, fullPage: true });
+    });
+
+    test(`${name}: keeps the header at 68px`, async ({ page }) => {
+      await page.goto('/');
+      const box = await page.locator('header').boundingBox();
+      expect(box?.height).toBe(HEADER_HEIGHT);
     });
 
     test(`${name}: has no WCAG 2.2 AA violations`, async ({ page }) => {
@@ -112,7 +119,38 @@ test('reaches the content by keyboard', async ({ page }) => {
   await expect(skipLink).toBeFocused();
   await expect(skipLink).toBeVisible();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('main')).toBeFocused();
+  const main = page.getByRole('main');
+  await expect(main).toBeFocused();
+  await expect(main).toHaveCSS('outline-style', 'none');
+});
+
+test('keeps the header in place when the skip link appears', async ({ page }) => {
+  await page.goto('/');
+  const before = await page.locator('header').boundingBox();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Pular para o conteúdo' })).toBeFocused();
+  const after = await page.locator('header').boundingBox();
+  expect(after?.y).toBe(before?.y);
+});
+
+test('shows focus outlines on the link and the summary', async ({ page }) => {
+  await page.goto('/');
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  const link = page.getByRole('link', { name: 'AniList' });
+  await expect(link).toBeFocused();
+  await expect(link).toHaveCSS('outline-style', 'solid');
+  await expect(link).toHaveCSS('outline-width', '2px');
+  await page.keyboard.press('Tab');
+  const summary = page.getByText(NOTICE);
+  await expect(summary).toBeFocused();
+  await expect(summary).toHaveCSS('outline-style', 'solid');
+  await expect(summary).toHaveCSS('outline-width', '2px');
+});
+
+test('keeps the native disclosure marker on the summary', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByText(NOTICE)).toHaveCSS('display', 'list-item');
 });
 
 test.describe('touch devices', () => {

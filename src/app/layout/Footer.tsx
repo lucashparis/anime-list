@@ -1,7 +1,9 @@
 import { Logo } from '@/shared/ui/Logo';
 
 const focusRing = 'focus-visible:outline-2 focus-visible:outline-white';
-const touchTarget = 'inline-flex items-center pointer-coarse:min-h-control-touch';
+const touchTarget = 'pointer-coarse:min-h-control-touch';
+const linkLayout = 'inline-flex items-center';
+const summaryPadding = 'pointer-coarse:py-md';
 
 export function Footer() {
   return (
@@ -13,16 +15,18 @@ export function Footer() {
         <a
           href="https://anilist.co"
           rel="noreferrer"
-          className={`${touchTarget} underline ${focusRing}`}
+          className={`${linkLayout} ${touchTarget} underline ${focusRing}`}
         >
           AniList
         </a>
       </p>
       <details className="max-w-content text-xs">
-        <summary className={`${touchTarget} cursor-pointer underline ${focusRing}`}>
+        <summary
+          className={`${touchTarget} ${summaryPadding} cursor-pointer underline ${focusRing}`}
+        >
           Aviso de privacidade
         </summary>
-        <p className="pt-xs">
+        <p className="pt-sm">
           O BuscAnime não tem contas, analytics nem cookies próprios. Para carregar o catálogo, seu
           navegador se conecta à AniList, que recebe seu IP e os termos buscados.
         </p>
