@@ -1,6 +1,7 @@
 export const LONG_TITLE =
   'Tensei Shitara Yuusha no Tomodachi datta Ken: Isekai de Nonbiri Kurasu Hibi no Monogatari';
 
+const COVER_COLORS: Record<number, string> = { 1: '#3b6fb5', 2: '#f1a143' };
 const COVER_ROOT = 'https://s4.anilist.co/file/anilistcdn/media/anime/cover';
 
 function fixtureMedia(id: number, overrides: object = {}) {
@@ -10,6 +11,7 @@ function fixtureMedia(id: number, overrides: object = {}) {
     coverImage: {
       large: `${COVER_ROOT}/medium/fixture-${String(id)}.svg`,
       extraLarge: `${COVER_ROOT}/large/fixture-${String(id)}.svg`,
+      color: COVER_COLORS[id] ?? null,
     },
     averageScore: 70,
     genres: ['Action', 'Drama'],

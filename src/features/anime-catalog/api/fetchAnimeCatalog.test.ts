@@ -24,6 +24,7 @@ describe('fetchAnimeCatalog', () => {
         small: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/fixture-1.svg',
         large: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/fixture-1.svg',
       },
+      coverColor: '#3b6fb5',
       score: 49,
       genres: ['Action', 'Drama'],
       url: 'https://anilist.co/anime/1',
@@ -147,5 +148,28 @@ describe('fetchAnimeCatalog', () => {
     );
     const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
     expect(animes[0]?.url).toBeNull();
+  });
+
+  it.each([
+    ['red', 'red'],
+    ['#fff', '#fff'],
+    ['url(https://evil.example/x)', 'url'],
+    ['#12345g', '#12345g'],
+  ])('drops a cover color that is not a 6-digit hex: %s', async (color) => {
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
+    server.use(
+      http.post(ANILIST_ENDPOINT, () =>
+        HttpResponse.json({
+          data: {
+            Page: {
+              pageInfo: { hasNextPage: false },
+              media: [{ ...media, coverImage: { large: null, extraLarge: null, color } }],
+            },
+          },
+        }),
+      ),
+    );
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    expect(animes[0]?.coverColor).toBeNull();
   });
 });

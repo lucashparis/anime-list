@@ -7,6 +7,7 @@ function page(...ids: number[]): AnimePage {
     id,
     title: null,
     cover: null,
+    coverColor: null,
     score: null,
     genres: [],
     url: null,

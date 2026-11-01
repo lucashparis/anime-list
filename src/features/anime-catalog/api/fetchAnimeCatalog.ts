@@ -6,6 +6,7 @@ import { requestGraphql } from '@/shared/api/graphqlClient';
 const PAGE_SIZE = 12;
 const COVER_ORIGIN = 'https://s4.anilist.co/';
 const PAGE_ORIGIN = 'https://anilist.co/';
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
 const ANIME_CATALOG_QUERY = `
   query AnimeCatalog(
@@ -27,6 +28,7 @@ const ANIME_CATALOG_QUERY = `
         coverImage {
           large
           extraLarge
+          color
         }
         averageScore
         genres
@@ -45,12 +47,18 @@ function urlFrom(origin: string) {
 
 const coverUrlSchema = urlFrom(COVER_ORIGIN);
 
+const coverColorSchema = z.pipe(
+  z.nullish(z.string()),
+  z.transform((color) => (color && HEX_COLOR.test(color) ? color : null)),
+);
+
 const mediaSchema = z.object({
   id: z.number(),
   title: z.object({ romaji: z.nullable(z.string()) }),
   coverImage: z.object({
     large: coverUrlSchema,
     extraLarge: coverUrlSchema,
+    color: coverColorSchema,
   }),
   averageScore: z.nullable(z.number()),
   genres: z.nullable(z.array(z.string())),
@@ -78,6 +86,7 @@ function toAnime(media: Media): Anime {
     id: media.id,
     title: media.title.romaji,
     cover: toCover(media.coverImage),
+    coverColor: media.coverImage.color,
     score: media.averageScore,
     genres: media.genres ?? [],
     url: media.siteUrl,

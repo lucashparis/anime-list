@@ -69,6 +69,12 @@ describe('AnimeCatalog', () => {
     window.history.replaceState(null, '', '/');
   });
 
+  it('paints the card with the cover color while the image loads', async () => {
+    const cards = await renderCards();
+    expect(cards[0]).toHaveStyle({ backgroundColor: '#3b6fb5' });
+    expect(cards[3]?.getAttribute('style')).toBeNull();
+  });
+
   it('paints each score range with its tone', async () => {
     const cards = await renderCards();
     expect(cardAt(cards, 0).getByText('49%')).toHaveClass('bg-danger', 'text-white');
