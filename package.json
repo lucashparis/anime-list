@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src e2e",
     "test": "vitest run",
+    "test:contract": "vitest run --config vitest.contract.config.ts",
     "test:guards": "node --test tools/eslint/guards.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

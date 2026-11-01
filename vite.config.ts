@@ -15,5 +15,6 @@ export default defineConfig({
     allowOnly: false,
     setupFiles: './src/test/setup.ts',
     include: ['src/**/*.test.{ts,tsx}'],
+    exclude: ['src/**/*.contract.test.ts'],
   },
 });
