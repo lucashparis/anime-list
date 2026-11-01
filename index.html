@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuscAnime: catálogo de animes</title>
+    <meta
+      name="description"
+      content="Encontre animes por formato e nome, com a nota de cada título."
+    />
+    <link rel="preconnect" href="https://graphql.anilist.co" crossorigin />
+    <link rel="preconnect" href="https://s4.anilist.co" />
+  </head>
+  <body>
+    <noscript
+      ><p class="p-lg text-center text-ink">
+        Ative o JavaScript para ver o catálogo do BuscAnime.
+      </p></noscript
+    >
+    <div id="root">
+      <div data-testid="page-skeleton" aria-hidden="true">
+        <div class="flex justify-center bg-primary px-lg py-xs">
+          <span class="text-xl font-regular text-white uppercase">
+            Busc<span class="text-warning">Anime</span>
+          </span>
+        </div>
+        <div
+          class="mx-auto grid max-w-content grid-cols-1 gap-lg p-lg sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        >
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+          <div class="min-h-card rounded-md bg-neutral-100 motion-safe:animate-pulse"></div>
+        </div>
+      </div>
+      <p
+        data-testid="slow-load-message"
+        role="status"
+        class="invisible animate-reveal-late p-lg text-center text-ink noscript:hidden"
+      >
+        O carregamento está demorando. Verifique sua conexão e recarregue a página.
+      </p>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

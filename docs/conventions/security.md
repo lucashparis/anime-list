@@ -1,0 +1,40 @@
+# Segurança
+
+O aplicativo é estático, sem servidor, sem contas e sem segredos. A API da AniList é pública e dispensa chave.
+
+## Já aplicado
+
+- Link externo para a AniList com `rel="noreferrer"`.
+- `index.html` sem scripts em linha, o que permite uma CSP sem `unsafe-inline`.
+- Versões exatas de dependências, `npm ci` sem alertas e `npm audit` sem vulnerabilidades.
+- Fonte servida pelo próprio aplicativo (Fontsource), sem terceiro adicional.
+
+## Previsto
+
+A CSP, os headers e o `vercel.json` entram em `chore/security-headers`. A CSP não usa `unsafe-inline`, e as origens permitidas são as do próprio aplicativo, `graphql.anilist.co` para as consultas e `s4.anilist.co` para as capas.
+
+## Dados externos
+
+Tudo que chega da AniList é tratado como não confiável.
+
+| Regra | Como |
+| --- | --- |
+| Validar a resposta em tempo de execução | Zod na borda do cliente, antes do modelo `Anime` |
+| Não receber HTML | O campo `description` não é solicitado |
+| Nunca montar a query com entrada do usuário | Entrada só em variáveis GraphQL |
+| Nunca renderizar HTML da API | Sem `dangerouslySetInnerHTML`; React escapa o texto |
+| Não enviar nem receber cookies | `credentials: 'omit'` |
+| Não usar a API como armazenamento | Cache somente em memória, sem `localStorage` para dados da API |
+| Conteúdo adulto fora da lista | `isAdult: false` sempre; "Ecchi" não é considerado adulto pela API, limitação registrada |
+| Respeitar o limite de 30 requisições por minuto | Busca dispara ao enviar, nunca a cada tecla |
+
+## Privacidade
+
+Sem contas, analytics nem cookies próprios (LGPD). O aviso no rodapé informa que o navegador se conecta à AniList, que recebe o IP e os termos buscados. A necessidade de aferição de idade prevista na ECA Digital não foi confirmada e exige avaliação jurídica antes de uso comercial.
+
+## Dependências
+
+- `overrides.minimatch` em `^11.0.1` afeta só ferramentas de desenvolvimento.
+- `allowScripts` aprova apenas `lefthook`.
+- `eslint-plugin-jsx-a11y-x` é um projeto jovem, aceito porque só atua em desenvolvimento.
+- Antes de atualizar uma dependência, rode `npm audit` e `npm run verify`.

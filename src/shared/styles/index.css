@@ -1,0 +1,69 @@
+@import 'tailwindcss' source('../../');
+@source '../../../index.html';
+@import '@fontsource-variable/mulish/wght.css';
+
+@theme {
+  --*: initial;
+
+  --default-font-family: var(--font-sans);
+
+  --color-primary: #6324c6;
+  --color-primary-light: #774dc5;
+  --color-success: #01ada6;
+  --color-warning: #ffb800;
+  --color-danger: #e92151;
+  --color-white: #ffffff;
+  --color-neutral-100: #e2e5e9;
+  --color-neutral-400: #8a94a6;
+  --color-neutral-500: #6b7280;
+  --color-ink: #1a1a1a;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+
+  --spacing-control-sm: 32px;
+  --spacing-control-md: 40px;
+  --spacing-control-lg: 48px;
+  --spacing-control-touch: 44px;
+
+  --spacing-card: 270px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --font-sans: 'Mulish Variable', sans-serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 20px;
+  --text-lg: 24px;
+  --text-xl: 40px;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+  --container-content: 1316px;
+
+  --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-reveal-late: reveal-late 8s steps(1, end) forwards;
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes reveal-late {
+    from {
+      visibility: hidden;
+    }
+    to {
+      visibility: visible;
+    }
+  }
+}

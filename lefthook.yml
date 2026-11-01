@@ -1,0 +1,15 @@
+glob_matcher: doublestar
+pre-commit:
+  jobs:
+    - run: npx prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+    - glob: '{src,e2e}/**/*.{ts,tsx}'
+      run: npx eslint {staged_files}
+    - glob: '{eslint.config.js,tools/eslint/**}'
+      run: npm run test:guards
+commit-msg:
+  jobs:
+    - run: npx commitlint --edit {1}
+pre-merge-commit:
+  jobs:
+    - run: npm run verify

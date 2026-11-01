@@ -179,7 +179,7 @@ Sem Codegen, uma mudança no schema não é detectada na compilação. O Zod e u
 
 ### Processo
 
-- **Spec-driven:** cada funcionalidade tem spec e plano aprovados antes do código.
+- **Spec-driven:** cada funcionalidade tem spec aprovada antes do código, com um plano só quando o risco justificar.
 - **Git:** uma branch por funcionalidade, merge com `--no-ff` na `main`, histórico preservado. Branches e commits em inglês, em Conventional Commits.
 - **IA:** `CLAUDE.md` curto, apontando para documentos carregados só quando necessários.
 - **README:** criado antes do código e atualizado em cada branch, com o estado atual e uma linha do tempo das entregas.

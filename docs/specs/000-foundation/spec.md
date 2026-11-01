@@ -49,17 +49,18 @@ docs/                        documentação
 | Regra | Valor |
 | --- | --- |
 | `@typescript-eslint/no-explicit-any` | Erro |
-| Asserções inseguras e `@ts-ignore` | Erro, com `typescript-eslint` em modo `strictTypeChecked` |
+| `@typescript-eslint/no-unsafe-type-assertion` | Erro; a regra não faz parte do `strictTypeChecked`, então é ligada explicitamente, e `as const` continua permitido |
+| `@ts-ignore` | Erro, com `typescript-eslint` em modo `strictTypeChecked` |
 | `max-lines-per-function` | 40, sem contar linhas em branco |
 | `max-lines` | 200 por arquivo, sem contar linhas em branco |
 | `complexity` | 10 |
 | `max-params` | 3 |
-| `no-restricted-imports` | `shared` não importa de `features` ou `app`; `features` não importa de `app` |
-| `no-restricted-syntax` | `className` não aceita valores arbitrários (`[...]`); `if` não aceita `else` nem `else if` (seletor `IfStatement[alternate]`) |
+| `no-restricted-imports` | `shared` não importa de `features` ou `app`; `features` não importa de `app`; vale também para `@/app`, `@/features` e caminhos relativos sem subpasta |
+| `no-restricted-syntax` | `className` não aceita valores arbitrários (`w-[10px]`, `[&>div]:p-sm`, `w-(--largura)`); `if` não aceita `else` nem `else if` (seletor `IfStatement[alternate]`); `import()` dinâmico segue as mesmas fronteiras de camada |
 | `no-nested-ternary` | Erro |
 | `local/no-comments` | Regra local que reprova qualquer comentário em `src` e `e2e` |
 
-Como `eslint-disable` também é um comentário, a regra local impede exceções no código. Exceção inevitável exige alterar a configuração e registrar o motivo em `DECISIONS.md`.
+Como `eslint-disable` também é um comentário, a regra local impede exceções no código. Para isso, `linterOptions.noInlineConfig` fica ativo; sem ele, o próprio `eslint-disable` desligaria a regra. Exceção inevitável exige alterar a configuração e registrar o motivo em `DECISIONS.md`.
 
 Arquivos de teste podem exceder `max-lines-per-function`, porque um bloco `describe` reúne vários casos.
 
@@ -91,6 +92,8 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 - Rodapé no fim da página em telas altas, com direitos, atribuição à AniList e aviso de privacidade em `<details>` nativo.
 - `main` vazio nesta etapa, com skip link e landmarks.
 - Skeleton estático no `index.html`, exibido antes do JS.
+- Mensagem de carregamento lento no `index.html`: se o JS não carregar em 8 segundos, o texto "O carregamento está demorando. Verifique sua conexão e recarregue a página." aparece só com CSS, também com movimento reduzido, e some quando o React monta.
+- Link da AniList no rodapé abre em nova aba, com `(abre em nova aba)` para leitores de tela.
 - `preconnect` para `graphql.anilist.co` e `s4.anilist.co`.
 
 ## Testes
@@ -103,11 +106,13 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 
 | Momento | Verificação |
 | --- | --- |
-| `pre-commit` | Prettier e ESLint nos arquivos alterados |
+| `pre-commit` | Prettier e ESLint nos arquivos alterados; `npm run test:guards` quando `eslint.config.js` ou `tools/eslint/**` mudam |
 | `commit-msg` | commitlint |
-| `pre-merge-commit` | TypeScript, Vitest, Playwright, build e size-limit |
+| `pre-merge-commit` | `npm run verify`: lint, TypeScript, Vitest, build, size-limit e Playwright |
 
-As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches locais até a publicação. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
+As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches de funcionalidade, integradas à `main` só depois da avaliação do responsável pelo projeto. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
+
+Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os hooks do projeto e não há aviso na instalação. Por isso, `npm run hooks:install` define o caminho apenas no repositório e instala os hooks, sem alterar a configuração global.
 
 ## Documentação
 
@@ -129,7 +134,7 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 
 ## Definição de pronto de cada funcionalidade
 
-1. Spec e plano aprovados antes do código.
+1. Spec aprovada antes do código.
 2. Lint, TypeScript, Vitest e size-limit sem erros.
 3. Playwright validando o layout nas larguras acordadas e os cenários da API, com capturas revisadas.
 4. `axe-core` sem violações.
@@ -148,12 +153,13 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 6. `feat/load-more`
 7. `feat/feedback-states`
 8. `chore/security-headers`
-9. `docs/technical-walkthrough`
+9. `feat/product-polish`
+10. `docs/technical-walkthrough`
 
 ## Critérios de aceite
 
 - Em um clone limpo, `npm ci` termina com 0 alertas e `npm audit` com 0 vulnerabilidades.
-- `npm run lint`, `typecheck`, `test`, `test:e2e`, `build` e `size` passam.
+- `npm run lint`, `typecheck`, `test`, `test:guards`, `test:e2e`, `build` e `size` passam.
 - Um arquivo com `any`, comentário, `else`, ternário aninhado, import proibido ou `className` arbitrário faz o lint falhar.
 - Um commit fora do padrão é rejeitado.
 - O layout base não tem rolagem horizontal em nenhuma largura testada.

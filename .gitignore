@@ -8,3 +8,11 @@ playwright-report/
 .env.*
 *.log
 .DS_Store
+Thumbs.db
+desktop.ini
+*.tsbuildinfo
+.vercel/
+.claude/settings.local.json
+.mcp.json
+.serena/
+.superpowers/
