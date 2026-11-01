@@ -43,12 +43,15 @@ docs/                        documentação
 | `complexity` | 10 |
 | `max-params` | 3 |
 | `no-restricted-imports` | `shared` não importa de `features` ou `app`; `features` não importa de `app` |
-| `no-restricted-syntax` | `className` não aceita valores arbitrários (`[...]`) |
+| `no-restricted-syntax` | `className` não aceita valores arbitrários (`[...]`); `if` não aceita `else` nem `else if` (seletor `IfStatement[alternate]`) |
+| `no-nested-ternary` | Erro |
 | `local/no-comments` | Regra local que reprova qualquer comentário em `src` e `e2e` |
 
 Como `eslint-disable` também é um comentário, a regra local impede exceções no código. Exceção inevitável exige alterar a configuração e registrar o motivo em `DECISIONS.md`.
 
 Arquivos de teste podem exceder `max-lines-per-function`, porque um bloco `describe` reúne vários casos.
+
+Desvios de fluxo usam cláusula de guarda com retorno antecipado. O ternário simples continua permitido para escolher um valor, como na renderização condicional em JSX, em que não cabe um `return`.
 
 ## TypeScript
 
@@ -98,7 +101,7 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 
 | Arquivo | Conteúdo |
 | --- | --- |
-| `README.md` | O que é, como executar e como testar |
+| `README.md` | O que é, estado atual, como executar, como testar e linha do tempo. Já existe desde `docs/pre-development-decisions` e é atualizado em cada branch |
 | `CLAUDE.md` | Até 100 linhas: visão geral, comandos, regras e links, sem `@import` |
 | `DECISIONS.md` | Resumo, trade-offs, o que foi além do mínimo e evoluções futuras |
 | `AI_LOG.md` | Ferramentas, organização e o que foi verificado, corrigido ou rejeitado |
@@ -118,8 +121,9 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 2. Lint, TypeScript, Vitest e size-limit sem erros.
 3. Playwright validando o layout nas larguras acordadas e os cenários da API, com capturas revisadas.
 4. `axe-core` sem violações.
-5. Nenhum spinner, comentário ou `any` no código.
-6. Merge com `--no-ff` na `main`, citando a spec.
+5. Nenhum spinner, comentário, `else` ou `any` no código.
+6. `README.md` atualizado na própria branch: estado atual, comandos novos e uma linha na linha do tempo.
+7. Merge com `--no-ff` na `main`, citando a spec.
 
 ## Ordem das branches
 
@@ -137,7 +141,7 @@ As verificações pesadas rodam no merge porque o desenvolvimento acontece em br
 
 - Em um clone limpo, `npm ci` termina com 0 alertas e `npm audit` com 0 vulnerabilidades.
 - `npm run lint`, `typecheck`, `test`, `test:e2e`, `build` e `size` passam.
-- Um arquivo com `any`, comentário, import proibido ou `className` arbitrário faz o lint falhar.
+- Um arquivo com `any`, comentário, `else`, ternário aninhado, import proibido ou `className` arbitrário faz o lint falhar.
 - Um commit fora do padrão é rejeitado.
 - O layout base não tem rolagem horizontal em nenhuma largura testada.
 - O skeleton aparece antes do JS, verificado com JavaScript desativado.

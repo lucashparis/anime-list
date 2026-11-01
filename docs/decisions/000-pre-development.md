@@ -173,6 +173,7 @@ Sem Codegen, uma mudança no schema não é detectada na compilação. O Zod e u
 | Validação no navegador a cada funcionalidade | Playwright e `@axe-core/playwright` |
 | Lint, com limites de função e complexidade | ESLint, `typescript-eslint`, `eslint-plugin-jsx-a11y-x` e `eslint-plugin-react-hooks` |
 | Código autoexplicativo, sem comentários e em inglês | Regra local do ESLint |
+| Cláusula de guarda com retorno antecipado, sem `else` e sem ternário aninhado | `no-restricted-syntax` e `no-nested-ternary` do ESLint |
 | Formatação e padrão de commits | Prettier, commitlint e Lefthook |
 | Limite de tamanho | size-limit |
 
@@ -181,6 +182,7 @@ Sem Codegen, uma mudança no schema não é detectada na compilação. O Zod e u
 - **Spec-driven:** cada funcionalidade tem spec e plano aprovados antes do código.
 - **Git:** uma branch por funcionalidade, merge com `--no-ff` na `main`, histórico preservado. Branches e commits em inglês, em Conventional Commits.
 - **IA:** `CLAUDE.md` curto, apontando para documentos carregados só quando necessários.
+- **README:** criado antes do código e atualizado em cada branch, com o estado atual e uma linha do tempo das entregas.
 
 ## Desvios do design
 
