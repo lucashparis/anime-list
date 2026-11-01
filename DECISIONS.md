@@ -58,6 +58,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
 
+- Registrado na revisão do bloco, sem correção: "Ver mais" usa `aria-disabled` e mantém o rótulo depois de um erro; o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; o erro da primeira página não tem nova tentativa (`feat/feedback-states`); recarregar uma lista com várias páginas vencidas repete uma consulta por página.
 - Próximas funcionalidades: estados finais de erro e vazio, com nova tentativa.
 - Segurança: CSP e headers em `chore/security-headers`.
 - Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.

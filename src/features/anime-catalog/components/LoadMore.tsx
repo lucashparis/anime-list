@@ -1,11 +1,13 @@
 import { useAnimeCatalog } from '@/features/anime-catalog/hooks/useAnimeCatalog';
+import { loadedMessage } from '@/features/anime-catalog/model/loadedMessage';
 import { Button } from '@/shared/ui/Button';
 
 export function LoadMore() {
   const { data, hasNextPage, isFetchingNextPage, isFetchNextPageError, fetchNextPage } =
     useAnimeCatalog();
-  const hasLoadedMore = data !== undefined && data.pageCount > 1 && !isFetchingNextPage;
-  const announcement = hasLoadedMore ? `${String(data.addedByLastPage)} animes carregados` : '';
+  const hasLoadedMore =
+    data !== undefined && data.pageCount > 1 && !isFetchingNextPage && !isFetchNextPageError;
+  const announcement = hasLoadedMore ? loadedMessage(data.addedByLastPage) : '';
 
   function handleClick() {
     if (isFetchingNextPage) return;

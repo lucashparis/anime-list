@@ -11,7 +11,7 @@ const SIZE_CLASS_NAMES = {
   lg: 'min-h-control-lg',
 } as const;
 
-interface ButtonProps extends ComponentProps<'button'> {
+interface ButtonProps extends Omit<ComponentProps<'button'>, 'className'> {
   variant: keyof typeof VARIANT_CLASS_NAMES;
   size?: keyof typeof SIZE_CLASS_NAMES;
 }

@@ -26,7 +26,7 @@ export function useUrlSearchParams() {
       if (value !== null) next.set(key, value);
     }
     const query = next.toString();
-    if (query === window.location.search.slice(1)) return;
+    if (query === new URLSearchParams(window.location.search).toString()) return;
     window.history.pushState(null, '', `${window.location.pathname}${query && `?${query}`}`);
     window.dispatchEvent(new Event(URL_CHANGE_EVENT));
   }, []);
