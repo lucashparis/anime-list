@@ -12,7 +12,7 @@ Registro do que foi levantado, medido e decidido antes da primeira linha de cód
 
 1. Acessibilidade, usabilidade e contraste: a experiência de quem usa prevalece.
 2. Requisitos do produto.
-3. Design: base de layout, cores e arredondamentos, sem reprodução literal de cada pixel.
+3. Design: o desafio manda seguir o Figma, então layout, cores, tipografia e proporções seguem o frame. Os valores irregulares do arquivo viram a escala de tokens, e a acessibilidade vence quando há conflito.
 
 Todo desvio do design é registrado na seção [Desvios do design](#desvios-do-design).
 
@@ -217,18 +217,22 @@ Rótulos dos filtros:
 | Texto em fundo amarelo ou verde | Claro | `#1A1A1A` | Contraste |
 | Placeholder e borda do campo | `#A7B0BE` e `#C4CAD4` | `#6B7280` e `#8A94A6` | Contraste |
 | Espaçamentos | 10, 11, 15, 19, 25 e 28px | 4, 8, 12, 16 e 24px | Consistência |
-| Padding dos filtros | 17 a 23px | 16px | Consistência |
-| Altura dos controles | 32, 38 e 48px | 32, 40 e 48px; 44px em telas de toque | Consistência e área de toque |
+| Padding dos filtros | 17 a 23px | 24px | Consistência |
+| Espaço entre os filtros | 19px | 16px | Consistência |
+| Altura dos controles | 32, 38 e 48px | 32 (filtros), 40 (busca e "Buscar") e 48px ("Ver mais"); 44px em telas de toque | Consistência e área de toque |
+| Largura da linha da busca | 1.012px, centralizada | `max-w-search` de 1012px, e largura total em telas estreitas | Telas menores que o frame |
+| Posição dos controles | Filtros acima da busca, centralizados | Igual; em telas estreitas os filtros quebram em linhas centralizadas e a busca ocupa a largura toda | Design só tem o frame desktop |
 | Altura do card | 270px fixos | 270px mínimos | Títulos longos em telas estreitas |
 | Legenda do rodapé | 10px | 12px | Legibilidade |
 | Rodapé | Fora do centro | Centralizado | Correção |
-| Rodapé | Só marca e direitos | Atribuição à AniList e aviso de privacidade | Transparência |
+| Rodapé | Só marca e direitos | Atribuição à AniList e aviso de privacidade, na mesma linha, com cerca de 112px no lugar de 54px | Transparência |
+| "Ver mais" | Largura da grade, texto de 20px e "+" | Igual, com o "+" decorativo (`aria-hidden`) | Fidelidade |
 
 ## Mudanças de rumo
 
 | Primeira ideia | Decisão final | O que mudou |
 | --- | --- | --- |
-| Reprodução pixel a pixel | Design como base visual | A análise mostrou espaçamentos irregulares, que gerariam código duplicado |
+| Reprodução pixel a pixel | Design seguido em layout, cores, tipografia e proporções, com espaçamentos em escala de tokens | A análise mostrou espaçamentos irregulares, que gerariam código duplicado. Em `feat/final-polish`, o layout foi medido lado a lado com o frame e realinhado (filtros acima da busca, busca de 1012px, "Ver mais" na largura da grade) |
 | Seguir o design mesmo com baixo contraste | Priorizar a experiência de uso | Os valores medidos reprovam no WCAG AA |
 | Next 16 por reduzir JS | Vite | A redução vem dos Server Components, e a medição mostrou mais JS neste caso |
 | `eslint-plugin-import-x` | Regra nativa do ESLint | Incompatível com a correção de segurança |
@@ -236,7 +240,7 @@ Rótulos dos filtros:
 
 ## Fora do escopo
 
-Página de detalhe, link externo nos cards, tema escuro, outros idiomas, contas de usuário e PWA.
+Página de detalhe, tema escuro, outros idiomas, contas de usuário e PWA. O link externo nos cards, que estava aqui, entrou em `feat/final-polish`, porque quem avalia espera abrir o anime.
 
 ## Fontes
 

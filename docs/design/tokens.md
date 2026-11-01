@@ -1,6 +1,6 @@
 # Tokens e desvios do design
 
-O design é a referência visual: base de layout, cores e arredondamentos, sem reprodução literal de cada pixel. Os tokens ficam em `src/shared/styles/index.css`, dentro de `@theme`, com `--*: initial` para remover as escalas padrão do Tailwind. Só existem os valores abaixo.
+O design é seguido em layout, cores, tipografia e proporções. Os valores irregulares do frame (10, 11, 15, 19 e 25px) viram a escala de tokens, e a acessibilidade vence quando há conflito. Os tokens ficam em `src/shared/styles/index.css`, dentro de `@theme`, com `--*: initial` para remover as escalas padrão do Tailwind. Só existem os valores abaixo.
 
 ## Tokens
 
@@ -21,6 +21,8 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Altura de controle | `control-sm`, `control-md`, `control-lg` | 32, 40 e 48px | `h-control-md` |
 | Altura de controle | `control-touch` | 44px | `pointer-coarse:min-h-control-touch` |
 | Card | `card` | 270px | `min-h-card` |
+| Sombra | `card` | `0 8px 16px` com 25% de preto | `hover:shadow-card` |
+| Espaçamento | `spacing` (base) | 4px | Faz utilitários numéricos como `inset-0` valerem; sem ele, o `--*: initial` os anulava |
 | Raio | `sm`, `md` | 4 e 8px | `rounded-sm` |
 | Tipografia | `font-sans` | Mulish Variable | Fonte padrão |
 | Tipografia | `xs`, `sm`, `md`, `lg`, `xl` | 12, 14, 20, 24 e 40px | `text-xs` |
@@ -28,6 +30,7 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Tipografia | `tight` | Altura de linha de 1,25 | `leading-tight` |
 | Breakpoints | `sm`, `md`, `lg` | 600, 900 e 1200px | `sm:`, `md:`, `lg:` |
 | Largura máxima | `content` | 1316px | `max-w-content` |
+| Largura máxima | `search` | 1012px, a linha da busca com o botão no design | `max-w-search` |
 | Animação | `animate-pulse` | `pulse` de 2s, com opacidade em 50% no meio | `motion-safe:animate-pulse` |
 | Animação | `animate-reveal-late` | `reveal-late` de 8s, em um passo, de oculto para visível | `invisible animate-reveal-late` |
 
@@ -46,6 +49,9 @@ Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela d
 | Mensagem de carregamento lento | Não existe | Parágrafo no `index.html` que aparece após 8 segundos se o JS não carregar, inclusive com movimento reduzido, e some quando o React monta | Avisa quem está sem conexão; não é movimento, por isso não usa `motion-safe` |
 | Película sobre a capa | Escurecimento sem contraste garantido | `scrim` atrás do texto, acompanhando a altura dele e dissolvendo em 24px | Branco sobre o `scrim` dá ao menos 5,7:1, mesmo em capa branca e título longo |
 | Ícone e prévia do link | Não existe | Monograma "BA" ("B" branco e "A" `warning`) sobre `primary`; a prévia traz só a marca e a frase, sem capas | O "A" amarelo dá 4,66:1 e o "B" branco 8,08:1 sobre `primary`, acima dos 3:1 de um componente gráfico; as capas são da AniList |
+| Card clicável | Não existe | Título como link esticado até a AniList, em nova aba; ao passar o mouse o card sobe 4px, ganha sombra e a capa amplia 5%, só com `motion-safe` | Quem avalia espera abrir o anime; a animação some com movimento reduzido |
+| Botões | Sem estado de hover | Cursor de mão, cor em 150ms e afundamento ao clicar; `cursor-not-allowed` nos desabilitados | Sinal de que o elemento é clicável |
+| Fundo do card | `ink` | Cor média da capa (`coverImage.color`) enquanto a imagem carrega | A imagem não "pisca" sobre o preto; o texto fica sobre o `scrim`, com o mesmo contraste |
 | Nota nula | Não existe | Selo em `neutral-100` com "Sem nota" em `ink` | A API pode não ter nota, e a cor não pode ser a única informação |
 
 ## Como adicionar um token

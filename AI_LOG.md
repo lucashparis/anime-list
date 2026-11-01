@@ -8,7 +8,7 @@ Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigid
 - **Claude Opus 5.5** coordenou o trabalho e faz a revisão final.
 - **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa da fundação, cada um com contexto novo.
 - No catálogo, o **Opus 5.5** implementou direto na janela principal, sem subagente por tarefa, e o **Sonnet 5.5** fez a revisão da branch.
-- Na descoberta (filtro, busca e "Ver mais") nos estados de tela, nos cabeçalhos de segurança e no acabamento, o **Sonnet 5.5** implementou direto na janela principal, uma sessão por bloco, e fez a revisão de cada bloco.
+- Daí em diante, o **Sonnet 5.5** implementou direto na janela principal, uma sessão por bloco, e fez a revisão de cada bloco. Os blocos são: A, a fundação e o catálogo; B, filtro, busca e "Ver mais"; C, estados de tela e cabeçalhos de segurança; D, ícones, prévia do link e passo a passo técnico; e a lapidação final (`feat/final-polish`).
 - **Playwright** foi usado para validar o resultado no navegador.
 
 Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o catálogo, Sonnet 5.5 depois). Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
@@ -33,6 +33,10 @@ Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o 
 
 ## Corrigido
 
+- O levantamento de código depois de `feat/product-polish` e `docs/technical-walkthrough` (Bloco D) achou que o campo de busca perdia o foco ao enviar (o `key` o recriava). Um teste reproduziu, e o campo passou a ser controlado.
+- O teste e2e do clique no card mostrou que o link esticado não cobria o card: o `--*: initial` do tema anulava o `inset-0`. O token `--spacing` base foi declarado.
+- O Lighthouse (produção e local) deu Performance 89 a 93 e os outros três pilares em 100. A pré-busca da primeira página foi tentada em um ramo descartado: o Vite juntava os scripts em um só pacote. O `fetchpriority` na primeira capa não mudou a nota e também foi descartado.
+
 - `eslint-plugin-jsx-a11y` não aceita ESLint 10. Foi trocado por `eslint-plugin-jsx-a11y-x`.
 - `@size-limit/preset-app` trazia o Puppeteer com vulnerabilidades. Foi trocado por `@size-limit/file`.
 - O `override` de `minimatch` quebrou o `eslint-plugin-import-x`. O problema apareceu ao rodar o ESLint, e o plugin foi trocado pela regra nativa `no-restricted-imports`.
@@ -47,9 +51,10 @@ Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o 
 - A revisão apontou que perder a conexão deixaria a tela no skeleton indefinidamente. Um teste reproduziu o problema, e as consultas passaram a usar `networkMode: 'always'`.
 - A revisão também apontou um teste e2e de cookies que não provava nada. Trocar para `credentials: 'include'` não o reprovou, mesmo com um cookie no navegador, e a verificação foi removida; quem prova a opção é o teste unitário.
 - A spec propunha título inteiro e lista em alta. O responsável pelo projeto escolheu corte em 3 linhas e lista por popularidade.
+- Uma avaliação crítica da entrega contra o enunciado apontou que o site publicado não tinha o layout do Figma (busca acima dos filtros, "Ver mais" pequeno) e que a documentação dizia que o design não seria reproduzido. O layout já estava corrigido na branch, e a documentação foi reescrita para dizer o que o código faz: o Figma é seguido, com desvios registrados.
 
 ## Rejeitado
 
 - **Hook de `pre-push`:** as verificações pesadas já rodam no merge, e nada é enviado sem autorização do responsável pelo projeto.
-- **Reproduzir o design pixel a pixel:** os espaçamentos irregulares gerariam código duplicado.
+- **Reproduzir o design pixel a pixel como método:** os espaçamentos irregulares (10, 11, 15, 19 e 25px) gerariam código duplicado e viraram uma escala de tokens. O layout, a ordem dos elementos, as cores e as proporções seguem o frame, e a `feat/final-polish` os realinhou depois de medir o frame e o site lado a lado.
 - **Manter o texto de baixo contraste do design:** os valores medidos reprovam no WCAG AA.

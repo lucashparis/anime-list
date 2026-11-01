@@ -24,8 +24,10 @@ describe('fetchAnimeCatalog', () => {
         small: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/fixture-1.svg',
         large: 'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/fixture-1.svg',
       },
+      coverColor: '#3b6fb5',
       score: 49,
       genres: ['Action', 'Drama'],
+      url: 'https://anilist.co/anime/1',
     });
   });
 
@@ -38,7 +40,7 @@ describe('fetchAnimeCatalog', () => {
   });
 
   it('reuses the available cover when one size is missing', async () => {
-    const onlyLarge = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [] };
+    const onlyLarge = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
     server.use(
       http.post(ANILIST_ENDPOINT, () =>
         HttpResponse.json({
@@ -106,8 +108,11 @@ describe('fetchAnimeCatalog', () => {
     'https://s4.anilist.co.evil.example/cover.jpg',
     'http://s4.anilist.co/cover.jpg',
     'javascript:alert(1)',
+    'https://s4.anilist.co@evil.example/cover.jpg',
+    'https://s4.anilist.co.evil.example/cover.jpg',
+    'not a url',
   ])('drops a cover outside the AniList image host: %s', async (url) => {
-    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [] };
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
     server.use(
       http.post(ANILIST_ENDPOINT, () =>
         HttpResponse.json({
@@ -123,5 +128,53 @@ describe('fetchAnimeCatalog', () => {
     const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
     expect(animes).toHaveLength(1);
     expect(animes[0]?.cover).toBeNull();
+  });
+
+  it.each([
+    'https://evil.example/anime/1',
+    'https://anilist.co.evil.example/anime/1',
+    'http://anilist.co/anime/1',
+    'javascript:alert(1)',
+    'https://anilist.co@evil.example/anime/1',
+    'not a url',
+  ])('drops a page link outside AniList: %s', async (url) => {
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: url };
+    server.use(
+      http.post(ANILIST_ENDPOINT, () =>
+        HttpResponse.json({
+          data: {
+            Page: {
+              pageInfo: { hasNextPage: false },
+              media: [{ ...media, coverImage: { large: null, extraLarge: null } }],
+            },
+          },
+        }),
+      ),
+    );
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    expect(animes[0]?.url).toBeNull();
+  });
+
+  it.each([
+    ['red', 'red'],
+    ['#fff', '#fff'],
+    ['url(https://evil.example/x)', 'url'],
+    ['#12345g', '#12345g'],
+  ])('drops a cover color that is not a 6-digit hex: %s', async (color) => {
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [], siteUrl: null };
+    server.use(
+      http.post(ANILIST_ENDPOINT, () =>
+        HttpResponse.json({
+          data: {
+            Page: {
+              pageInfo: { hasNextPage: false },
+              media: [{ ...media, coverImage: { large: null, extraLarge: null, color } }],
+            },
+          },
+        }),
+      ),
+    );
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    expect(animes[0]?.coverColor).toBeNull();
   });
 });

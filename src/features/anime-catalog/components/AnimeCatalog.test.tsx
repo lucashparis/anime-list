@@ -34,8 +34,45 @@ describe('AnimeCatalog', () => {
     const cards = await renderCards();
     expect(cards).toHaveLength(12);
     const first = cardAt(cards, 0);
-    expect(first.getByRole('heading', { level: 2 })).toHaveTextContent('Fixture Anime 1');
+    expect(first.getByRole('heading', { level: 3 })).toHaveTextContent('Fixture Anime 1');
     expect(first.getByText('49%')).toHaveTextContent('Nota 49%');
+  });
+
+  it('links the whole card to the AniList page in a new tab', async () => {
+    const cards = await renderCards();
+    const link = cardAt(cards, 0).getByRole('link', { name: /Fixture Anime 1/ });
+    expect(link).toHaveAttribute('href', 'https://anilist.co/anime/1');
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noreferrer');
+    expect(link).toHaveTextContent('(abre em nova aba)');
+    expect(link).toHaveClass('after:absolute', 'after:inset-0');
+  });
+
+  it('animates only the cards that can be clicked, without motion for reduced motion', async () => {
+    const cards = await renderCards();
+    expect(cards[0]).toHaveClass('motion-safe:hover:-translate-y-xs', 'hover:shadow-card');
+    expect(cards[0]?.querySelector('img')).toHaveClass('motion-safe:group-hover:scale-105');
+  });
+
+  it('organizes the page in headings: catalog section, then one heading per card', async () => {
+    await renderCards();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Catálogo de animes' }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { level: 3 })).toHaveLength(12);
+  });
+
+  it('updates the tab title with the filters', async () => {
+    window.history.replaceState(null, '', '/?format=MOVIE&q=naruto');
+    await renderCards();
+    expect(document.title).toBe('BuscAnime: catálogo de animes · Filme · “naruto”');
+    window.history.replaceState(null, '', '/');
+  });
+
+  it('paints the card with the cover color while the image loads', async () => {
+    const cards = await renderCards();
+    expect(cards[0]).toHaveStyle({ backgroundColor: '#3b6fb5' });
+    expect(cards[3]?.getAttribute('style')).toBeNull();
   });
 
   it('paints each score range with its tone', async () => {
@@ -53,7 +90,7 @@ describe('AnimeCatalog', () => {
 
   it('keeps the whole long title for assistive technology and hover', async () => {
     const cards = await renderCards();
-    const heading = cardAt(cards, 5).getByRole('heading', { level: 2 });
+    const heading = cardAt(cards, 5).getByRole('heading', { level: 3 });
     expect(heading).toHaveTextContent(LONG_TITLE);
     expect(heading).toHaveAttribute('title', LONG_TITLE);
     expect(heading).toHaveClass('line-clamp-3');
@@ -75,7 +112,7 @@ describe('AnimeCatalog', () => {
 
   it('falls back when the title is null', async () => {
     const cards = await renderCards();
-    expect(cardAt(cards, 7).getByRole('heading', { level: 2 })).toHaveTextContent(
+    expect(cardAt(cards, 7).getByRole('heading', { level: 3 })).toHaveTextContent(
       'Título indisponível',
     );
   });

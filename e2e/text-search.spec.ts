@@ -30,7 +30,7 @@ for (const width of WIDTHS) {
     test('fits the screen with a long text and has no WCAG 2.2 AA violations', async ({ page }) => {
       await page.goto(`/?q=${LONG_TEXT}`);
       await expect(page.getByRole('list', { name: 'Animes' })).toBeVisible();
-      await expect(searchBox(page)).toHaveValue(LONG_TEXT);
+      await expect(searchBox(page)).toHaveValue(LONG_TEXT.slice(0, 100));
       expect(await horizontalOverflow(page)).toBe(0);
       await expectNoViolations(page);
       await page.screenshot({ path: `test-results/text-search/${String(width)}.png` });

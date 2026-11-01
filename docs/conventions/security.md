@@ -10,6 +10,8 @@ O aplicativo é estático, sem servidor, sem contas e sem segredos. A API da Ani
 - Fonte servida pelo próprio aplicativo (Fontsource), sem terceiro adicional.
 - Cabeçalhos no `vercel.json`, para todas as rotas, com a CSP abaixo, `Strict-Transport-Security` de 2 anos (sem `includeSubDomains` nem `preload`), `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` e `Permissions-Policy` sem câmera, microfone, geolocalização, pagamento e USB.
 - Timeout de 10 segundos em cada requisição à API.
+- `/assets/*` com `Cache-Control: public, max-age=31536000, immutable`: os arquivos têm hash no nome.
+- Texto da busca limitado a 100 caracteres, no campo e na leitura da URL; links para a AniList só se começarem com `https://anilist.co/`, e cores de capa só como `#rrggbb`.
 - Capas aceitas só de `https://s4.anilist.co/`: qualquer outra URL vira capa nula.
 
 ## Política de segurança de conteúdo

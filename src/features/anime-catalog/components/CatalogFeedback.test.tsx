@@ -32,6 +32,7 @@ describe('CatalogError', () => {
     expect(within(list).getAllByRole('article')).toHaveLength(12);
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(requests).toBe(2);
+    expect(screen.getByRole('heading', { level: 2, name: 'Catálogo de animes' })).toHaveFocus();
   });
 
   it('explains the rate limit and does not repeat the query by itself', async () => {
@@ -67,6 +68,7 @@ describe('EmptyCatalog', () => {
     await screen.findByRole('list', { name: 'Animes' });
     expect(window.location.search).toBe('');
     expect(screen.getByRole('searchbox')).toHaveValue('');
+    expect(screen.getByRole('heading', { level: 2, name: 'Catálogo de animes' })).toHaveFocus();
   });
 
   it('has no clear button when nothing is filtered', async () => {

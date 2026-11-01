@@ -4,7 +4,9 @@ import type { AnimeFormat } from '@/features/anime-catalog/model/formats';
 import { requestGraphql } from '@/shared/api/graphqlClient';
 
 const PAGE_SIZE = 12;
-const COVER_ORIGIN = 'https://s4.anilist.co/';
+const COVER_ORIGIN = 'https://s4.anilist.co';
+const PAGE_ORIGIN = 'https://anilist.co';
+const HEX_COLOR = /^#[0-9a-f]{6}$/i;
 
 const ANIME_CATALOG_QUERY = `
   query AnimeCatalog(
@@ -26,17 +28,31 @@ const ANIME_CATALOG_QUERY = `
         coverImage {
           large
           extraLarge
+          color
         }
         averageScore
         genres
+        siteUrl
       }
     }
   }
 `;
 
-const coverUrlSchema = z.pipe(
-  z.nullable(z.string()),
-  z.transform((url) => (url?.startsWith(COVER_ORIGIN) ? url : null)),
+function urlFrom(origin: string) {
+  return z.pipe(
+    z.nullable(z.string()),
+    z.transform((value) => {
+      const url = URL.parse(value ?? '');
+      return url?.origin === origin ? url.href : null;
+    }),
+  );
+}
+
+const coverUrlSchema = urlFrom(COVER_ORIGIN);
+
+const coverColorSchema = z.pipe(
+  z.nullish(z.string()),
+  z.transform((color) => (color && HEX_COLOR.test(color) ? color : null)),
 );
 
 const mediaSchema = z.object({
@@ -45,9 +61,11 @@ const mediaSchema = z.object({
   coverImage: z.object({
     large: coverUrlSchema,
     extraLarge: coverUrlSchema,
+    color: coverColorSchema,
   }),
   averageScore: z.nullable(z.number()),
   genres: z.nullable(z.array(z.string())),
+  siteUrl: urlFrom(PAGE_ORIGIN),
 });
 
 const animeCatalogSchema = z.object({
@@ -71,8 +89,10 @@ function toAnime(media: Media): Anime {
     id: media.id,
     title: media.title.romaji,
     cover: toCover(media.coverImage),
+    coverColor: media.coverImage.color,
     score: media.averageScore,
     genres: media.genres ?? [],
+    url: media.siteUrl,
   };
 }
 

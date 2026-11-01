@@ -19,6 +19,7 @@
   --color-ink: #1a1a1a;
   --color-scrim: rgb(0 0 0 / 60%);
 
+  --spacing: 4px;
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
@@ -31,6 +32,8 @@
   --spacing-control-touch: 44px;
 
   --spacing-card: 270px;
+
+  --shadow-card: 0 8px 16px rgb(0 0 0 / 25%);
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -50,6 +53,7 @@
   --breakpoint-md: 900px;
   --breakpoint-lg: 1200px;
   --container-content: 1316px;
+  --container-search: 1012px;
 
   --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-reveal-late: reveal-late 8s steps(1, end) forwards;
