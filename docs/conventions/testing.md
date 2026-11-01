@@ -17,6 +17,7 @@ Teste o que o usuário percebe: busque por papel e texto acessível, nunca por c
 | Comando | O que roda |
 | --- | --- |
 | `npm test` | Vitest, em `src/**/*.test.{ts,tsx}` |
+| `npm run test:contract` | Consulta a API real com o schema, em `src/**/*.contract.test.ts`; fica fora do `verify`, para o merge não depender da rede |
 | `npm run test:guards` | Testes das regras de lint em `tools/eslint/guards.test.mjs`; roda pelo hook de `pre-commit` quando `eslint.config.js` ou `tools/eslint/**` mudam |
 | `npm run test:e2e` | Playwright; compila o projeto e sobe o `preview` na porta 4173 |
 | `npm run size` | size-limit sobre `dist/assets/*.js` (rode `npm run build` antes) |
@@ -34,15 +35,18 @@ Teste o que o usuário percebe: busque por papel e texto acessível, nunca por c
 ## Vitest e MSW
 
 - O ambiente está em `src/test/setup.ts`; o servidor MSW, em `src/test/server.ts`.
-- No MSW 3, a opção de requisição sem handler é `onUnhandledFrame`, e não `onUnhandledRequest`. O setup usa `onUnhandledFrame: 'error'`: uma requisição sem handler faz o `fetch` rejeitar e registra um erro, o que reprova o teste, a menos que o código testado trate a rejeição.
-- Os handlers são zerados a cada teste.
+- No MSW 3, a opção de requisição sem handler é `onUnhandledFrame`, e não `onUnhandledRequest`. O setup conta cada requisição sem handler e reprova o teste no `afterEach`, mesmo que o TanStack Query trate a rejeição.
+- Os handlers são zerados a cada teste. Um teste que dispara uma consulta espera a resposta antes de terminar; sem isso, a requisição chega sem handler e reprova.
+- No Node, o MSW não preserva `credentials` na requisição. Para conferir essa opção, observe o `fetch` com `vi.spyOn`.
+- Dados de teste ficam em `src/test/animeCatalogFixture.ts`, com títulos fictícios e sem capas reais.
 
 ## Playwright
 
 - Roda apenas em Chromium. O Safari do iOS e o WebKit não têm cobertura automática; confira à mão antes de publicar.
 - Larguras: 320, 375, 768, 1024, 1366 e 1920px, celular em paisagem e zoom de 200%.
 - `getByText` do Playwright ignora o conteúdo de `noscript`. Para a mensagem sem JavaScript, use `page.locator('noscript p')`.
-- Cada largura salva uma captura de página inteira em `test-results/layout/`. A pasta não vai para o Git, e as capturas servem para revisão humana: abra-as antes de dar a tela como pronta.
+- `e2e/support/anilist.ts` exporta um `test` que intercepta a API e as capas, geradas em SVG, em todo teste que o importa. Para outro cenário, use `page.route`, que tem prioridade.
+- Cada largura salva uma captura de página inteira do catálogo em `test-results/layout/`. A pasta não vai para o Git, e as capturas servem para revisão humana: abra-as antes de dar a tela como pronta.
 - Falhas e rastros ficam em `test-results/playwright/`.
 - O axe roda com as tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa` e `wcag22aa`, com o aviso de privacidade aberto.
 

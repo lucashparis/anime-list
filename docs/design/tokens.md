@@ -16,6 +16,7 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Neutros | `neutral-400` | `#8A94A6` | Borda de campo |
 | Neutros | `neutral-500` | `#6B7280` | Placeholder |
 | Neutros | `ink` | `#1A1A1A` | `text-ink` |
+| Película | `scrim` | Preto com 60% de opacidade | `bg-scrim`, `from-scrim` |
 | Espaçamento | `xs`, `sm`, `md`, `lg`, `xl` | 4, 8, 12, 16 e 24px | `p-lg`, `gap-sm` |
 | Altura de controle | `control-sm`, `control-md`, `control-lg` | 32, 40 e 48px | `h-control-md` |
 | Altura de controle | `control-touch` | 44px | `pointer-coarse:min-h-control-touch` |
@@ -24,16 +25,17 @@ O design é a referência visual: base de layout, cores e arredondamentos, sem r
 | Tipografia | `font-sans` | Mulish Variable | Fonte padrão |
 | Tipografia | `xs`, `sm`, `md`, `lg`, `xl` | 12, 14, 20, 24 e 40px | `text-xs` |
 | Tipografia | `regular`, `semibold`, `bold` | 400, 600 e 700 | `font-regular` |
+| Tipografia | `tight` | Altura de linha de 1,25 | `leading-tight` |
 | Breakpoints | `sm`, `md`, `lg` | 600, 900 e 1200px | `sm:`, `md:`, `lg:` |
 | Largura máxima | `content` | 1316px | `max-w-content` |
 | Animação | `animate-pulse` | `pulse` de 2s, com opacidade em 50% no meio | `motion-safe:animate-pulse` |
 | Animação | `animate-reveal-late` | `reveal-late` de 8s, em um passo, de oculto para visível | `invisible animate-reveal-late` |
 
-A `Logo` usa `text-xl` (40px) no cabeçalho e `text-lg` (24px) no rodapé.
+A `Logo` usa `text-xl` (40px) no cabeçalho e `text-lg` (24px) no rodapé. O `body` usa `ink` e `text-sm` (14px) como base.
 
 ## Desvios do design
 
-Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela de decisões](../decisions/000-pre-development.md#desvios-do-design). Os da fundação, além dela:
+Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela de decisões](../decisions/000-pre-development.md#desvios-do-design). Os da fundação e do catálogo, além dela:
 
 | Item | Design | Implementação | Motivo |
 | --- | --- | --- | --- |
@@ -42,6 +44,8 @@ Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela d
 | Aviso e link no rodapé | Não existe | Alvo de toque de 44px em telas `pointer: coarse` | Área de toque |
 | Link da AniList | Não existe | Abre em nova aba, com `(abre em nova aba)` visível só para leitores de tela | Quem lê o catálogo não perde a página |
 | Mensagem de carregamento lento | Não existe | Parágrafo no `index.html` que aparece após 8 segundos se o JS não carregar, inclusive com movimento reduzido, e some quando o React monta | Avisa quem está sem conexão; não é movimento, por isso não usa `motion-safe` |
+| Película sobre a capa | Escurecimento sem contraste garantido | `scrim` atrás do texto, acompanhando a altura dele e dissolvendo em 24px | Branco sobre o `scrim` dá ao menos 5,7:1, mesmo em capa branca e título longo |
+| Nota nula | Não existe | Selo em `neutral-100` com "Sem nota" em `ink` | A API pode não ter nota, e a cor não pode ser a única informação |
 
 ## Como adicionar um token
 

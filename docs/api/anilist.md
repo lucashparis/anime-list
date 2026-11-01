@@ -1,6 +1,6 @@
 # API AniList
 
-Endpoint GraphQL: `https://graphql.anilist.co`. Capas em `https://s4.anilist.co`. O cliente ainda não existe; chega com `feat/anime-catalog`. Fontes e levantamento completo em [000-pre-development](../decisions/000-pre-development.md#api-anilist).
+Endpoint GraphQL: `https://graphql.anilist.co`. Capas em `https://s4.anilist.co`. O cliente fica em `src/shared/api/graphqlClient.ts`, e a consulta do catálogo em `src/features/anime-catalog/api/fetchAnimeCatalog.ts`. Fontes e levantamento completo em [000-pre-development](../decisions/000-pre-development.md#api-anilist).
 
 ## Padrão de GraphQL
 
@@ -12,7 +12,21 @@ Endpoint GraphQL: `https://graphql.anilist.co`. Capas em `https://s4.anilist.co`
 6. Tratar erros em um único cliente: rede, status HTTP e `errors`.
 7. Converter a resposta para o modelo `Anime` antes de chegar à tela.
 
-Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O Zod e um teste de contrato contra a API real cobrem esse risco.
+Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O Zod e um teste de contrato contra a API real (`npm run test:contract`) cobrem esse risco.
+
+## Consulta do catálogo
+
+`AnimeCatalog` pede 12 itens por `POPULARITY_DESC`, com `type: ANIME` e `isAdult: false` fixos. Campos: `pageInfo.hasNextPage`, `id`, `title.romaji`, `coverImage.large`, `coverImage.extraLarge`, `averageScore` e `genres`.
+
+| Falha | Tipo do `ApiError` | Nova tentativa |
+| --- | --- | --- |
+| Rede | `network` | Até 2 |
+| Status 5xx | `http` | Até 2 |
+| Status 4xx, inclusive 429 | `http` | Nenhuma, para respeitar o limite de requisições |
+| Campo `errors` com status 200 | `graphql` | Nenhuma |
+| Corpo fora do schema | `schema` | Nenhuma |
+
+Os dados ficam válidos por 5 minutos, e focar a janela não dispara nova consulta. As consultas usam `networkMode: 'always'`: no padrão do TanStack Query, perder a conexão pausa a consulta sem erro, e a tela ficaria no skeleton indefinidamente.
 
 ## Comportamentos verificados
 

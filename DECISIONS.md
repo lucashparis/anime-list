@@ -31,6 +31,11 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Playwright só em Chromium | O Safari do iOS não tem cobertura automática | Conferência manual antes de publicar |
 | Sem hook de `pre-push` | Nenhuma barreira no envio | Nada é enviado sem autorização do responsável pelo projeto; as verificações pesadas rodam no merge |
 | Busca ao enviar, não a cada tecla | Resultado menos imediato | Respeita o limite de 30 requisições por minuto |
+| Lista por popularidade | Quase só clássicos, sem os lançamentos em alta que o design sugere | Lista estável e títulos conhecidos; a busca alcança o restante |
+| Título cortado em 3 linhas, como no design | Sem página de detalhe, quem enxerga em tela de toque não lê o título completo | Texto inteiro para leitores de tela e no atributo `title`, ao passar o mouse |
+| Até 3 gêneros por card | Os demais gêneros ficam ocultos | Card compacto e capa visível |
+| Teste de contrato fora do `verify` | O merge não detecta sozinho uma mudança na API | `npm run test:contract` roda antes do merge quando a consulta muda, e o Zod reprova em produção o que sair do schema |
+| Sem nova tentativa em 4xx | Um 429 passageiro mostra erro na hora | Evita agravar o limite de requisições; repetir a consulta chega com `feat/feedback-states` |
 
 ## O que foi além do mínimo
 
@@ -47,7 +52,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
 
-- Próximas funcionalidades: catálogo, filtro por formato, busca por texto, "Ver mais" e estados de erro e vazio.
+- Próximas funcionalidades: filtro por formato, busca por texto, "Ver mais" e estados de erro e vazio.
 - Segurança: CSP e headers em `chore/security-headers`.
 - Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.

@@ -27,8 +27,9 @@ Referência: WCAG 2.2 AA. A LBI (Lei 13.146/2015, art. 63) exige sites acessíve
 | Regras estáticas de JSX | `eslint-plugin-jsx-a11y-x` |
 | Violações no navegador | `@axe-core/playwright` em todas as larguras |
 | Teclado, foco, alvos de toque e `noscript` | `e2e/layout.spec.ts` |
+| Catálogo, skeleton e erro sem violações | `e2e/catalog.spec.ts` |
 | Papéis e textos acessíveis | Testing Library, que busca pelo que o usuário percebe |
 
 ## Limites
 
-O Playwright roda em Chromium. Leitores de tela, o Safari do iOS e o comportamento real do teclado virtual precisam de conferência manual.
+O axe não mede contraste de texto sobre imagem; o título sobre a capa é garantido pelo cálculo do token `scrim`, registrado em [tokens.md](../design/tokens.md). O Playwright roda em Chromium. Leitores de tela, o Safari do iOS e o comportamento real do teclado virtual precisam de conferência manual.
