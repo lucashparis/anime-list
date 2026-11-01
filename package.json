@@ -15,7 +15,10 @@
     "test:guards": "node --test tools/eslint/guards.test.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "size": "size-limit",
+    "verify": "npm run lint && npm run typecheck && npm test && npm run test:guards && npm run build && npm run size && npm run test:e2e",
+    "hooks:install": "git config --local core.hooksPath .git/hooks && lefthook install --force"
   },
   "dependencies": {
     "@fontsource-variable/mulish": "5.3.0",
