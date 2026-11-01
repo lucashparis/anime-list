@@ -21,6 +21,7 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 | `npm run test:guards` | Prova de que cada regra de lint reprova o que deve; roda pelo hook quando a configuração do ESLint muda |
 | `npm run test:e2e` | Playwright em Chromium, com axe |
 | `npm run size` | Limite de 100 KB gzip de JS inicial |
+| `npm run assets:generate` | Gera ícones e imagens de prévia com o Playwright; roda só se a marca mudar |
 | `npm run format` / `npm run format:check` | Prettier |
 | `npm run verify` | Lint, typecheck, testes, build, size e e2e, como no merge |
 

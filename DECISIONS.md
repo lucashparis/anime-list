@@ -39,6 +39,8 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Timeout de 10s sem nova tentativa automática | Uma API lenta vira erro, mesmo que respondesse em 12s | O skeleton nunca passa de 10s, em vez de até 30s com 2 tentativas |
 | CSP sem relatório de violações | Uma violação em produção só aparece no console do navegador | Não há coletor, e a CSP é testada no Playwright com o `vercel.json` real |
 | HSTS de 2 anos sem `preload` | O domínio fica fora das listas de pré-carga | Não controlo o domínio final, e o `preload` é irreversível na prática |
+| Imagem de prévia só com a marca | Não mostra os animes do catálogo | As capas são da AniList, e a prévia não depende da API |
+| Ícones gerados por script | Um passo manual se a marca mudar | Sem dependência nova e sem arquivo de design fora do repositório |
 | Capa fora de `s4.anilist.co` descartada em vez de erro | O card aparece sem capa | A lista inteira não cai por causa de uma URL, e a CSP bloquearia o carregamento de qualquer jeito |
 
 | Busca só ao enviar | Não há resultados enquanto se digita | Respeita o limite de 30 requisições por minuto |
@@ -64,7 +66,6 @@ Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#
 
 - Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
-- Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
 - Documentação: passo a passo técnico em `docs/walkthrough.md`.
 - Jurídico: avaliar a aferição de idade da ECA Digital antes de uso comercial.
