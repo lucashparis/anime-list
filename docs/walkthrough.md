@@ -86,7 +86,7 @@ O desenvolvimento foi feito com o Claude Code, com spec aprovada antes do códig
 - A aferição de idade da ECA Digital não foi confirmada e exige avaliação jurídica antes de uso comercial.
 - O Playwright cobre só Chromium: o Safari do iPhone é conferido à mão.
 - O GitHub Actions ainda não existe: as verificações rodam no hook de merge local.
-- A busca só consulta ao enviar, e o debounce é o primeiro item de [O que faria com mais tempo](../DECISIONS.md#o-que-faria-com-mais-tempo).
+- A busca só consulta ao enviar, de propósito: o limite de 30 requisições por minuto é baixo, e a busca instantânea não está planejada ([trade-offs](../DECISIONS.md#trade-offs)).
 - Fora do escopo: página de detalhe, tema escuro, outros idiomas, contas e PWA.
 
 A lista completa, com o que ficou registrado em cada revisão, está em [DECISIONS.md](../DECISIONS.md#o-que-faria-com-mais-tempo).
