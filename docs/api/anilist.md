@@ -16,7 +16,7 @@ Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O
 
 ## Consulta do catálogo
 
-`AnimeCatalog` pede 12 itens por `POPULARITY_DESC`, com `type: ANIME` e `isAdult: false` fixos. Campos: `pageInfo.hasNextPage`, `id`, `title.romaji`, `coverImage.large`, `coverImage.extraLarge`, `averageScore` e `genres`.
+`AnimeCatalog` pede 12 itens por página, com `type: ANIME` e `isAdult: false` fixos. Variáveis: `page`, `perPage`, `sort` e, só quando houver valor, `format` e `search`. Sem texto, `sort` é `POPULARITY_DESC`; com texto, `SEARCH_MATCH`, porque a popularidade enterra os resultados relevantes. "Ver mais" pede `page + 1` enquanto `hasNextPage` for verdadeiro, e a lista junta as páginas sem repetir `id`. Campos: `pageInfo.hasNextPage`, `id`, `title.romaji`, `coverImage.large`, `coverImage.extraLarge`, `averageScore` e `genres`.
 
 | Falha | Tipo do `ApiError` | Nova tentativa |
 | --- | --- | --- |

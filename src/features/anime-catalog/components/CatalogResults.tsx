@@ -1,16 +1,17 @@
 import { AnimeCard } from '@/features/anime-catalog/components/AnimeCard';
 import { CATALOG_GRID_CLASS_NAME } from '@/features/anime-catalog/components/catalogGrid';
 import { CatalogSkeleton } from '@/features/anime-catalog/components/CatalogSkeleton';
+import { LoadMore } from '@/features/anime-catalog/components/LoadMore';
 import { useAnimeCatalog } from '@/features/anime-catalog/hooks/useAnimeCatalog';
 
 const EAGER_COVERS = 4;
 
 export function CatalogResults() {
-  const { data, isPending, isError } = useAnimeCatalog();
+  const { data, isPending, isFetchingNextPage } = useAnimeCatalog();
 
   if (isPending) return <CatalogSkeleton />;
 
-  if (isError) {
+  if (data === undefined) {
     return (
       <p role="alert" className="text-center">
         Não foi possível carregar o catálogo.
@@ -27,12 +28,20 @@ export function CatalogResults() {
   }
 
   return (
-    <ul aria-label="Animes" className={CATALOG_GRID_CLASS_NAME}>
-      {data.animes.map((anime, index) => (
-        <li key={anime.id}>
-          <AnimeCard anime={anime} coverLoading={index < EAGER_COVERS ? 'eager' : 'lazy'} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul aria-label="Animes" className={CATALOG_GRID_CLASS_NAME}>
+        {data.animes.map((anime, index) => (
+          <li key={anime.id}>
+            <AnimeCard anime={anime} coverLoading={index < EAGER_COVERS ? 'eager' : 'lazy'} />
+          </li>
+        ))}
+      </ul>
+      {isFetchingNextPage && (
+        <div className="mt-lg">
+          <CatalogSkeleton label="Carregando mais animes" />
+        </div>
+      )}
+      <LoadMore />
+    </>
   );
 }

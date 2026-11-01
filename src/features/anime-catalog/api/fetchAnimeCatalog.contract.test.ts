@@ -5,7 +5,10 @@ import { FORMAT_OPTIONS } from '@/features/anime-catalog/model/formats';
 const signal = new AbortController().signal;
 
 it('matches the live AniList schema', async () => {
-  const { animes, hasNextPage } = await fetchAnimeCatalog({ format: null, search: '' }, signal);
+  const { animes, hasNextPage } = await fetchAnimeCatalog(
+    { format: null, search: '', page: 1 },
+    signal,
+  );
   expect(hasNextPage).toBe(true);
   expect(animes).toHaveLength(12);
   expect(animes[0]?.title).toEqual(expect.any(String));
@@ -15,7 +18,7 @@ it('matches the live AniList schema', async () => {
 it('accepts every format value in the live AniList schema', async () => {
   const formats = FORMAT_OPTIONS.flatMap((option) => (option.value ? [option.value] : []));
   for (const format of formats) {
-    const { animes } = await fetchAnimeCatalog({ format, search: '' }, signal);
+    const { animes } = await fetchAnimeCatalog({ format, search: '', page: 1 }, signal);
     expect(animes.length).toBeGreaterThan(0);
   }
 });

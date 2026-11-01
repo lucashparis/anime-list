@@ -9,7 +9,7 @@ const signal = new AbortController().signal;
 
 async function fetchCatalogPage() {
   server.use(anilistCatalogHandler);
-  return fetchAnimeCatalog({ format: null, search: '' }, signal);
+  return fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
 }
 
 describe('fetchAnimeCatalog', () => {
@@ -51,7 +51,7 @@ describe('fetchAnimeCatalog', () => {
         }),
       ),
     );
-    const { animes } = await fetchAnimeCatalog({ format: null, search: '' }, signal);
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
     expect(animes[0]?.cover).toEqual({ small: 'small.jpg', large: 'small.jpg' });
   });
 
@@ -69,8 +69,8 @@ describe('fetchAnimeCatalog', () => {
 
   it('omits the format variable for all formats and sends it otherwise', async () => {
     const variables = recordVariables();
-    await fetchAnimeCatalog({ format: null, search: '' }, signal);
-    await fetchAnimeCatalog({ format: 'MOVIE', search: '' }, signal);
+    await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    await fetchAnimeCatalog({ format: 'MOVIE', search: '', page: 1 }, signal);
     expect(variables).toEqual([
       { page: 1, perPage: 12, sort: ['POPULARITY_DESC'] },
       { page: 1, perPage: 12, sort: ['POPULARITY_DESC'], format: 'MOVIE' },
@@ -79,11 +79,17 @@ describe('fetchAnimeCatalog', () => {
 
   it('searches by relevance and goes back to popularity without text', async () => {
     const variables = recordVariables();
-    await fetchAnimeCatalog({ format: 'OVA', search: 'naruto' }, signal);
-    await fetchAnimeCatalog({ format: 'OVA', search: '' }, signal);
+    await fetchAnimeCatalog({ format: 'OVA', search: 'naruto', page: 1 }, signal);
+    await fetchAnimeCatalog({ format: 'OVA', search: '', page: 1 }, signal);
     expect(variables).toEqual([
       { page: 1, perPage: 12, sort: ['SEARCH_MATCH'], format: 'OVA', search: 'naruto' },
       { page: 1, perPage: 12, sort: ['POPULARITY_DESC'], format: 'OVA' },
     ]);
+  });
+
+  it('asks for the requested page', async () => {
+    const variables = recordVariables();
+    await fetchAnimeCatalog({ format: null, search: '', page: 3 }, signal);
+    expect(variables[0]).toMatchObject({ page: 3 });
   });
 });
