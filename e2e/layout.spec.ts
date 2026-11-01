@@ -16,6 +16,8 @@ const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const NOTICE = 'Aviso de privacidade';
 const HEADER_HEIGHT = 68;
 const SKELETON_BLOCKS = '[data-testid="page-skeleton"] .min-h-card';
+const MIN_TARGET = 44;
+const WHITE = 'rgb(255, 255, 255)';
 const SLOW_LOAD_TIMEOUT = 10_000;
 
 for (const screen of SCREENS) {
@@ -161,6 +163,9 @@ test('reaches the content by keyboard', async ({ page }) => {
   const skipLink = page.getByRole('link', { name: 'Pular para o conteúdo' });
   await expect(skipLink).toBeFocused();
   await expect(skipLink).toBeVisible();
+  const box = await skipLink.boundingBox();
+  expect(box?.width).toBeGreaterThan(MIN_TARGET);
+  await expect(skipLink).toHaveCSS('background-color', WHITE);
   await page.keyboard.press('Enter');
   const main = page.getByRole('main');
   await expect(main).toBeFocused();
@@ -173,6 +178,8 @@ test('keeps the header in place when the skip link appears', async ({ page }) =>
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Pular para o conteúdo' })).toBeFocused();
   const after = await page.locator('header').boundingBox();
+  expect(before).not.toBeNull();
+  expect(after).not.toBeNull();
   expect(after?.y).toBe(before?.y);
 });
 

@@ -4,6 +4,7 @@ const ORIGIN = 'http://localhost:4173';
 
 export default defineConfig({
   testDir: 'e2e',
+  forbidOnly: true,
   outputDir: 'test-results/playwright',
   use: { baseURL: ORIGIN },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
