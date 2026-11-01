@@ -44,12 +44,13 @@ src/
   app/
     App.tsx                  skip link, header, main e footer
     AppProviders.tsx         provider do TanStack Query
+    ErrorBoundary.tsx        fallback para erro de renderização
     layout/                  Header e Footer
   features/anime-catalog/
     api/                     query, schema e conversão para Anime
     hooks/                   useAnimeCatalog (consulta paginada) e useCatalogFilters (URL)
     model/                   tipo Anime, formatos, junção de páginas e regra de cor da nota
-    components/              lista, card, selo da nota, skeleton, busca, filtro e "Ver mais"
+    components/              lista, card, selo da nota, skeleton, busca, filtro, "Ver mais", erro e lista vazia
   shared/
     api/                     cliente GraphQL, erros tipados e padrões do TanStack Query
     hooks/                   useUrlSearchParams, parâmetros da URL como estado
@@ -62,15 +63,14 @@ e2e/
   format-filter.spec.ts      filtro por formato, URL e teclado
   text-search.spec.ts        busca, URL, texto longo e lista vazia
   load-more.spec.ts          "Ver mais", skeleton, erro e nova tentativa
+  feedback-states.spec.ts    timeout, 429, erro, lista vazia e limpeza de filtros
+  security-headers.spec.ts   build servido com a CSP do vercel.json
   support/                   API interceptada e lista de telas
 tools/eslint/                regra no-comments e testes das regras
 index.html                   metadados, preconnect e skeleton estático
+vercel.json                  cabeçalhos de segurança, com a CSP
 vitest.contract.config.ts    teste de contrato contra a API real
 ```
-
-Previsto, na ordem das [branches](specs/000-foundation/spec.md#ordem-das-branches):
-
-- `src/app/`: error boundary.
 
 ## Carregamento
 

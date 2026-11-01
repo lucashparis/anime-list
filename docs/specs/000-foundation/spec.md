@@ -92,7 +92,7 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 - Rodapé no fim da página em telas altas, com direitos, atribuição à AniList e aviso de privacidade em `<details>` nativo.
 - `main` vazio nesta etapa, com skip link e landmarks.
 - Skeleton estático no `index.html`, exibido antes do JS.
-- Mensagem de carregamento lento no `index.html`: se o JS não carregar em 8 segundos, o texto "O carregamento está demorando. Verifique sua conexão e recarregue a página." aparece só com CSS, também com movimento reduzido, e some quando o React monta.
+- Mensagem de carregamento lento no `index.html`: se o JS não carregar em 8 segundos, o texto "O carregamento está demorando. Verifique sua conexão e recarregue a página." aparece só com CSS, também com movimento reduzido, e some quando o React monta. Sem JavaScript, o `noscript` já avisa, e a mensagem de 8 segundos fica oculta.
 - Link da AniList no rodapé abre em nova aba, com `(abre em nova aba)` para leitores de tela.
 - `preconnect` para `graphql.anilist.co` e `s4.anilist.co`.
 
@@ -110,7 +110,7 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 | `commit-msg` | commitlint |
 | `pre-merge-commit` | `npm run verify`: lint, TypeScript, Vitest, build, size-limit e Playwright |
 
-As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches de funcionalidade, integradas à `main` só depois da avaliação do responsável pelo projeto. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
+As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches de funcionalidade, integradas à `main` só depois da avaliação do responsável pelo projeto. O GitHub Actions, ainda não criado e previsto para a publicação, deve executar as mesmas verificações. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
 
 Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os hooks do projeto e não há aviso na instalação. Por isso, `npm run hooks:install` define o caminho apenas no repositório e instala os hooks, sem alterar a configuração global.
 

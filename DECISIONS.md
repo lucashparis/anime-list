@@ -35,7 +35,11 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Título cortado em 3 linhas, como no design | Sem página de detalhe, quem enxerga em tela de toque não lê o título completo | Texto inteiro para leitores de tela e no atributo `title`, ao passar o mouse |
 | Até 3 gêneros por card | Os demais gêneros ficam ocultos | Card compacto e capa visível |
 | Teste de contrato fora do `verify` | O merge não detecta sozinho uma mudança na API | `npm run test:contract` roda antes do merge quando a consulta muda, e o Zod reprova em produção o que sair do schema |
-| Sem nova tentativa em 4xx | Um 429 passageiro mostra erro na hora | Evita agravar o limite de requisições; repetir a consulta chega com `feat/feedback-states` |
+| Sem nova tentativa em 4xx | Um 429 passageiro mostra erro na hora | Evita agravar o limite de requisições; o botão "Tentar novamente" repete a consulta quando o usuário quiser |
+| Timeout de 10s sem nova tentativa automática | Uma API lenta vira erro, mesmo que respondesse em 12s | O skeleton nunca passa de 10s, em vez de até 30s com 2 tentativas |
+| CSP sem relatório de violações | Uma violação em produção só aparece no console do navegador | Não há coletor, e a CSP é testada no Playwright com o `vercel.json` real |
+| HSTS de 2 anos sem `preload` | O domínio fica fora das listas de pré-carga | Não controlo o domínio final, e o `preload` é irreversível na prática |
+| Capa fora de `s4.anilist.co` descartada em vez de erro | O card aparece sem capa | A lista inteira não cai por causa de uma URL, e a CSP bloquearia o carregamento de qualquer jeito |
 
 | Busca só ao enviar | Não há resultados enquanto se digita | Respeita o limite de 30 requisições por minuto |
 | Ordem por relevância na busca | A lista muda de ordem ao buscar | Popularidade enterra o que o texto procura |
@@ -58,9 +62,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
 
-- Registrado na revisão do bloco, sem correção: "Ver mais" usa `aria-disabled` e mantém o rótulo depois de um erro; o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; o erro da primeira página não tem nova tentativa (`feat/feedback-states`); recarregar uma lista com várias páginas vencidas repete uma consulta por página.
-- Próximas funcionalidades: estados finais de erro e vazio, com nova tentativa.
-- Segurança: CSP e headers em `chore/security-headers`.
+- Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
 - Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.
 - Documentação: passo a passo técnico em `docs/walkthrough.md`.

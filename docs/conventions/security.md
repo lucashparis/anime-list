@@ -8,10 +8,21 @@ O aplicativo é estático, sem servidor, sem contas e sem segredos. A API da Ani
 - `index.html` sem scripts em linha, o que permite uma CSP sem `unsafe-inline`.
 - Versões exatas de dependências, `npm ci` sem alertas e `npm audit` sem vulnerabilidades.
 - Fonte servida pelo próprio aplicativo (Fontsource), sem terceiro adicional.
+- Cabeçalhos no `vercel.json`, para todas as rotas, com a CSP abaixo, `Strict-Transport-Security` de 2 anos (sem `includeSubDomains` nem `preload`), `Referrer-Policy: no-referrer`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` e `Permissions-Policy` sem câmera, microfone, geolocalização, pagamento e USB.
+- Timeout de 10 segundos em cada requisição à API.
+- Capas aceitas só de `https://s4.anilist.co/`: qualquer outra URL vira capa nula.
 
-## Previsto
+## Política de segurança de conteúdo
 
-A CSP, os headers e o `vercel.json` entram em `chore/security-headers`. A CSP não usa `unsafe-inline`, e as origens permitidas são as do próprio aplicativo, `graphql.anilist.co` para as consultas e `s4.anilist.co` para as capas.
+| Diretiva | Valor |
+| --- | --- |
+| `default-src`, `script-src`, `style-src`, `font-src` | `'self'` |
+| `img-src` | `'self' https://s4.anilist.co` |
+| `connect-src` | `'self' https://graphql.anilist.co` |
+| `object-src`, `frame-ancestors` | `'none'` |
+| `base-uri`, `form-action` | `'self'` |
+
+Sem `unsafe-inline`, `unsafe-eval` nem `data:`. Não há `report-uri`, porque o projeto não tem coletor. Um teste do Vitest reprova uma política mais frouxa, e o Playwright serve o build com os cabeçalhos do `vercel.json` e prova que o catálogo, o filtro, a busca e "Ver mais" não geram violação. O `vercel.json` só vale na Vercel: `npm run preview` não aplica os cabeçalhos.
 
 ## Dados externos
 

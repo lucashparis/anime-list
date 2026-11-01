@@ -9,7 +9,7 @@ Endpoint GraphQL: `https://graphql.anilist.co`. Capas em `https://s4.anilist.co`
 3. Solicitar apenas os campos usados na tela.
 4. Omitir variáveis vazias.
 5. Paginar apenas com `hasNextPage`.
-6. Tratar erros em um único cliente: rede, status HTTP e `errors`.
+6. Tratar erros em um único cliente: rede, tempo esgotado, status HTTP e `errors`.
 7. Converter a resposta para o modelo `Anime` antes de chegar à tela.
 
 Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O Zod e um teste de contrato contra a API real (`npm run test:contract`) cobrem esse risco.
@@ -21,10 +21,13 @@ Sem GraphQL Codegen, uma mudança no schema não é detectada na compilação. O
 | Falha | Tipo do `ApiError` | Nova tentativa |
 | --- | --- | --- |
 | Rede | `network` | Até 2 |
+| Sem resposta em 10s | `timeout` | Nenhuma |
 | Status 5xx | `http` | Até 2 |
 | Status 4xx, inclusive 429 | `http` | Nenhuma, para respeitar o limite de requisições |
 | Campo `errors` com status 200 | `graphql` | Nenhuma |
 | Corpo fora do schema | `schema` | Nenhuma |
+
+As capas só valem se começarem com `https://s4.anilist.co/`; outra URL vira capa nula. Cada requisição tem 10 segundos para responder. Uma consulta que falhou não repete sozinha ao montar de novo: só o botão "Tentar novamente" a repete.
 
 Os dados ficam válidos por 5 minutos, e focar a janela não dispara nova consulta. As consultas usam `networkMode: 'always'`: no padrão do TanStack Query, perder a conexão pausa a consulta sem erro, e a tela ficaria no skeleton indefinidamente.
 

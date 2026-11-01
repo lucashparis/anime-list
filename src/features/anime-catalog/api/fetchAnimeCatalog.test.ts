@@ -45,14 +45,22 @@ describe('fetchAnimeCatalog', () => {
           data: {
             Page: {
               pageInfo: { hasNextPage: false },
-              media: [{ ...onlyLarge, coverImage: { large: 'small.jpg', extraLarge: null } }],
+              media: [
+                {
+                  ...onlyLarge,
+                  coverImage: { large: 'https://s4.anilist.co/small.jpg', extraLarge: null },
+                },
+              ],
             },
           },
         }),
       ),
     );
     const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
-    expect(animes[0]?.cover).toEqual({ small: 'small.jpg', large: 'small.jpg' });
+    expect(animes[0]?.cover).toEqual({
+      small: 'https://s4.anilist.co/small.jpg',
+      large: 'https://s4.anilist.co/small.jpg',
+    });
   });
 
   it('sends a fixed named query, without description and without cookies', async () => {
@@ -91,5 +99,29 @@ describe('fetchAnimeCatalog', () => {
     const variables = recordVariables();
     await fetchAnimeCatalog({ format: null, search: '', page: 3 }, signal);
     expect(variables[0]).toMatchObject({ page: 3 });
+  });
+
+  it.each([
+    'https://evil.example/cover.jpg',
+    'https://s4.anilist.co.evil.example/cover.jpg',
+    'http://s4.anilist.co/cover.jpg',
+    'javascript:alert(1)',
+  ])('drops a cover outside the AniList image host: %s', async (url) => {
+    const media = { id: 1, title: { romaji: 'A' }, averageScore: 1, genres: [] };
+    server.use(
+      http.post(ANILIST_ENDPOINT, () =>
+        HttpResponse.json({
+          data: {
+            Page: {
+              pageInfo: { hasNextPage: false },
+              media: [{ ...media, coverImage: { large: url, extraLarge: url } }],
+            },
+          },
+        }),
+      ),
+    );
+    const { animes } = await fetchAnimeCatalog({ format: null, search: '', page: 1 }, signal);
+    expect(animes).toHaveLength(1);
+    expect(animes[0]?.cover).toBeNull();
   });
 });

@@ -61,5 +61,6 @@ Cada linha corresponde a uma branch integrada à `main`.
 | 5 | `feat/text-search` | Busca por texto enviada ao confirmar, ordenada por relevância e combinada com o filtro | [Spec](docs/specs/002-catalog-discovery/spec.md#feattext-search) |
 | 6 | `feat/load-more` | "Ver mais" com skeleton, erro sem perder a lista e aviso para leitores de tela | [Spec](docs/specs/002-catalog-discovery/spec.md#featload-more) |
 | 7 | `feat/feedback-states` | Timeout de 10s, nova tentativa, mensagem para o limite de requisições, lista vazia com limpeza de filtros e error boundary | [Spec](docs/specs/003-feedback-and-security/spec.md#featfeedback-states) |
+| 8 | `chore/security-headers` | CSP sem `unsafe-inline`, cabeçalhos no `vercel.json`, capas só de `s4.anilist.co` e teste da CSP no navegador | [Spec](docs/specs/003-feedback-and-security/spec.md#choresecurity-headers) |
 
 As próximas etapas estão na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
