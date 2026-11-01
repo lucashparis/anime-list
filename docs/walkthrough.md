@@ -52,7 +52,7 @@ Pontos para ler no código:
 | Decisão | Por quê | Onde está o registro |
 | --- | --- | --- |
 | Vite em vez de Next 16 | Menos JS e interativo mais cedo em rede lenta: 99 KB contra 174 KB e 3,8s contra 8,1s, medidos | [Vite e Next 16](decisions/000-pre-development.md#vite-e-next-16) |
-| Acessibilidade acima do design | Várias cores do design reprovavam no WCAG AA e foram corrigidas | [Desvios do design](decisions/000-pre-development.md#desvios-do-design) |
+| Design seguido, com acessibilidade acima dele | O layout segue o frame; várias cores de texto do design reprovavam no WCAG AA e foram corrigidas, e os rótulos estão em português | [Desvios do design](decisions/000-pre-development.md#desvios-do-design) |
 | Filtro e busca na URL | Link compartilhável e botão voltar, sem biblioteca de rotas | [architecture.md](architecture.md#fluxo-de-dados) |
 | Busca só ao enviar | A API limita a 30 requisições por minuto | [anilist.md](api/anilist.md#comportamentos-verificados) |
 | Zod na borda e teste de contrato | Não há GraphQL Codegen, então uma mudança no schema só seria vista em produção | [anilist.md](api/anilist.md) |
@@ -71,7 +71,7 @@ Todas as escolhas com custo aceito estão na tabela de trade-offs do [DECISIONS.
 | Unitários e de componente | Vitest com MSW; requisição sem handler reprova o teste | `npm test` |
 | Contrato | Consulta a API real com o schema; fora do `verify` | `npm run test:contract` |
 | Interface | Playwright em Chromium, axe WCAG 2.2 AA, 8 tamanhos de tela e CSP real | `npm run test:e2e` |
-| Tamanho | JS inicial até 100 KB gzip (hoje 87,4 KB) | `npm run size` |
+| Tamanho | JS inicial até 100 KB gzip (hoje 88,2 KB) | `npm run size` |
 
 Os hooks do Git rodam Prettier, ESLint e commitlint a cada commit, e o `verify` completo a cada merge. As convenções estão em [testing.md](conventions/testing.md) e [accessibility.md](conventions/accessibility.md).
 
@@ -86,6 +86,7 @@ O desenvolvimento foi feito com o Claude Code, com spec aprovada antes do códig
 - A aferição de idade da ECA Digital não foi confirmada e exige avaliação jurídica antes de uso comercial.
 - O Playwright cobre só Chromium: o Safari do iPhone é conferido à mão.
 - O GitHub Actions ainda não existe: as verificações rodam no hook de merge local.
+- A busca só consulta ao enviar, e o debounce é o primeiro item de [O que faria com mais tempo](../DECISIONS.md#o-que-faria-com-mais-tempo).
 - Fora do escopo: página de detalhe, tema escuro, outros idiomas, contas e PWA.
 
-A lista completa, com o que ficou registrado em cada revisão, está em [DECISIONS.md](../DECISIONS.md#evoluções).
+A lista completa, com o que ficou registrado em cada revisão, está em [DECISIONS.md](../DECISIONS.md#o-que-faria-com-mais-tempo).

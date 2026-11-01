@@ -155,6 +155,7 @@ Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os h
 8. `chore/security-headers`
 9. `feat/product-polish`
 10. `docs/technical-walkthrough`
+11. `feat/final-polish`, acrescentada depois, a partir de um levantamento de código e de fidelidade ao design ([spec 005](../005-final-polish/spec.md))
 
 ## Critérios de aceite
 

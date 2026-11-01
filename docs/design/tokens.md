@@ -1,6 +1,6 @@
 # Tokens e desvios do design
 
-O design é a referência visual: base de layout, cores e arredondamentos, sem reprodução literal de cada pixel. Os tokens ficam em `src/shared/styles/index.css`, dentro de `@theme`, com `--*: initial` para remover as escalas padrão do Tailwind. Só existem os valores abaixo.
+O design é seguido em layout, cores, tipografia e proporções. Os valores irregulares do frame (10, 11, 15, 19 e 25px) viram a escala de tokens, e a acessibilidade vence quando há conflito. Os tokens ficam em `src/shared/styles/index.css`, dentro de `@theme`, com `--*: initial` para remover as escalas padrão do Tailwind. Só existem os valores abaixo.
 
 ## Tokens
 

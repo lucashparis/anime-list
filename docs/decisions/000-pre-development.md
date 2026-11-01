@@ -12,7 +12,7 @@ Registro do que foi levantado, medido e decidido antes da primeira linha de cód
 
 1. Acessibilidade, usabilidade e contraste: a experiência de quem usa prevalece.
 2. Requisitos do produto.
-3. Design: base de layout, cores e arredondamentos, sem reprodução literal de cada pixel.
+3. Design: o desafio manda seguir o Figma, então layout, cores, tipografia e proporções seguem o frame. Os valores irregulares do arquivo viram a escala de tokens, e a acessibilidade vence quando há conflito.
 
 Todo desvio do design é registrado na seção [Desvios do design](#desvios-do-design).
 
@@ -232,7 +232,7 @@ Rótulos dos filtros:
 
 | Primeira ideia | Decisão final | O que mudou |
 | --- | --- | --- |
-| Reprodução pixel a pixel | Design como base visual | A análise mostrou espaçamentos irregulares, que gerariam código duplicado |
+| Reprodução pixel a pixel | Design seguido em layout, cores, tipografia e proporções, com espaçamentos em escala de tokens | A análise mostrou espaçamentos irregulares, que gerariam código duplicado. Em `feat/final-polish`, o layout foi medido lado a lado com o frame e realinhado (filtros acima da busca, busca de 1012px, "Ver mais" na largura da grade) |
 | Seguir o design mesmo com baixo contraste | Priorizar a experiência de uso | Os valores medidos reprovam no WCAG AA |
 | Next 16 por reduzir JS | Vite | A redução vem dos Server Components, e a medição mostrou mais JS neste caso |
 | `eslint-plugin-import-x` | Regra nativa do ESLint | Incompatível com a correção de segurança |
@@ -240,7 +240,7 @@ Rótulos dos filtros:
 
 ## Fora do escopo
 
-Página de detalhe, link externo nos cards, tema escuro, outros idiomas, contas de usuário e PWA.
+Página de detalhe, tema escuro, outros idiomas, contas de usuário e PWA. O link externo nos cards, que estava aqui, entrou em `feat/final-polish`, porque quem avalia espera abrir o anime.
 
 ## Fontes
 
