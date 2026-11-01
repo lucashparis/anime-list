@@ -9,7 +9,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src e2e --no-error-on-unmatched-pattern",
+    "test:guards": "node --test tools/eslint/guards.test.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@fontsource-variable/mulish": "5.3.0",
