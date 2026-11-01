@@ -4,7 +4,7 @@ Catálogo web de animes com dados da API AniList, com filtro por formato, busca 
 
 ## Estado atual
 
-Fundação concluída: instalação limpa, regras automáticas, tokens de design, layout base responsivo e documentação. O catálogo ainda não existe; ele chega nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+O catálogo mostra os 12 animes mais populares da AniList, em cards com capa, título, até 3 gêneros e nota por cor, com skeleton durante o carregamento. Filtro, busca, "Ver mais" e os demais estados de tela chegam nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
 
 ## Como executar
 
@@ -35,6 +35,7 @@ Roda, na ordem do merge: lint, typecheck, testes, build, limite de tamanho e tes
 | `npm run lint` | ESLint em `src` e `e2e` |
 | `npm run typecheck` | TypeScript estrito |
 | `npm test` | Vitest com Testing Library e MSW |
+| `npm run test:contract` | Consulta a API real com o schema; fica fora do `verify` e exige rede |
 | `npm run test:guards` | Prova de que cada regra de lint reprova o que deve |
 | `npm run build` | Build de produção |
 | `npm run size` | Limite de 100 KB gzip de JS inicial; rode o build antes |
@@ -55,5 +56,6 @@ Cada linha corresponde a uma branch integrada à `main`.
 | --- | --- | --- | --- |
 | 1 | `docs/pre-development-decisions` | Levantamento de design, API e obrigações legais; medições; decisões técnicas; spec da fundação | [Decisões](docs/decisions/000-pre-development.md) |
 | 2 | `chore/project-foundation` | Instalação limpa, regras automáticas, tokens, layout base e documentação | [Spec](docs/specs/000-foundation/spec.md) |
+| 3 | `feat/anime-catalog` | Cliente GraphQL, catálogo em cards, nota por cor, skeleton e teste de contrato | [Spec](docs/specs/001-anime-catalog/spec.md) |
 
 As próximas etapas estão na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).

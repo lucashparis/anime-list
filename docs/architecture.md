@@ -20,8 +20,6 @@ O ESLint reprova o sentido contrário com `no-restricted-imports`.
 
 ## Fluxo de dados
 
-Chega com `feat/anime-catalog`. O desenho é este:
-
 ```
 componente → hook → TanStack Query → cliente fetch → AniList
                                           ↓
@@ -34,7 +32,7 @@ componente → hook → TanStack Query → cliente fetch → AniList
 4. O Zod valida a resposta em tempo de execução.
 5. A resposta vira o modelo `Anime` antes de chegar à tela.
 
-Filtro e busca ficam na URL, com `URLSearchParams`. As regras de GraphQL estão em [anilist.md](api/anilist.md).
+Filtro e busca ficarão na URL, com `URLSearchParams`. As regras de GraphQL estão em [anilist.md](api/anilist.md).
 
 ## Mapa de pastas
 
@@ -45,22 +43,31 @@ src/
   main.tsx                   ponto de entrada
   app/
     App.tsx                  skip link, header, main e footer
+    AppProviders.tsx         provider do TanStack Query
     layout/                  Header e Footer
+  features/anime-catalog/
+    api/                     query, schema e conversão para Anime
+    hooks/                   useAnimeCatalog
+    model/                   tipo Anime e regra de cor da nota
+    components/              lista, card, selo da nota e skeleton
   shared/
+    api/                     cliente GraphQL, erros tipados e padrões do TanStack Query
     styles/index.css         tokens do @theme
-    ui/Logo.tsx              marca em dois tamanhos
-  test/                      setup do Vitest e servidor MSW
-e2e/layout.spec.ts           layout, axe, idioma e noscript
+    ui/                      Logo, Chip e Skeleton
+  test/                      setup do Vitest, MSW e dados de teste
+e2e/
+  layout.spec.ts             layout, axe, idioma e noscript
+  catalog.spec.ts            catálogo, estados da API e capturas
+  support/                   API interceptada e lista de telas
 tools/eslint/                regra no-comments e testes das regras
 index.html                   metadados, preconnect e skeleton estático
+vitest.contract.config.ts    teste de contrato contra a API real
 ```
 
 Previsto, na ordem das [branches](specs/000-foundation/spec.md#ordem-das-branches):
 
-- `src/features/anime-catalog/`: api, hooks, model e components.
-- `src/shared/api/`: cliente fetch e erros tipados.
-- `src/shared/ui/`: `Button`, `Chip` e `Skeleton`, criados junto com a primeira funcionalidade que os usar.
-- `src/app/`: providers do TanStack Query e error boundary.
+- `src/shared/ui/`: `Button`, criado com a primeira funcionalidade que o usar.
+- `src/app/`: error boundary.
 
 ## Carregamento
 

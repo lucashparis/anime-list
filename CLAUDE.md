@@ -2,7 +2,7 @@
 
 Catálogo web de animes com dados da API AniList: filtro por formato, busca por texto e nota destacada por cor. React 19, Vite 8, TypeScript estrito, Tailwind 4, TanStack Query e Zod.
 
-Estado atual: fundação concluída (layout base, tokens, regras automáticas). O catálogo vem nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+Estado atual: catálogo em cards com dados reais da AniList. Filtro, busca e "Ver mais" vêm nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
 
 ## Comandos
 
@@ -17,6 +17,7 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 | `npm run build` / `npm run preview` | Build de produção e servidor do build |
 | `npm run lint` / `npm run typecheck` | ESLint e TypeScript |
 | `npm test` | Vitest |
+| `npm run test:contract` | Consulta a API real com o schema; fora do `verify`, roda uma vez antes do merge quando a consulta muda |
 | `npm run test:guards` | Prova de que cada regra de lint reprova o que deve; roda pelo hook quando a configuração do ESLint muda |
 | `npm run test:e2e` | Playwright em Chromium, com axe |
 | `npm run size` | Limite de 100 KB gzip de JS inicial |
@@ -54,8 +55,8 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 
 ```
 src/app/        App, layout e providers
-src/features/   uma pasta por funcionalidade (ainda não criada)
-src/shared/     ui e styles (api chega com o catálogo), sem dependência de app ou features
+src/features/   uma pasta por funcionalidade: anime-catalog
+src/shared/     api, ui e styles, sem dependência de app ou features
 e2e/            Playwright
 tools/eslint/   regra local no-comments e testes das regras
 docs/           documentação
@@ -75,5 +76,6 @@ Carregue só o que a tarefa precisar.
 - [API AniList](docs/api/anilist.md)
 - [Decisões anteriores ao desenvolvimento](docs/decisions/000-pre-development.md)
 - [Spec da fundação](docs/specs/000-foundation/spec.md)
+- [Spec do catálogo](docs/specs/001-anime-catalog/spec.md)
 - [Decisões e trade-offs](DECISIONS.md)
 - [Uso de IA](AI_LOG.md)

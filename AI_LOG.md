@@ -6,7 +6,8 @@ Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigid
 
 - **Claude Code**, em todo o desenvolvimento.
 - **Claude Opus 5.5** coordenou o trabalho e faz a revisão final.
-- **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa, cada um com contexto novo.
+- **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa da fundação, cada um com contexto novo.
+- No catálogo, o **Opus 5.5** implementou direto na janela principal, sem subagente por tarefa, e o **Sonnet 5.5** fez a revisão da branch.
 - **Playwright** foi usado para validar o resultado no navegador.
 
 Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
@@ -40,6 +41,9 @@ Os commits levam a linha `Co-Authored-By: Claude Opus 5.5`. Ela não distingue q
 - O teste das regras de lint falhava em um único processo, porque o serviço de projeto do `typescript-eslint` guarda em cache os arquivos que não existiam. Cada caso passou a rodar em um processo filho.
 - A revisão visual das capturas reduziu o cabeçalho de 108px para 68px e devolveu a seta do `<details>`, que um `inline-flex` planejado havia removido.
 - Um passo de limpeza do plano (`git reset --hard`) apagou uma edição ainda não commitada durante a execução, e ela foi refeita.
+- O teste de `credentials: 'omit'` falhou porque o MSW não preserva a opção no Node, embora o código estivesse certo. O teste passou a observar o `fetch`.
+- Com 12 cards, a página passou da altura da tela e reprovou o teste do rodapé em tela alta. O teste passou a usar lista vazia, que é o caso que ele protege.
+- A spec propunha título inteiro e lista em alta. O responsável pelo projeto escolheu corte em 3 linhas e lista por popularidade.
 
 ## Rejeitado
 

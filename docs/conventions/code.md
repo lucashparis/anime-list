@@ -20,34 +20,13 @@ Componentes recebem `children` e props. O pai controla o espaçamento com `gap`;
 
 ## Variantes em mapa tipado
 
-Variantes são uniões de strings e um `Record` que as mapeia para classes. O TypeScript reprova uma variante sem classe. Referência real: `Logo` em `src/shared/ui/Logo.tsx`.
-
-Exemplo de um `Chip` (ainda não existe no código):
-
-```tsx
-import type { ReactNode } from 'react';
-
-type ChipVariant = 'filled' | 'outlined';
-
-const variantClassName: Record<ChipVariant, string> = {
-  filled: 'bg-primary text-white',
-  outlined: 'border border-primary text-primary',
-};
-
-export function Chip({ variant, children }: { variant: ChipVariant; children: ReactNode }) {
-  return (
-    <span className={`rounded-sm px-sm py-xs text-xs ${variantClassName[variant]}`}>
-      {children}
-    </span>
-  );
-}
-```
+Variantes são uniões de strings e um `Record` que as mapeia para classes. O TypeScript reprova uma variante sem classe. Referências reais: `Logo` em `src/shared/ui/Logo.tsx` e `ScoreBadge` em `src/features/anime-catalog/components/ScoreBadge.tsx`.
 
 ## Cláusula de guarda
 
 Desvios de fluxo usam retorno antecipado. `else` e `else if` são reprovados. O ternário simples escolhe um valor, e o aninhado é reprovado.
 
-Exemplo da regra de cor da nota (ainda não existe no código):
+Exemplo da regra de cor da nota, em `src/features/anime-catalog/model/scoreTone.ts`:
 
 ```ts
 type ScoreTone = 'danger' | 'warning' | 'success';
