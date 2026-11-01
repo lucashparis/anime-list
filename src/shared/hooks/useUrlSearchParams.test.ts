@@ -38,6 +38,16 @@ describe('useUrlSearchParams', () => {
     expect(window.history.length).toBe(initialLength);
   });
 
+  it('treats equivalent encodings of the same query as unchanged', () => {
+    window.history.replaceState(null, '', '/?q=one%20piece');
+    const { result } = renderHook(() => useUrlSearchParams());
+    const initialLength = window.history.length;
+    act(() => {
+      result.current.update({ q: 'one piece' });
+    });
+    expect(window.history.length).toBe(initialLength);
+  });
+
   it('follows the browser back button', () => {
     const { result } = renderHook(() => useUrlSearchParams());
     act(() => {

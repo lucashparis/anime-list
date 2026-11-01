@@ -37,6 +37,12 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Teste de contrato fora do `verify` | O merge não detecta sozinho uma mudança na API | `npm run test:contract` roda antes do merge quando a consulta muda, e o Zod reprova em produção o que sair do schema |
 | Sem nova tentativa em 4xx | Um 429 passageiro mostra erro na hora | Evita agravar o limite de requisições; repetir a consulta chega com `feat/feedback-states` |
 
+| Busca só ao enviar | Não há resultados enquanto se digita | Respeita o limite de 30 requisições por minuto |
+| Ordem por relevância na busca | A lista muda de ordem ao buscar | Popularidade enterra o que o texto procura |
+| Filtro em botões, não em `select` | Ocupa mais espaço em telas estreitas | As 8 opções ficam visíveis e a quebra de linha evita rolagem horizontal |
+| "Ver mais" em vez de paginação | Não há como pular para o fim | Mantém o contexto e usa só `hasNextPage`, que a API garante |
+| Foco fica em "Ver mais" | Quem usa teclado precisa voltar ao início para ler os novos cards | Anúncio "12 animes carregados" e botão no mesmo lugar |
+
 ## O que foi além do mínimo
 
 - Instalação limpa: `npm ci` sem alertas e `npm audit` sem vulnerabilidades, com cada exceção justificada.
@@ -52,7 +58,8 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
 
-- Próximas funcionalidades: filtro por formato, busca por texto, "Ver mais" e estados de erro e vazio.
+- Registrado na revisão do bloco, sem correção: "Ver mais" usa `aria-disabled` e mantém o rótulo depois de um erro; o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; o erro da primeira página não tem nova tentativa (`feat/feedback-states`); recarregar uma lista com várias páginas vencidas repete uma consulta por página.
+- Próximas funcionalidades: estados finais de erro e vazio, com nova tentativa.
 - Segurança: CSP e headers em `chore/security-headers`.
 - Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.

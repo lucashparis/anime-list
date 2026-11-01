@@ -2,7 +2,7 @@
 
 Catálogo web de animes com dados da API AniList: filtro por formato, busca por texto e nota destacada por cor. React 19, Vite 8, TypeScript estrito, Tailwind 4, TanStack Query e Zod.
 
-Estado atual: catálogo em cards com dados reais da AniList. Filtro, busca e "Ver mais" vêm nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
+Estado atual: catálogo em cards com dados reais da AniList, filtro por formato, busca por texto e "Ver mais". Os estados de tela e o acabamento vêm nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
 
 ## Comandos
 
@@ -56,7 +56,7 @@ Requer Node 24.22.2 (`.nvmrc`). Rode tudo na raiz do repositório.
 ```
 src/app/        App, layout e providers
 src/features/   uma pasta por funcionalidade: anime-catalog
-src/shared/     api, ui e styles, sem dependência de app ou features
+src/shared/     api, hooks, ui e styles, sem dependência de app ou features
 e2e/            Playwright
 tools/eslint/   regra local no-comments e testes das regras
 docs/           documentação

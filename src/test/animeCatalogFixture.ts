@@ -17,6 +17,20 @@ function fixtureMedia(id: number, overrides: object = {}) {
   };
 }
 
+const PAGE_SIZE = 12;
+
+export function pagedCatalogResponse(page: number, hasNextPage: boolean) {
+  const offset = (page - 1) * PAGE_SIZE;
+  return {
+    data: {
+      Page: {
+        pageInfo: { hasNextPage },
+        media: Array.from({ length: PAGE_SIZE }, (_, index) => fixtureMedia(offset + index + 1)),
+      },
+    },
+  };
+}
+
 export const animeCatalogResponse = {
   data: {
     Page: {

@@ -75,13 +75,17 @@ export interface CatalogFilters {
   search: string;
 }
 
+export interface CatalogRequest extends CatalogFilters {
+  page: number;
+}
+
 export async function fetchAnimeCatalog(
-  { format, search }: CatalogFilters,
+  { format, search, page }: CatalogRequest,
   signal: AbortSignal,
 ): Promise<AnimePage> {
   const sort = [search ? 'SEARCH_MATCH' : 'POPULARITY_DESC'];
   const variables = {
-    page: 1,
+    page,
     perPage: PAGE_SIZE,
     sort,
     ...(format && { format }),
