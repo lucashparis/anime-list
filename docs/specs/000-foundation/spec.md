@@ -59,7 +59,7 @@ docs/                        documentação
 | `no-nested-ternary` | Erro |
 | `local/no-comments` | Regra local que reprova qualquer comentário em `src` e `e2e` |
 
-Como `eslint-disable` também é um comentário, a regra local impede exceções no código. Exceção inevitável exige alterar a configuração e registrar o motivo em `DECISIONS.md`.
+Como `eslint-disable` também é um comentário, a regra local impede exceções no código. Para isso, `linterOptions.noInlineConfig` fica ativo; sem ele, o próprio `eslint-disable` desligaria a regra. Exceção inevitável exige alterar a configuração e registrar o motivo em `DECISIONS.md`.
 
 Arquivos de teste podem exceder `max-lines-per-function`, porque um bloco `describe` reúne vários casos.
 
@@ -108,6 +108,8 @@ Definidos em `shared/styles` com `@theme` do Tailwind, removendo as escalas padr
 | `pre-merge-commit` | TypeScript, Vitest, Playwright, build e size-limit |
 
 As verificações pesadas rodam no merge porque o desenvolvimento acontece em branches locais até a publicação. O GitHub Actions executa as mesmas verificações depois da publicação. O `size-limit` reprova acima de 100 KB gzip de JS inicial.
+
+Se o Git da máquina tiver `core.hooksPath` global, o Lefthook não instala os hooks do projeto e não há aviso na instalação. Por isso, `npm run hooks:install` define o caminho apenas no repositório e instala os hooks, sem alterar a configuração global.
 
 ## Documentação
 
