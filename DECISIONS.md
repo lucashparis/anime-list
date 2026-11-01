@@ -62,6 +62,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 Fora do escopo atual, na ordem das [branches](docs/specs/000-foundation/spec.md#ordem-das-branches):
 
+- Registrado na revisão do Bloco C, sem correção: o `ErrorBoundary` cobre só o catálogo e não registra a causa, porque não há serviço de erros; o texto do erro continua na tela durante a nova tentativa; `COVER_ORIGIN` repete a origem da CSP e do `preconnect`, e uma mudança de CDN da AniList exige alterar os três.
 - Registrado na revisão do Bloco B, sem correção: o campo de busca só consulta ao enviar, então texto digitado e não enviado permanece ao trocar o filtro; recarregar uma lista com várias páginas vencidas repete uma consulta por página.
 - Acabamento: prévia do link, ícones e imagens em `feat/product-polish`.
 - Publicação: GitHub Actions com as mesmas verificações do merge.

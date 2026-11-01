@@ -1,6 +1,6 @@
 import { delay, http, HttpResponse } from 'msw';
 import * as z from 'zod/mini';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { ApiError, requestGraphql } from '@/shared/api/graphqlClient';
 import { ANILIST_ENDPOINT } from '@/test/anilistHandlers';
 import { server } from '@/test/server';
@@ -50,6 +50,30 @@ describe('requestGraphql', () => {
       dataSchema,
     ).catch((failure: unknown) => failure);
     expect(error).toMatchObject({ kind: 'timeout', status: null });
+  });
+
+  it('reports a timeout while the body is still arriving', async () => {
+    const response = new Response('{}');
+    vi.spyOn(response, 'json').mockImplementation(
+      () =>
+        new Promise((_, reject) => {
+          setTimeout(() => {
+            reject(new DOMException('aborted', 'AbortError'));
+          }, 40);
+        }),
+    );
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(response);
+    const error = await requestGraphql(
+      {
+        query: 'query Test { value }',
+        variables: {},
+        signal: new AbortController().signal,
+        timeoutMs: 10,
+      },
+      dataSchema,
+    ).catch((failure: unknown) => failure);
+    vi.restoreAllMocks();
+    expect(error).toMatchObject({ kind: 'timeout' });
   });
 
   it('reports a cancellation as a network failure, not a timeout', async () => {
