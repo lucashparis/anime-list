@@ -33,7 +33,7 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 | Rótulos dos filtros em português, com o Figma em inglês | O texto da tela diverge do frame | O público e os leitores de tela usam português; o mapa de rótulos está nas [decisões prévias](docs/decisions/000-pre-development.md#idioma). Títulos e gêneros seguem a API, em inglês e romaji |
 | Cores de texto de baixo contraste do design corrigidas | A nota amarela e a verde e o "Ver mais" têm texto escuro em vez de claro | Os valores do Figma reprovam no WCAG AA (1,37:1 a 2,21:1); a cor de fundo continua a do design |
 | Espaçamentos do design normalizados em uma escala de 4, 8, 12, 16 e 24px | Diferenças de 1 a 4px em relação ao frame | O frame mistura 10, 11, 15, 19 e 25px; a escala evita valores soltos no código |
-| Busca ao enviar, não a cada tecla | Resultado menos imediato | Respeita o limite de 30 requisições por minuto |
+| Busca ao enviar, não a cada tecla, e sem debounce planejado | Não há resultados enquanto se digita | O limite de 30 requisições por minuto é baixo, e uma busca instantânea, mesmo com debounce, o consumiria com o uso normal de quem digita devagar ou corrige o termo. Enviar com Enter ou "Buscar" mantém uma consulta por intenção do usuário |
 | Lista por popularidade | Quase só clássicos, sem os lançamentos em alta que o design sugere | Lista estável e títulos conhecidos; a busca alcança o restante |
 | Título cortado em 3 linhas, como no design | Sem página de detalhe, quem enxerga em tela de toque não lê o título completo | Texto inteiro para leitores de tela e no atributo `title`, ao passar o mouse |
 | Até 3 gêneros por card | Os demais gêneros ficam ocultos | Card compacto e capa visível |
@@ -73,17 +73,16 @@ Prioridade: acessibilidade, usabilidade e contraste; depois os requisitos do pro
 
 ## O que faria com mais tempo
 
-Do mais para o menos prioritário:
+Do mais para o menos prioritário. A busca instantânea, com ou sem debounce, não está na lista de propósito: o limite da API é restrito, e a decisão está nos [trade-offs](#trade-offs).
 
-1. **Busca com debounce.** Hoje a busca só consulta ao enviar, por causa do limite de 30 requisições por minuto. Com debounce de cerca de 400ms, cancelamento da consulta anterior (`AbortSignal`) e cache por termo, o resultado apareceria enquanto se digita sem estourar o limite.
-2. **GitHub Actions** com as mesmas verificações do `verify`. Hoje elas rodam só nos hooks locais, e nada impede um merge sem rodá-las em outra máquina.
-3. **Safari do iOS.** O Playwright cobre só Chromium, e a conferência no iPhone é manual.
-4. **Lista inicial mais atual.** A lista por popularidade traz quase só clássicos; uma lista em alta ou por temporada aproxima o catálogo do que o design sugere.
-5. **Página de detalhe**, em vez de abrir a AniList, e título completo para quem usa tela de toque.
-6. **Desempenho do primeiro card.** O LCP do mobile fica em cerca de 3,5s, porque depende da cadeia HTML, JS, API e capa de terceiros. A pré-busca da primeira página exigiria entradas separadas no Vite e um cliente de consulta compartilhado.
-7. **Jurídico.** Avaliar a aferição de idade da ECA Digital antes de uso comercial.
-8. **Ferramentas.** Voltar ao TypeScript 7 quando o `typescript-eslint` aceitar.
-9. **Produto.** Tema escuro, outros idiomas, contas de usuário e PWA.
+1. **GitHub Actions** com as mesmas verificações do `verify`. Hoje elas rodam só nos hooks locais, e nada impede um merge sem rodá-las em outra máquina.
+2. **Safari do iOS.** O Playwright cobre só Chromium, e a conferência no iPhone é manual.
+3. **Lista inicial mais atual.** A lista por popularidade traz quase só clássicos; uma lista em alta ou por temporada aproxima o catálogo do que o design sugere.
+4. **Página de detalhe**, em vez de abrir a AniList, e título completo para quem usa tela de toque.
+5. **Desempenho do primeiro card.** O LCP do mobile fica em cerca de 3,5s, porque depende da cadeia HTML, JS, API e capa de terceiros. A pré-busca da primeira página exigiria entradas separadas no Vite e um cliente de consulta compartilhado.
+6. **Jurídico.** Avaliar a aferição de idade da ECA Digital antes de uso comercial.
+7. **Ferramentas.** Voltar ao TypeScript 7 quando o `typescript-eslint` aceitar.
+8. **Produto.** Tema escuro, outros idiomas, contas de usuário e PWA.
 
 ### Pendências registradas nas revisões
 
