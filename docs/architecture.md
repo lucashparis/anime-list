@@ -65,10 +65,14 @@ e2e/
   load-more.spec.ts          "Ver mais", skeleton, erro e nova tentativa
   feedback-states.spec.ts    timeout, 429, erro, lista vazia e limpeza de filtros
   security-headers.spec.ts   build servido com a CSP do vercel.json
+  product-polish.spec.ts     ícones, imagem de prévia e robots.txt
   support/                   API interceptada e lista de telas
 tools/eslint/                regra no-comments e testes das regras
 index.html                   metadados, preconnect e skeleton estático
 vercel.json                  cabeçalhos de segurança, com a CSP
+public/                      ícones, imagem de prévia e robots.txt
+tools/brand/                 gerador dos ícones e das imagens de prévia (`npm run assets:generate`)
+docs/assets/                 imagem de prévia do repositório no GitHub
 vitest.contract.config.ts    teste de contrato contra a API real
 ```
 

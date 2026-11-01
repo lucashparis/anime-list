@@ -45,6 +45,7 @@ Os desvios de cor, contraste, espaçamento, altura e rodapé estão na [tabela d
 | Link da AniList | Não existe | Abre em nova aba, com `(abre em nova aba)` visível só para leitores de tela | Quem lê o catálogo não perde a página |
 | Mensagem de carregamento lento | Não existe | Parágrafo no `index.html` que aparece após 8 segundos se o JS não carregar, inclusive com movimento reduzido, e some quando o React monta | Avisa quem está sem conexão; não é movimento, por isso não usa `motion-safe` |
 | Película sobre a capa | Escurecimento sem contraste garantido | `scrim` atrás do texto, acompanhando a altura dele e dissolvendo em 24px | Branco sobre o `scrim` dá ao menos 5,7:1, mesmo em capa branca e título longo |
+| Ícone e prévia do link | Não existe | Monograma "BA" ("B" branco e "A" `warning`) sobre `primary`; a prévia traz só a marca e a frase, sem capas | O "A" amarelo dá 4,66:1 e o "B" branco 8,08:1 sobre `primary`, acima dos 3:1 de um componente gráfico; as capas são da AniList |
 | Nota nula | Não existe | Selo em `neutral-100` com "Sem nota" em `ink` | A API pode não ter nota, e a cor não pode ser a única informação |
 
 ## Como adicionar um token

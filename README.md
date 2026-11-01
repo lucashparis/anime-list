@@ -2,6 +2,8 @@
 
 Catálogo web de animes com dados da API AniList, com filtro por formato, busca por texto e nota destacada por cor.
 
+Em produção: <https://anime-list-silk.vercel.app/>.
+
 ## Estado atual
 
 O catálogo mostra os animes mais populares da AniList, 12 por vez, em cards com capa, título, até 3 gêneros e nota por cor, com skeleton durante o carregamento. Filtro por formato e busca por texto (enviada com Enter ou "Buscar") ficam na URL (`?format=MOVIE&q=naruto`). "Ver mais" acrescenta mais 12 animes à lista. Erro, 429, timeout de 10s, lista vazia e falha de renderização têm mensagem e botão próprios. O acabamento chega nas próximas branches, listadas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
@@ -62,5 +64,6 @@ Cada linha corresponde a uma branch integrada à `main`.
 | 6 | `feat/load-more` | "Ver mais" com skeleton, erro sem perder a lista e aviso para leitores de tela | [Spec](docs/specs/002-catalog-discovery/spec.md#featload-more) |
 | 7 | `feat/feedback-states` | Timeout de 10s, nova tentativa, mensagem para o limite de requisições, lista vazia com limpeza de filtros e error boundary | [Spec](docs/specs/003-feedback-and-security/spec.md#featfeedback-states) |
 | 8 | `chore/security-headers` | CSP sem `unsafe-inline`, cabeçalhos no `vercel.json`, capas só de `s4.anilist.co` e teste da CSP no navegador | [Spec](docs/specs/003-feedback-and-security/spec.md#choresecurity-headers) |
+| 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
 
 As próximas etapas estão na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches).
