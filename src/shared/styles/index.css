@@ -17,6 +17,7 @@
   --color-neutral-400: #8a94a6;
   --color-neutral-500: #6b7280;
   --color-ink: #1a1a1a;
+  --color-scrim: rgb(0 0 0 / 60%);
 
   --spacing-xs: 4px;
   --spacing-sm: 8px;
@@ -40,6 +41,7 @@
   --text-md: 20px;
   --text-lg: 24px;
   --text-xl: 40px;
+  --leading-tight: 1.25;
   --font-weight-regular: 400;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
@@ -65,5 +67,12 @@
     to {
       visibility: visible;
     }
+  }
+}
+
+@layer base {
+  body {
+    color: var(--color-ink);
+    font-size: var(--text-sm);
   }
 }

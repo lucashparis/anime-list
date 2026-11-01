@@ -1,18 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
+import { ANILIST_ENDPOINT, fulfillAnilist, test } from './support/anilist';
+import { SCREENS, WCAG_TAGS } from './support/screens';
 
-const SCREENS = [
-  { name: 'phone-320', width: 320, height: 568 },
-  { name: 'phone-375', width: 375, height: 667 },
-  { name: 'tablet-768', width: 768, height: 1024 },
-  { name: 'laptop-1024', width: 1024, height: 768 },
-  { name: 'desktop-1366', width: 1366, height: 768 },
-  { name: 'desktop-1920', width: 1920, height: 1080 },
-  { name: 'phone-landscape', width: 844, height: 390 },
-  { name: 'zoom-200', width: 683, height: 384, deviceScaleFactor: 2 },
-] as const;
-
-const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const NOTICE = 'Aviso de privacidade';
 const HEADER_HEIGHT = 68;
 const SKELETON_BLOCKS = '[data-testid="page-skeleton"] .min-h-card';
@@ -34,7 +24,6 @@ for (const screen of SCREENS) {
         () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
       );
       expect(overflow).toBe(0);
-      await page.screenshot({ path: `test-results/layout/${name}.png`, fullPage: true });
     });
 
     test(`${name}: keeps the header at 68px`, async ({ page }) => {
@@ -76,7 +65,7 @@ test.describe('without JavaScript', () => {
     const names = await page
       .locator(SKELETON_BLOCKS)
       .evaluateAll((blocks) => blocks.map((block) => getComputedStyle(block).animationName));
-    expect(names).toHaveLength(8);
+    expect(names).toHaveLength(12);
     for (const animationName of names) {
       expect(animationName).not.toBe('none');
     }
@@ -91,7 +80,7 @@ test.describe('with reduced motion', () => {
     const names = await page
       .locator(SKELETON_BLOCKS)
       .evaluateAll((blocks) => blocks.map((block) => getComputedStyle(block).animationName));
-    expect(names).toHaveLength(8);
+    expect(names).toHaveLength(12);
     for (const animationName of names) {
       expect(animationName).toBe('none');
     }
@@ -150,7 +139,13 @@ test.describe('tall screens', () => {
   test.use({ viewport: { width: 1920, height: 1080 } });
 
   test('keeps the footer at the bottom of tall screens', async ({ page }) => {
+    await page.route(ANILIST_ENDPOINT, (route) =>
+      fulfillAnilist(route, {
+        json: { data: { Page: { pageInfo: { hasNextPage: false }, media: [] } } },
+      }),
+    );
     await page.goto('/');
+    await expect(page.getByRole('list', { name: 'Animes' })).toBeAttached();
     const box = await page.locator('footer').boundingBox();
     const innerHeight = await page.evaluate(() => window.innerHeight);
     expect((box?.y ?? 0) + (box?.height ?? 0)).toBe(innerHeight);
