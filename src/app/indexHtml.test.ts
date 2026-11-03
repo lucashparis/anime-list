@@ -39,6 +39,14 @@ describe('index.html', () => {
     }
   });
 
+  it('links the stylesheet in the head, so the page never paints without it', () => {
+    const stylesheets = [...document.head.querySelectorAll('link[rel="stylesheet"]')].map((link) =>
+      link.getAttribute('href'),
+    );
+    expect(stylesheets).toEqual(['/src/shared/styles/index.css']);
+    expect(readFileSync('src/main.tsx', 'utf8')).not.toContain('.css');
+  });
+
   it('keeps the page free of inline scripts and styles', () => {
     expect(document.querySelectorAll('style, script:not([src])')).toHaveLength(0);
     expect(document.querySelectorAll('[style]')).toHaveLength(0);

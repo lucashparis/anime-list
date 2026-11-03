@@ -37,6 +37,17 @@ describe('SearchForm', () => {
     expect(window.location.search).toBe('?q=naruto');
   });
 
+  it('keeps a single space between words in the query, the URL and the field', async () => {
+    const variables = recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.type(searchBox(), 'naruto   shippuden{Enter}');
+    await screen.findByRole('list', { name: 'Animes' });
+    expect(variables.at(-1)).toMatchObject({ search: 'naruto shippuden' });
+    expect(window.location.search).toBe('?q=naruto+shippuden');
+    expect(searchBox()).toHaveValue('naruto shippuden');
+  });
+
   it('keeps the focus on the field after the search is sent', async () => {
     recordVariables();
     renderWithQueryClient(<AnimeCatalog />);

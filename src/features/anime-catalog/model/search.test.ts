@@ -7,6 +7,8 @@ describe('normalizeSearch', () => {
     ['', ''],
     ['   ', ''],
     ['  naruto ', 'naruto'],
+    ['naruto   shippuden', 'naruto shippuden'],
+    ['naruto\t shippuden', 'naruto shippuden'],
   ])('turns %j into %j', (value, expected) => {
     expect(normalizeSearch(value)).toBe(expected);
   });
