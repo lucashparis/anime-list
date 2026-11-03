@@ -9,9 +9,10 @@ Registro de como a IA foi usada no BuscAnime, com o que foi verificado, corrigid
 - **Claude Sonnet 5.5**, em subagentes, fez a implementação e a revisão de cada tarefa da fundação, cada um com contexto novo.
 - No catálogo, o **Opus 5.5** implementou direto na janela principal, sem subagente por tarefa, e o **Sonnet 5.5** fez a revisão da branch.
 - Daí em diante, o **Sonnet 5.5** implementou direto na janela principal, uma sessão por bloco, e fez a revisão de cada bloco. Os blocos são: A, a fundação e o catálogo; B, filtro, busca e "Ver mais"; C, estados de tela e cabeçalhos de segurança; D, ícones, prévia do link e passo a passo técnico; e a lapidação final (`feat/final-polish`).
+- Na `fix/search-and-load-feedback`, o **Opus 5.5** investigou e implementou direto na janela principal, e o **Sonnet 5.5** revisou a branch.
 - **Playwright** foi usado para validar o resultado no navegador.
 
-Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o catálogo, Sonnet 5.5 depois). Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
+Os commits levam a linha `Co-Authored-By` do modelo da sessão (Opus 5.5 até o catálogo, Sonnet 5.5 depois e Opus 5.5 na `fix/search-and-load-feedback`). Ela não distingue quem escreveu cada trecho: a divisão real é a descrita acima.
 
 ## Organização
 
