@@ -13,9 +13,17 @@ export function EmptyCatalog() {
 
   return (
     <div className="flex flex-col items-center gap-lg text-center">
-      <p role="status" className="wrap-break-word">
-        {search ? `Nenhum anime encontrado para “${search}”.` : 'Nenhum anime encontrado.'}
-      </p>
+      <div role="status" className="flex flex-col gap-sm">
+        <p className="wrap-break-word">
+          {search ? `Nenhum anime encontrado para “${search}”.` : 'Nenhum anime encontrado.'}
+        </p>
+        {search && (
+          <p>
+            A busca só reconhece palavras completas do título. Se você digitou apenas o começo de um
+            nome, escreva a palavra inteira, como “Naruto” em vez de “Nar”.
+          </p>
+        )}
+      </div>
       {hasFilters && (
         <Button variant="solid" onClick={handleClear}>
           Limpar busca e filtro

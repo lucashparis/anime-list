@@ -13,6 +13,8 @@ afterEach(() => {
 });
 
 const emptyPage = { data: { Page: { pageInfo: { hasNextPage: false }, media: [] } } };
+const WHOLE_WORD_HINT =
+  'A busca só reconhece palavras completas do título. Se você digitou apenas o começo de um nome, escreva a palavra inteira, como “Naruto” em vez de “Nar”.';
 
 describe('CatalogError', () => {
   it('retries the query with the same button until the API answers', async () => {
@@ -63,7 +65,8 @@ describe('EmptyCatalog', () => {
       }),
     );
     renderWithQueryClient(<AnimeCatalog />);
-    expect(await screen.findByText('Nenhum anime encontrado para “zzz”.')).toBeInTheDocument();
+    const message = await screen.findByText('Nenhum anime encontrado para “zzz”.');
+    expect(message.closest('[role="status"]')).toHaveTextContent(WHOLE_WORD_HINT);
     await userEvent.click(screen.getByRole('button', { name: 'Limpar busca e filtro' }));
     await screen.findByRole('list', { name: 'Animes' });
     expect(window.location.search).toBe('');
@@ -76,5 +79,6 @@ describe('EmptyCatalog', () => {
     renderWithQueryClient(<AnimeCatalog />);
     expect(await screen.findByText('Nenhum anime encontrado.')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Limpar busca e filtro' })).not.toBeInTheDocument();
+    expect(screen.queryByText(WHOLE_WORD_HINT)).not.toBeInTheDocument();
   });
 });
