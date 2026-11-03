@@ -79,7 +79,7 @@ Detalhes em [Testes](docs/conventions/testing.md). Não há GitHub Actions: as v
 
 ## Linha do tempo
 
-Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design.
+Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design, e a 12ª corrige problemas relatados no uso.
 
 | # | Branch | Entrega | Referência |
 | --- | --- | --- | --- |
@@ -94,5 +94,6 @@ Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as
 | 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
 | 10 | `docs/technical-walkthrough` | Passo a passo técnico para quem avalia o código, com teste dos links | [Passo a passo](docs/walkthrough.md) |
 | 11 | `feat/final-polish` | Cards que abrem a AniList, movimento ao passar o mouse, foco mantido na busca, título da aba, limite de busca, cache dos assets, cor da capa como fundo, layout alinhado ao Figma e licença MIT | [Spec](docs/specs/005-final-polish/spec.md) |
+| 12 | `fix/search-and-load-feedback` | Busca sem espaços repetidos, lista vazia que explica a busca por palavras completas e fim do aviso de carregamento que piscava no `npm run dev` | [Spec](docs/specs/006-search-feedback/spec.md) |
 
 O que ficou de fora está em [O que faria com mais tempo](DECISIONS.md#o-que-faria-com-mais-tempo).

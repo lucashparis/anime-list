@@ -39,6 +39,7 @@ Verificados com requisições reais.
 | --- | --- |
 | Limite atual de 30 requisições por minuto, informado no header | Busca dispara ao enviar, nunca a cada tecla |
 | `search: ""` retorna lista vazia; `null` retorna tudo | Variáveis vazias são omitidas |
+| `search` compara palavras completas, não o começo delas: `Nar` e `Narut` não trazem Naruto, e `Shingeki no Kyo` funciona porque "Shingeki" está inteira. A tolerância a erros é irregular (`Bleac` traz BLEACH), e não há outro filtro de título | A lista vazia orienta a escrever a palavra inteira |
 | `total` e `lastPage` não são confiáveis, segundo a documentação | Paginação usa apenas `hasNextPage`; sem contador de resultados |
 | `averageScore`, `format` e `title.english` podem ser nulos | Nota nula tem estado próprio; título usa `romaji` |
 | Formato inválido retorna erro 400; a documentação avisa que pode haver erro com status 200 | Cliente verifica o status e o campo `errors` |
