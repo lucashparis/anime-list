@@ -1,6 +1,6 @@
 # Spec 006: Busca e carregamento
 
-Branch: `fix/search-and-load-feedback`. Vem de três problemas relatados pelo responsável pelo projeto depois da `feat/final-polish`. Base em [005-final-polish](../005-final-polish/spec.md).
+Branch: `fix/search-and-load-feedback`. Vem de três problemas de uso e de uma avaliação do README, relatados pelo responsável pelo projeto depois da `feat/final-polish`. Base em [005-final-polish](../005-final-polish/spec.md).
 
 ## Diagnóstico
 
@@ -17,6 +17,10 @@ Branch: `fix/search-and-load-feedback`. Vem de três problemas relatados pelo re
 | Espaços na busca | Comportamento | Qualquer sequência de espaços, tabulações ou quebras vira um único espaço, antes do limite de 100 caracteres. Vale para a consulta, para a URL e para o campo |
 | Lista vazia com busca | Texto | Abaixo de "Nenhum anime encontrado para “termo”.": "A busca só reconhece palavras completas do título. Se você digitou apenas o começo de um nome, escreva a palavra inteira, como “Naruto” em vez de “Nar”." As duas frases ficam na mesma região `role="status"`. Sem busca, a dica não aparece |
 | CSS da página | Técnico | Entra por `<link rel="stylesheet">` no `index.html`, e não mais pelo `main.tsx`. O dev passa a pintar como o build, e o HMR do Tailwind continua funcionando |
+| Instalação do Node no README | Documentação | `nvm install 24.22.2` e `nvm use 24.22.2`, com a versão escrita, porque `nvm use` sozinho falha sem a versão instalada e o nvm-windows não lê o `.nvmrc`. O README avisa que versões fora de `>=24.22.2 <25` são recusadas pelo `engine-strict` |
+| Passos do README | Documentação | "Rodar o app" (nvm, `npm ci`, `npm run dev`) separado de "Desenvolver e testar" (hooks e navegador do Playwright, ambos opcionais) |
+| Linha do tempo | Documentação | Entra a `docs/search-on-submit`, que já estava na `main` e faltava na tabela, e esta branch passa a ser a 13ª |
+| Link do Figma | Fora do escopo | O link não é publicado no repositório; o README segue citando os desvios medidos |
 | Busca por começo de palavra | Fora do escopo | Exigiria um índice próprio do catálogo, o que os termos da AniList e o limite de 30 requisições por minuto impedem |
 
 ## Critérios de aceite
@@ -25,3 +29,4 @@ Branch: `fix/search-and-load-feedback`. Vem de três problemas relatados pelo re
 - Uma busca sem resultado mostra o termo e a dica; a lista vazia sem busca não mostra a dica.
 - O `index.html` liga a folha de estilo no `<head>`, e o `main.tsx` não importa CSS.
 - No `npm run dev`, com o JS atrasado, a página tem a folha de estilo e o aviso de carregamento lento fica oculto.
+- A tabela da linha do tempo tem uma linha por merge na `main`.

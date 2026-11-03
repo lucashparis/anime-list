@@ -35,21 +35,31 @@ React 19, Vite 8, TypeScript estrito, Tailwind 4, TanStack Query, Zod (`zod/mini
 
 ## Como executar
 
-Requer Node 24.22.2, versão fixada em [`.nvmrc`](.nvmrc).
+Requer Node 24.22.2, versão fixada em [`.nvmrc`](.nvmrc). A instalação recusa versões abaixo da 24.22.2 e a partir da 25: o `package.json` aceita `>=24.22.2 <25`, e o `.npmrc` usa `engine-strict`, então o `npm ci` falha com `EBADENGINE` fora dessa faixa.
+
+### Rodar o app
 
 ```bash
-nvm use
+nvm install 24.22.2
+nvm use 24.22.2
 npm ci
-npm run hooks:install
-npx playwright install chromium
 npm run dev
 ```
 
-- `npm run hooks:install` ativa os hooks do Git apenas neste repositório. Veja [Git](docs/conventions/git.md).
-- `npx playwright install chromium` baixa o navegador usado em `npm run test:e2e`.
-- `npm run build` gera o build de produção, e `npm run preview` o serve.
+A versão vai escrita porque `nvm use` sozinho falha quando ela não está instalada, e o nvm-windows não lê o `.nvmrc`.
 
-Só para rodar o app, bastam `npm ci` e `npm run dev`.
+### Desenvolver e testar
+
+Opcional, só para quem vai alterar o código:
+
+```bash
+npm run hooks:install
+npx playwright install chromium
+```
+
+- `npm run hooks:install` ativa os hooks do Git apenas neste repositório e só é preciso para quem vai commitar. Veja [Git](docs/conventions/git.md).
+- `npx playwright install chromium` baixa o navegador usado em `npm run test:e2e` e `npm run verify`.
+- `npm run build` gera o build de produção, e `npm run preview` o serve.
 
 ## Como testar
 
@@ -79,7 +89,7 @@ Detalhes em [Testes](docs/conventions/testing.md). Não há GitHub Actions: as v
 
 ## Linha do tempo
 
-Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design, e a 12ª corrige problemas relatados no uso.
+Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design; a 12ª registra a decisão de buscar só ao enviar; e a 13ª corrige problemas relatados no uso e na avaliação do README.
 
 | # | Branch | Entrega | Referência |
 | --- | --- | --- | --- |
@@ -94,6 +104,7 @@ Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as
 | 9 | `feat/product-polish` | Ícone da aba e do iPhone, prévia do link com a marca, meta tags e `robots.txt` | [Spec](docs/specs/004-polish-and-walkthrough/spec.md#featproduct-polish) |
 | 10 | `docs/technical-walkthrough` | Passo a passo técnico para quem avalia o código, com teste dos links | [Passo a passo](docs/walkthrough.md) |
 | 11 | `feat/final-polish` | Cards que abrem a AniList, movimento ao passar o mouse, foco mantido na busca, título da aba, limite de busca, cache dos assets, cor da capa como fundo, layout alinhado ao Figma e licença MIT | [Spec](docs/specs/005-final-polish/spec.md) |
-| 12 | `fix/search-and-load-feedback` | Busca sem espaços repetidos, lista vazia que explica a busca por palavras completas e fim do aviso de carregamento que piscava no `npm run dev` | [Spec](docs/specs/006-search-feedback/spec.md) |
+| 12 | `docs/search-on-submit` | Registro de que a busca instantânea não está prevista, por causa do limite de requisições da API | [Decisões](DECISIONS.md#trade-offs) |
+| 13 | `fix/search-and-load-feedback` | Busca sem espaços repetidos, lista vazia que explica a busca por palavras completas, fim do aviso de carregamento que piscava no `npm run dev` e instalação do Node com versão explícita no README | [Spec](docs/specs/006-search-feedback/spec.md) |
 
 O que ficou de fora está em [O que faria com mais tempo](DECISIONS.md#o-que-faria-com-mais-tempo).

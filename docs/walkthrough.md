@@ -9,6 +9,8 @@ Catálogo de animes com dados da API pública da AniList: cards com capa, títul
 Para rodar localmente, use Node 24.22.2 (`.nvmrc`):
 
 ```
+nvm install 24.22.2
+nvm use 24.22.2
 npm ci
 npm run dev
 ```
