@@ -91,8 +91,8 @@ describe('SearchForm', () => {
     });
   });
 
-  it('keeps what was typed when another filter changes', async () => {
-    recordVariables();
+  it('applies what was typed together with the format', async () => {
+    const variables = recordVariables();
     renderWithQueryClient(<AnimeCatalog />);
     await screen.findByRole('list', { name: 'Animes' });
     await userEvent.type(searchBox(), 'naruto{Enter}');
@@ -101,6 +101,26 @@ describe('SearchForm', () => {
     await userEvent.click(screen.getByRole('button', { name: 'OVA' }));
     await screen.findByRole('list', { name: 'Animes' });
     expect(searchBox()).toHaveValue('naruto shippuden');
+    expect(variables.at(-1)).toMatchObject({ format: 'OVA', search: 'naruto shippuden' });
+    expect(window.location.search).toBe('?q=naruto+shippuden&format=OVA');
+  });
+
+  it('drops the search from the URL when the field was emptied and the format changes', async () => {
+    window.history.replaceState(null, '', '/?q=naruto&format=MOVIE');
+    const variables = recordVariables();
+    renderWithQueryClient(<AnimeCatalog />);
+    await screen.findByRole('list', { name: 'Animes' });
+    await userEvent.clear(searchBox());
+    await userEvent.click(screen.getByRole('button', { name: 'OVA' }));
+    await screen.findByRole('list', { name: 'Animes' });
+    expect(window.location.search).toBe('?format=OVA');
+    expect(searchBox()).toHaveValue('');
+    expect(variables.at(-1)).toEqual({
+      page: 1,
+      perPage: 12,
+      sort: ['POPULARITY_DESC'],
+      format: 'OVA',
+    });
   });
 
   it('queries when the button is clicked and combines with the format', async () => {

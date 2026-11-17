@@ -1,17 +1,12 @@
-import { useState, type SyntheticEvent } from 'react';
+import type { SyntheticEvent } from 'react';
+import { useSearchDraft } from '@/features/anime-catalog/hooks/searchDraftContext';
 import { useCatalogFilters } from '@/features/anime-catalog/hooks/useCatalogFilters';
 import { MAX_SEARCH_LENGTH, normalizeSearch } from '@/features/anime-catalog/model/search';
 import { Button } from '@/shared/ui/Button';
 
 export function SearchForm() {
-  const { search, setSearch } = useCatalogFilters();
-  const [draft, setDraft] = useState(search);
-  const [syncedSearch, setSyncedSearch] = useState(search);
-
-  if (search !== syncedSearch) {
-    setSyncedSearch(search);
-    setDraft(search);
-  }
+  const { setSearch } = useCatalogFilters();
+  const { draft, setDraft } = useSearchDraft();
 
   function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
