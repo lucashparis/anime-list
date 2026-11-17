@@ -89,7 +89,7 @@ Detalhes em [Testes](docs/conventions/testing.md). Não há GitHub Actions: as v
 
 ## Linha do tempo
 
-Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design; a 12ª registra a decisão de buscar só ao enviar; e a 13ª corrige problemas relatados no uso e na avaliação do README.
+Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as previstas na [spec da fundação](docs/specs/000-foundation/spec.md#ordem-das-branches); a 11ª foi aberta depois, a partir de um levantamento de código e de fidelidade ao design; a 12ª registra a decisão de buscar só ao enviar; a 13ª corrige problemas relatados no uso e na avaliação do README; e a 14ª corrige a busca antiga que ficava na URL ao esvaziar o campo e trocar o formato.
 
 | # | Branch | Entrega | Referência |
 | --- | --- | --- | --- |
@@ -106,5 +106,6 @@ Cada linha corresponde a uma branch integrada à `main`. As 10 primeiras são as
 | 11 | `feat/final-polish` | Cards que abrem a AniList, movimento ao passar o mouse, foco mantido na busca, título da aba, limite de busca, cache dos assets, cor da capa como fundo, layout alinhado ao Figma e licença MIT | [Spec](docs/specs/005-final-polish/spec.md) |
 | 12 | `docs/search-on-submit` | Registro de que a busca instantânea não está prevista, por causa do limite de requisições da API | [Decisões](DECISIONS.md#trade-offs) |
 | 13 | `fix/search-and-load-feedback` | Busca sem espaços repetidos, lista vazia que explica a busca por palavras completas, fim do aviso de carregamento que piscava no `npm run dev` e instalação do Node com versão explícita no README | [Spec](docs/specs/006-search-feedback/spec.md) |
+| 14 | `fix/format-applies-search-field` | Trocar o formato aplica o texto atual do campo, inclusive vazio, e a busca antiga deixa de ficar na URL | [Decisões](DECISIONS.md#pendências-registradas-nas-revisões) |
 
 O que ficou de fora está em [O que faria com mais tempo](DECISIONS.md#o-que-faria-com-mais-tempo).

@@ -8,8 +8,8 @@ export function useCatalogFilters() {
   const format = parseAnimeFormat(params.get('format'));
 
   const setFormat = useCallback(
-    (next: AnimeFormat | null) => {
-      update({ format: next });
+    (next: AnimeFormat | null, nextSearch: string) => {
+      update({ format: next, q: normalizeSearch(nextSearch) || null });
     },
     [update],
   );
